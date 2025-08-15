@@ -1,0 +1,52 @@
+LEXER:
+
+// DELETE THIS CONTENT IF YOU PUT COMBINED GRAMMAR IN Parser TAB
+lexer grammar ExprLexer;
+
+AND : 'and' ;
+OR : 'or' ;
+NOT : 'not' ;
+EQ : '=' ;
+COMMA : ',' ;
+SEMI : ';' ;
+LPAREN : '(' ;
+RPAREN : ')' ;
+LCURLY : '{' ;
+RCURLY : '}' ;
+SUM : '+' ;
+SUB : '-' ;
+MULT : '*' ;
+DIV : '/' ;
+POW : '**' ;
+MOD : '%' ; 
+
+INT : [0-9]+ ;
+ID: [a-zA-Z_][a-zA-Z_0-9]* ;
+WS: [ \t\n\r\f]+ -> skip ;
+
+PARSER:
+
+parser grammar ExprParser;
+options { tokenVocab=ExprLexer; }
+
+program
+    : stat EOF
+    | def EOF
+    ;
+
+stat: ID '=' expr ';'
+    | expr ';'
+    ;
+
+def : ID '(' ID (',' ID)* ')' '{' stat* '}' ;
+
+expr: ID
+    | INT
+    | func
+    | 'not' expr
+    | expr 'and' expr
+    | expr 'or' expr
+    | expr (SUM | MULT | SUB | DIV | POW | MOD) expr   
+    ;
+
+func : ID '(' expr (',' expr)* ')' ;

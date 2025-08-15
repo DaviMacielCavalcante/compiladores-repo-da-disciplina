@@ -1,0 +1,15 @@
+Tipos de Variáveis:
+
+^(int|float|double)\s+[a-zA-Z_][a-zA-Z0-9_]*\s*=\s*-?\s*\d+(?:\.\d+)?\s*;
+
+Retorno de função:
+
+\breturn\b(?=[^{]*})
+
+Nome de função:
+
+\b(?:int|float|double)\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(
+
+Nome de variáveis:
+
+\b(?:int|float|double)\s+([a-zA-Z_][a-zA-Z0-9_]*)\b
