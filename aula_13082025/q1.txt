@@ -13,3 +13,36 @@ Nome de função:
 Nome de variáveis:
 
 \b(?:int|float|double)\s+([a-zA-Z_][a-zA-Z0-9_]*)\b
+
+Constantes inteiras: 
+
+\b([+-]?(0|[1-9][0-9]*))\b
+
+Operadores Aritméticos e Relacionais:
+
+(\+\+|--|[-+*/%]=?|=[=]?|[<>!]=?|&&|\|\||[<>+*/%-])
+
+Delimitadores de código: 
+
+([{}()\\[\\].,;:]|->)
+
+Macros de função:
+
+^\s*#\s*define\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)\n]*)\)\s*(?:\\\s*\n)*([^\n\\]*)
+
+Macros de constantes:
+
+^\s*#\s*define\s+([A-Za-z_][A-Za-z0-9_]*)\s+([^\n\\]*(?:\\\s*\n[^\n\\]*)*)
+
+Diretivas de pré-processador:
+
+^\s*#\s*(if|ifdef|ifndef|elif|else|endif|define|undef|include|line|error|pragma|warning)\b([^\n\\]*(?:\\\s*\n[^\n\\]*)*)
+
+Bibliotecas padrão:
+
+^\s*#\s*include\s+<([A-Za-z0-9_]+\.h)>
+
+Strings:
+
+"([^"\\]*(\\.[^"\\]*)*)?"
+
