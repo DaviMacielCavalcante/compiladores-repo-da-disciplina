@@ -1,0 +1,43 @@
+// DELETE THIS CONTENT IF YOU PUT COMBINED GRAMMAR IN Parser TAB
+lexer grammar ExprLexer;
+
+DELIM : ':' ;
+
+CABECALHO_DEC: 'DECLARACOES';
+CABECALHO_ALG:  'ALGORITMO';
+            
+            
+TIPO_VAR: 'INT'|'FLOAT'|'CHAR'
+        |'STRING'|'BOOLEAN'|'DOUBLE';
+        
+DEC_ARRAY: TIPO_VAR '[' INT ']';
+DEC_MATRIZ: TIPO_VAR '[' INT ']''[' INT ']';
+
+LEITURA: 'LER';
+ESCREVER: 'IMPRIMIR';
+
+MARC_INICIO: 'INICIO';
+MARC_FINAL: 'FIM';
+
+COND_SE: 'SE';
+COND_ENTAO: 'ENTAO';
+COND_SENAO: 'SENAO';
+
+LOOP_ENQUANTO: 'ENQUANTO';
+
+AND : 'and' ;
+OR : 'or' ;
+NOT : 'not' ;
+EQ : '=' ;
+COMMA : ',' ;
+SEMI : ';' ;
+LPAREN : '(' ;
+RPAREN : ')' ;
+LCOL: '[';
+RCOL: ']';
+LCURLY : '{' ;
+RCURLY : '}' ;
+
+INT : [0-9]+ ;
+ID: [a-zA-Z_][a-zA-Z_0-9]* ;
+WS: [ \t\n\r\f]+ -> skip ;

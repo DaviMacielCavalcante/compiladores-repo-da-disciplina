@@ -1,0 +1,12 @@
+parser grammar ExprParser;
+options { tokenVocab=ExprLexer; }
+
+programa
+    : DELIM CABECALHO_DEC (decVar)+ EOF;
+
+decVar
+    : ID DELIM 
+    (TIPO_VAR | DEC_ARRAY | DEC_MATRIZ) SEMI;
+        
+    
+        
