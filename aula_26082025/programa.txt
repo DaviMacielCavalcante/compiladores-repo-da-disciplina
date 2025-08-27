@@ -1,0 +1,19 @@
+:DECLARACOES
+argumento:INT;
+fatorial:INT;
+esposa:STRING;
+inimigos:STRING[10];
+flamengo:INT[8];
+argo: STRING[10][10];
+
+:ALGORITMO
+LER argumento;
+fatorial argumento;
+SE argumentp = 0 ENTAO
+{
+    fatorial = 1;
+}
+ENQUANTO argumento > 1
+{
+    
+}

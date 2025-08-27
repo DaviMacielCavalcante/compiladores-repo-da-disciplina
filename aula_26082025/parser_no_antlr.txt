@@ -1,0 +1,111 @@
+parser grammar ExprParser;
+options { tokenVocab=ExprLexer; }
+
+programa
+    : cabecalhoDec criarVar 
+    cabecalhoAlg corpoAlg EOF
+    ;
+    
+cabecalhoDec
+    : DELIM CABECALHO_DEC 
+    ;
+    
+cabecalhoAlg
+    : DELIM CABECALHO_ALG
+    ;
+    
+decVar
+    : ID DELIM TIPO_VAR SEMI
+    ;
+    
+decArray
+    : ID DELIM DEC_ARRAY SEMI
+    ;
+    
+decMatriz
+    : ID DELIM DEC_MATRIZ SEMI
+    ;
+    
+criarVar
+    : decVar criarVar
+    | decArray criarVar
+    | decMatriz criarVar
+    | decVar
+    | decArray
+    | decMatriz 
+    |
+    ;
+
+equacao
+    : ID OP_EQ expr SEMI
+    |
+    ;
+
+expr
+    : expr OP_SOMA expr
+    | expr OP_SUB expr
+    | expr OP_MUL expr
+    | expr OP_DIV expr
+    | expr OP_POW expr
+    | expr OP_MOD expr
+    | (ID | INTEIRO | REAL)
+    ;
+    
+exprComp
+    : ID OP_EQ (ID | INTEIRO | REAL  | BOOLEAN)
+    | ID OP_DIF (ID | INTEIRO | REAL  | BOOLEAN)
+    | ID OP_COMP (ID | INTEIRO | REAL  | BOOLEAN)
+    ;
+    
+comandoIf
+    : COND_SE exprComp
+    ENTAO ABRE_CHAV corpoAlg FECHA_CHAV
+    ;
+    
+comandoIfElse
+    : COND_SE exprComp
+    ENTAO ABRE_CHAV corpoAlg
+    FECHA_CHAV
+    COND_SENAO ENTAO ABRE_CHAV corpoAlg
+    FECHA_CHAV
+    ;
+    
+comandoEnquanto
+    : LOOP_ENQUANTO exprComp
+    ABRE_CHAV corpoAlg
+    FECHA_CHAV
+    ;
+    
+comandoLer
+    : LEITURA ID SEMI
+    ;
+    
+comandoEscrever
+    : ESCRITA ID SEMI
+    ;
+
+corpoAlg
+    : equacao corpoAlg
+    | comandoIf corpoAlg
+    | comandoIfElse corpoAlg
+    | comandoEnquanto corpoAlg
+    | comandoLer corpoAlg
+    | comandoEscrever corpoAlg
+    | equacao
+    | comandoIf
+    | comandoIfElse
+    | comandoEnquanto
+    | comandoLer
+    | comandoEscrever
+    ;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
