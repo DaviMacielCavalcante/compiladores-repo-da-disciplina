@@ -1,0 +1,16 @@
+:DECLARACOES
+argumento:INT;
+fatorial:INT;
+:ALGORITMO
+LER argumento;
+fatorial = argumento;
+SE argumento = 0 ENTAO
+{
+    fatorial = 1;
+}
+ENQUANTO argumento > 1
+{
+    fatorial = fatorial * argumento - 1;
+    argumento = argumento - 1;
+}
+IMPRIMIR fatorial;
