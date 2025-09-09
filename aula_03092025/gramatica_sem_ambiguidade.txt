@@ -1,0 +1,22 @@
+Defina uma gramática para expressões aritméticas com operadores: +, -, *, :, % (resto de divisão) e ^ (potenciação):
+
+1) Gere a gramática com ambiguidade;
+
+P {
+   E = E + E | E - E
+   E = E * E | E : E | E % E
+   E = E ^ E
+   E = (E)
+   E = I
+   I = num | ID
+}
+
+2) Converta a gramática ambígua para uma gramática sem ambiguidade.
+
+P {
+   E = J + E | J - E | J
+   J = D * J | D : J | D % J | D
+   D = D ^ K | D ^ E | K
+   K = (E) | I
+   I = num | ID
+}
