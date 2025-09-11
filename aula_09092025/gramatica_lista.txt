@@ -1,0 +1,50 @@
+// q1
+
+A  = BA'
+A' = CA'' | z | 
+A''= y | D
+
+B = CzB'
+B'= D | Vazio
+
+C = xC'
+C'= y | DB
+
+D  = yD'
+D' =  zD'' | Vazio
+D''= A | Vazio 
+
+
+// q2
+
+G = ({A, B, C, D}, {x, y, z}, P, A)
+P = {
+    A → zBxDy | zBy | zB xD C
+    B → xAB | CA | xB
+    C → DyB | Dy | DyBy
+    D → y | yA
+    }
+
+A = zBA'
+A' = xDA'' | y
+A'' = y | C
+B = xB'| CB'
+B' = AB'' | B
+B'' = B | Vazio  
+
+
+
+
+// q3
+
+E = TE'
+E'= +TE' | Vazio
+T = FT'
+T'= FT' | Vazio
+F = PF'
+F' = *F' | Vazio
+
+
+// q4
+
+// q5
