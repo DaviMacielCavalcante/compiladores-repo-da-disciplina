@@ -37,6 +37,30 @@ B'' = B | Vazio
 
 // q3
 
+A → zB xD y | zB y | zB xD C
+B → x AB | C A | x B
+C → Dy B | Dy | Dy B y
+D → y | y A
+
+
+A = zBA'
+A' = xDA'' | y
+A'' = y | C
+
+B = xB' | CA
+B' = AB | CA| B
+
+C = DyC'
+C' = BC" | ε
+C" = y | ε
+
+D = yD'
+D' = A | ε
+
+
+// q4
+
+
 E = TE'
 E'= +TE' | Vazio
 T = FT'
@@ -45,6 +69,45 @@ F = PF'
 F' = *F' | Vazio
 
 
-// q4
-
 // q5
+
+A → BywA'
+	A' → xCA' | CzA' | ε
+	B → CyzB' | yBzB'
+	B' → ACB' | ε
+	C → xDy | Dw
+	D → xDxD' | yDyD' 
+	D' → zD' | wD' | ε
+
+//q6
+
+Elimine a recursividade à esquerda, considerando a palavra vazia, das produções da gramática a seguir.
+
+G = ({A, B, C, D}, {x, y, z}, P, A)
+P = {
+
+A → Bxy | ABz
+B → xCy | x
+C → y | Cxy | CDz
+D → xz | Dzy | xBA
+}
+
+
+A  =  AA'  
+A' =  BA'' | Vazio
+A''=  z | xy | Vazio
+
+
+B  = xB' | Vazio
+B' = CB'' 
+B''= y 
+
+
+C = CC'
+C'= DC''| xC'' | Vazio  
+C'' = z | y 
+
+
+D = DD' | xD' 
+D' = zD'' | BA 
+D'' = y | Vazio
