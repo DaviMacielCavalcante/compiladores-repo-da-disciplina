@@ -89,6 +89,15 @@ class PythonListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PythonParser#comparison.
+    def enterComparison(self, ctx:PythonParser.ComparisonContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#comparison.
+    def exitComparison(self, ctx:PythonParser.ComparisonContext):
+        pass
+
+
     # Enter a parse tree produced by PythonParser#Number.
     def enterNumber(self, ctx:PythonParser.NumberContext):
         pass
@@ -116,21 +125,30 @@ class PythonListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by PythonParser#Comparison.
-    def enterComparison(self, ctx:PythonParser.ComparisonContext):
-        pass
-
-    # Exit a parse tree produced by PythonParser#Comparison.
-    def exitComparison(self, ctx:PythonParser.ComparisonContext):
-        pass
-
-
     # Enter a parse tree produced by PythonParser#BoolFalse.
     def enterBoolFalse(self, ctx:PythonParser.BoolFalseContext):
         pass
 
     # Exit a parse tree produced by PythonParser#BoolFalse.
     def exitBoolFalse(self, ctx:PythonParser.BoolFalseContext):
+        pass
+
+
+    # Enter a parse tree produced by PythonParser#bitwise.
+    def enterBitwise(self, ctx:PythonParser.BitwiseContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#bitwise.
+    def exitBitwise(self, ctx:PythonParser.BitwiseContext):
+        pass
+
+
+    # Enter a parse tree produced by PythonParser#pow.
+    def enterPow(self, ctx:PythonParser.PowContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#pow.
+    def exitPow(self, ctx:PythonParser.PowContext):
         pass
 
 
@@ -158,6 +176,69 @@ class PythonListener(ParseTreeListener):
 
     # Exit a parse tree produced by PythonParser#Parentheses.
     def exitParentheses(self, ctx:PythonParser.ParenthesesContext):
+        pass
+
+
+    # Enter a parse tree produced by PythonParser#logical.
+    def enterLogical(self, ctx:PythonParser.LogicalContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#logical.
+    def exitLogical(self, ctx:PythonParser.LogicalContext):
+        pass
+
+
+    # Enter a parse tree produced by PythonParser#add_sub.
+    def enterAdd_sub(self, ctx:PythonParser.Add_subContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#add_sub.
+    def exitAdd_sub(self, ctx:PythonParser.Add_subContext):
+        pass
+
+
+    # Enter a parse tree produced by PythonParser#mul_div.
+    def enterMul_div(self, ctx:PythonParser.Mul_divContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#mul_div.
+    def exitMul_div(self, ctx:PythonParser.Mul_divContext):
+        pass
+
+
+    # Enter a parse tree produced by PythonParser#pow_op.
+    def enterPow_op(self, ctx:PythonParser.Pow_opContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#pow_op.
+    def exitPow_op(self, ctx:PythonParser.Pow_opContext):
+        pass
+
+
+    # Enter a parse tree produced by PythonParser#comparison_op.
+    def enterComparison_op(self, ctx:PythonParser.Comparison_opContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#comparison_op.
+    def exitComparison_op(self, ctx:PythonParser.Comparison_opContext):
+        pass
+
+
+    # Enter a parse tree produced by PythonParser#logical_op.
+    def enterLogical_op(self, ctx:PythonParser.Logical_opContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#logical_op.
+    def exitLogical_op(self, ctx:PythonParser.Logical_opContext):
+        pass
+
+
+    # Enter a parse tree produced by PythonParser#bitwise_and_or.
+    def enterBitwise_and_or(self, ctx:PythonParser.Bitwise_and_orContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#bitwise_and_or.
+    def exitBitwise_and_or(self, ctx:PythonParser.Bitwise_and_orContext):
         pass
 
 

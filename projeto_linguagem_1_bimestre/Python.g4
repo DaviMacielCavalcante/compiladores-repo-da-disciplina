@@ -32,15 +32,44 @@ block: '{' statement* '}' | statement;
 
 // Expressões
 expression
-    : expression ('*' | '/') expression     # MulDiv
-    | expression ('+' | '-') expression     # AddSub
-    | expression ('==' | '!=' | '<' | '>' | '<=' | '>=') expression  # Comparison
+    : expression pow_op expression #pow 
+    | expression mul_div expression     # MulDiv
+    | expression add_sub expression     # AddSub
+    | expression comparison_op expression     # comparison
+    | expression bitwise_and_or expression #bitwise
+    | expression logical_op  expression  # logical
     | '(' expression ')'                    # Parentheses
     | IDENTIFIER                           # Variable
     | NUMBER                               # Number
     | STRING                               # String
     | 'True'                              # BoolTrue
     | 'False'                             # BoolFalse
+    ;
+
+//operadores
+
+add_sub
+    : ('+' | '-')
+    ;
+
+mul_div
+    : ('*' | '/' | '%')
+    ;
+
+pow_op
+    : '**'
+    ;
+
+comparison_op
+    : ('==' | '!=' | '<' | '>' | '<=' | '>=' )
+    ;
+
+logical_op
+    :  ('and' | 'or' | 'not')
+    ;
+
+bitwise_and_or
+    : ('&' | '|' )
     ;
 
 // Tokens
