@@ -28,6 +28,16 @@ class PythonInterpreter(PythonBaseVisitor):
             self.visit(ctx.block(0))  # Then block
         elif ctx.block(1):  # Else block exists
             self.visit(ctx.block(1))
+            
+            
+    
+    def visitDoWhileStatement(self, ctx):
+    # Executa o bloco ao menos uma vez e checa a condicao ao final
+        while True:
+            self.visit(ctx.block())
+            cond = self.visit(ctx.expression())
+            if not cond:
+                break
     
     def visitWhileStatement(self, ctx):
         while self.visit(ctx.expression()):

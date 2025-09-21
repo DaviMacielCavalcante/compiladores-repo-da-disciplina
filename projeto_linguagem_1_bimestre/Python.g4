@@ -10,6 +10,8 @@ statement
     | ifStatement
     | whileStatement
     | expressionStatement
+    | doWhileStatement
+    | forStatement   
     ;
 
 // Atribuição: x = 5
@@ -23,6 +25,10 @@ ifStatement: 'if' '(' expression ')' ':' block ('else' ':' block)?;
 
 // While loop
 whileStatement: 'while' '(' expression ')' ':' block;
+
+// Do-while loop: do: <block> while ( <expression> ) ;
+doWhileStatement: 'do' ':' block 'while' '(' expression ')' ';'?;
+
 
 // Expressão como declaração
 expressionStatement: expression ';'?;
