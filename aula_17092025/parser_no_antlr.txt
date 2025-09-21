@@ -1,0 +1,164 @@
+parser grammar ExprParser;
+options { tokenVocab=ExprLexer; }
+
+program
+    : cabecalhoDec criarVar 
+    cabecalhoAlg corpoAlg EOF
+    ;
+    
+cabecalhoDec
+    : DELIM CABECALHO_DEC
+    ;
+    
+cabecalhoAlg
+    : DELIM CABECALHO_ALG
+    ;
+    
+decVar
+    : ID DELIM TIPO_VAR SEMI
+    ;
+    
+decArray
+    : ID DELIM DEC_ARRAY SEMI
+    ;
+    
+decMatriz
+    : ID DELIM DEC_MATRIZ SEMI
+    ;
+    
+criarVar
+    : decVar criarVar
+    | decArray criarVar
+    | decMatriz criarVar
+    | decVar
+    | decArray
+    | decMatriz
+    | 
+    ;
+    
+equacao
+    : ID OP_EQ ex_1_d SEMI
+    ;
+    
+expr
+    : expr OP_SOMA expr
+    | expr OP_SUB expr
+    | expr OP_MUL expr
+    | expr OP_DIV expr
+    | expr OP_POW expr
+    | expr OP_MOD expr
+    | (ID | INTEIRO | REAL)
+    ;
+    
+op1
+: OP_SOMA | OP_SUB
+;
+
+op2
+: OP_MUL | OP_DIV | OP_MOD
+;
+
+op3
+: OP_POW
+;
+
+ex_1_e
+: ex_1_e op1 ex_2_e
+| ex_2_e
+;
+
+ex_2_e
+: ex_2_e op2 ex_3_e
+| ex_3_e
+;
+
+ex_3_e
+: ex_4_e op3 ex_3_e
+| ex_4_e
+;
+
+ex_4_e
+: ABRE_PAR ex_4_e FECHA_PAR
+| ex_5_e
+;
+
+ex_5_e
+: (ID | INTEIRO | REAL)
+;
+
+ex_1_d
+: ex_2_d ex_1_d_a
+;
+
+ex_1_d_a
+: op1 ex_2_d ex_1_d_a
+|
+;
+
+ex_2_d
+: ex_3_d ex_2_d_a
+;
+
+ex_2_d_a
+: op2 ex_3_d ex_2_d_a
+|
+;
+
+ex_3_d
+: ex_4_d op3 ex_3_d
+| ex_4_d
+;
+
+ex_4_d
+: ABRE_PAR ex_4_d FECHA_PAR
+| ex_5_d
+;
+
+ex_5_d
+: (ID | INTEIRO | REAL)
+;
+    
+comandoIf
+    : COND_SE exprComp COND_ENTAO ABRE_CHAV corpoAlg FECHA_CHAV
+    ;
+    
+comandoIfElse
+    : COND_SE exprComp COND_ENTAO ABRE_CHAV corpoAlg FECHA_CHAV COND_SENAO ABRE_CHAV corpoAlg FECHA_CHAV
+    ;
+    
+exprComp
+    : ID OP_EQ (ID | INTEIRO | REAL)
+    | ID OP_DIF (ID | INTEIRO | REAL)
+    | ID OP_COMP (ID | INTEIRO | REAL)
+    ;
+    
+comandoEnquanto
+    : LOOP_ENQUANTO exprComp 
+    ABRE_CHAV corpoAlg FECHA_CHAV
+    ;
+    
+comandoLer
+    : LEITURA ID SEMI
+    ;
+    
+comandoEscrever
+    : ESCREVER ID SEMI
+    ;
+    
+corpoAlg
+    : equacao corpoAlg
+    | comandoIf corpoAlg
+    | comandoIfElse corpoAlg
+    | comandoEnquanto corpoAlg
+    | comandoLer corpoAlg
+    | comandoEscrever corpoAlg
+    | equacao
+    | comandoIf
+    | comandoIfElse
+    | comandoEnquanto
+    | comandoLer
+    | comandoEscrever
+    |
+    ;
+    
+    
