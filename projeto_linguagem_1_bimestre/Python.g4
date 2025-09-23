@@ -19,8 +19,8 @@ statement
 // Atribuição: x = 5
 assignmentStatement: IDENTIFIER '=' expression ';'?;
 
-// Print: print(x)
-printStatement: 'print' '(' expression ')' ';'?;
+// Print: print(x) ou print(x, y, z)
+printStatement: 'print' '(' expression (',' expression)* ')' ';'?;
 
 // If statement
 ifStatement: 'if' expression ':' block ('else' ':' block)?;

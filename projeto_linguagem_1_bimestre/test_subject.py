@@ -42,7 +42,7 @@ print("For com 3 parâmetros terminou")
 print("For dentro de for")
 for k in range(1, 10, 2): {
     for l in range(1, 10, 2): {
-        print(k * l)
+        print(k,l,k * l)
     }
 }
 print("For dentro de for terminou")

@@ -24,9 +24,18 @@ class PythonInterpreter(PythonVisitor):
         return value
     
     def visitPrintStatement(self, ctx):
-        value = self.visit(ctx.expression())
-        print(value)
-        return value
+        # Pegar todas as expressões separadas por vírgula
+        expressions = ctx.expression()
+        values = []
+        
+        # Avaliar cada expressão
+        for expr in expressions:
+            value = self.visit(expr)
+            values.append(str(value))
+        
+        # Imprimir valores separados por espaço (como Python real)
+        print(' '.join(values))
+        return values
     
     def visitIfStatement(self, ctx):
         condition = self.visit(ctx.expression())
