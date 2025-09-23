@@ -62,6 +62,15 @@ class PythonListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PythonParser#doWhileStatement.
+    def enterDoWhileStatement(self, ctx:PythonParser.DoWhileStatementContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#doWhileStatement.
+    def exitDoWhileStatement(self, ctx:PythonParser.DoWhileStatementContext):
+        pass
+
+
     # Enter a parse tree produced by PythonParser#expressionStatement.
     def enterExpressionStatement(self, ctx:PythonParser.ExpressionStatementContext):
         pass

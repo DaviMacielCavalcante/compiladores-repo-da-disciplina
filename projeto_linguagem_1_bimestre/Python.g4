@@ -11,7 +11,6 @@ statement
     | whileStatement
     | expressionStatement
     | doWhileStatement
-    | forStatement   
     ;
 
 // Atribuição: x = 5
