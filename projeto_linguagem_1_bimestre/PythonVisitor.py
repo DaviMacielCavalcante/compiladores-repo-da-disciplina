@@ -39,6 +39,11 @@ class PythonVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by PythonParser#forStatement.
+    def visitForStatement(self, ctx:PythonParser.ForStatementContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by PythonParser#doWhileStatement.
     def visitDoWhileStatement(self, ctx:PythonParser.DoWhileStatementContext):
         return self.visitChildren(ctx)
@@ -46,6 +51,11 @@ class PythonVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by PythonParser#breakStatement.
     def visitBreakStatement(self, ctx:PythonParser.BreakStatementContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by PythonParser#continueStatement.
+    def visitContinueStatement(self, ctx:PythonParser.ContinueStatementContext):
         return self.visitChildren(ctx)
 
 

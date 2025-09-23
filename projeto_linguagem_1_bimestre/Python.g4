@@ -9,9 +9,11 @@ statement
     | printStatement
     | ifStatement
     | whileStatement
+    | forStatement
     | expressionStatement
     | doWhileStatement
     | breakStatement
+    | continueStatement
     ;
 
 // Atribuição: x = 5
@@ -26,11 +28,17 @@ ifStatement: 'if' expression ':' block ('else' ':' block)?;
 // While loop
 whileStatement: 'while' expression ':' block;
 
+// For loop: for var in range(start, end, step)
+forStatement: 'for' IDENTIFIER 'in' 'range' '(' expression (',' expression (',' expression)?)? ')' ':' block;
+
 // Do-while loop: do: <block> while ( <expression> ) ;
 doWhileStatement: 'do' ':' block 'while'  expression  ';'?;
 
 // Break statement: break;
 breakStatement: 'break' ';'?;
+
+// Continue statement: continue;
+continueStatement: 'continue' ';'?;
 
 // Expressão como declaração
 expressionStatement: expression ';'?;

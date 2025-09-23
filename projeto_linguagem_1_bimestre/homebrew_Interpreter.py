@@ -10,7 +10,8 @@ from PythonVisitor import PythonVisitor
 class PythonInterpreter(PythonVisitor):
     def __init__(self):
         self.variables = {}
-        self.break_flag = False  # Flag para controlar break
+        self.break_flag = False     # Flag para controlar break
+        self.continue_flag = False  # Flag para controlar continue
     
     def visitProgram(self, ctx):
         for statement in ctx.statement():
@@ -35,21 +36,90 @@ class PythonInterpreter(PythonVisitor):
             self.visit(ctx.block(1))
     
     def visitWhileStatement(self, ctx):
-        self.break_flag = False  # Reset break flag
+        self.break_flag = False     # Reset flags
+        self.continue_flag = False
+        
         while self.visit(ctx.expression()) and not self.break_flag:
+            self.continue_flag = False  # Reset continue flag a cada iteração
             self.visit(ctx.block())
-        self.break_flag = False  # Reset após sair do loop
+            # Continue faz pular para próxima iteração, não sair do loop
+            
+        self.break_flag = False     # Reset após sair do loop
+        self.continue_flag = False
+    
+    def visitForStatement(self, ctx):
+        self.break_flag = False     # Reset flags
+        self.continue_flag = False
+        
+        # Pegar nome da variável do loop
+        var_name = ctx.IDENTIFIER().getText()
+        
+        # Pegar parâmetros do range
+        expressions = ctx.expression()
+        
+        if len(expressions) == 1:
+            # range(end)
+            start = 0
+            end = self.visit(expressions[0])
+            step = 1
+        elif len(expressions) == 2:
+            # range(start, end)
+            start = self.visit(expressions[0])
+            end = self.visit(expressions[1])
+            step = 1
+        elif len(expressions) == 3:
+            # range(start, end, step)
+            start = self.visit(expressions[0])
+            end = self.visit(expressions[1])
+            step = self.visit(expressions[2])
+        else:
+            raise Exception("Range deve ter 1, 2 ou 3 parâmetros")
+        
+        # Executar o loop
+        current = start
+        while (step > 0 and current < end) or (step < 0 and current > end):
+            if self.break_flag:
+                break
+            
+            # Definir variável do loop
+            self.variables[var_name] = current
+            
+            # Reset continue flag a cada iteração
+            self.continue_flag = False
+            
+            # Executar bloco
+            self.visit(ctx.block())
+            
+            # Se continue foi executado, pular para próxima iteração
+            # (não precisa fazer nada especial, só incrementar)
+            
+            # Incrementar
+            current += step
+        
+        self.break_flag = False     # Reset após sair do loop
+        self.continue_flag = False
     
     def visitDoWhileStatement(self, ctx):
-        self.break_flag = False  # Reset break flag
+        self.break_flag = False     # Reset flags
+        self.continue_flag = False
+        
         # Do-while executa pelo menos uma vez
+        self.continue_flag = False
         self.visit(ctx.block())
+        
         while self.visit(ctx.expression()) and not self.break_flag:
+            self.continue_flag = False  # Reset continue flag a cada iteração
             self.visit(ctx.block())
-        self.break_flag = False  # Reset após sair do loop
+            
+        self.break_flag = False     # Reset após sair do loop
+        self.continue_flag = False
     
     def visitBreakStatement(self, ctx):
         self.break_flag = True
+        return None
+    
+    def visitContinueStatement(self, ctx):
+        self.continue_flag = True
         return None
     
     def visitExpressionStatement(self, ctx):
@@ -60,8 +130,8 @@ class PythonInterpreter(PythonVisitor):
         if ctx.statement() and len(ctx.statement()) > 0:
             for statement in ctx.statement():
                 self.visit(statement)
-                # Se break foi executado, parar de executar statements
-                if self.break_flag:
+                # Se break ou continue foi executado, parar de executar statements
+                if self.break_flag or self.continue_flag:
                     break
         elif ctx.statement() and len(ctx.statement()) == 0:
             # Bloco vazio entre chaves - não faz nada
