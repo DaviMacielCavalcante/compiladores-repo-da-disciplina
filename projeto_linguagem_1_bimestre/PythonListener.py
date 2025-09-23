@@ -71,6 +71,15 @@ class PythonListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PythonParser#breakStatement.
+    def enterBreakStatement(self, ctx:PythonParser.BreakStatementContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#breakStatement.
+    def exitBreakStatement(self, ctx:PythonParser.BreakStatementContext):
+        pass
+
+
     # Enter a parse tree produced by PythonParser#expressionStatement.
     def enterExpressionStatement(self, ctx:PythonParser.ExpressionStatementContext):
         pass

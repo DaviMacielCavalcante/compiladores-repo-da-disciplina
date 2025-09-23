@@ -11,6 +11,7 @@ statement
     | whileStatement
     | expressionStatement
     | doWhileStatement
+    | breakStatement
     ;
 
 // Atribuição: x = 5
@@ -28,11 +29,13 @@ whileStatement: 'while' expression ':' block;
 // Do-while loop: do: <block> while ( <expression> ) ;
 doWhileStatement: 'do' ':' block 'while'  expression  ';'?;
 
+// Break statement: break;
+breakStatement: 'break' ';'?;
 
 // Expressão como declaração
 expressionStatement: expression ';'?;
 
-// Bloco de código
+// Bloco de código - permitindo blocos vazios
 block: '{' statement* '}' | statement;
 
 // Expressões

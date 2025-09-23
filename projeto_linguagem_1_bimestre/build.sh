@@ -5,7 +5,7 @@
 echo "Compilando gramática ANTLR..."
 
 # Gerar código Python a partir da gramática
-antlr4 -Dlanguage=Python3 Python.g4
+antlr4 -Dlanguage=Python3 -visitor Python.g4
 
 # Verificar se a compilação foi bem-sucedida
 if [ $? -eq 0 ]; then
