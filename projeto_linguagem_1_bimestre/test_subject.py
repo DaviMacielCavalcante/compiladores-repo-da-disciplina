@@ -3,5 +3,8 @@ y = 2 ** 3
 print(x)
 print(y)
 
-if (x > 10):
-    print("x é grande")
+
+while x < 20:
+    if x > 10:
+        print("x é grande")
+    x = x + 1

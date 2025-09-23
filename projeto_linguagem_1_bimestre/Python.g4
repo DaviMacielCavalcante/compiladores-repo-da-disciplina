@@ -20,13 +20,13 @@ assignmentStatement: IDENTIFIER '=' expression ';'?;
 printStatement: 'print' '(' expression ')' ';'?;
 
 // If statement
-ifStatement: 'if' '(' expression ')' ':' block ('else' ':' block)?;
+ifStatement: 'if' expression ':' block ('else' ':' block)?;
 
 // While loop
-whileStatement: 'while' '(' expression ')' ':' block;
+whileStatement: 'while' expression ':' block;
 
 // Do-while loop: do: <block> while ( <expression> ) ;
-doWhileStatement: 'do' ':' block 'while' '(' expression ')' ';'?;
+doWhileStatement: 'do' ':' block 'while'  expression  ';'?;
 
 
 // Expressão como declaração
