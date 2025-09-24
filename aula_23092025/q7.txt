@@ -1,0 +1,17 @@
+A → zBxDy | zBy | zBxDC
+B → xAB | CA | xB
+C → DyB | Dy | DyBy
+D → y | yA
+
+A -> zBA'
+A' -> y | xDA''
+A'' -> y | C
+B -> xB' | CA
+B' -> AB'' 
+B'' -> B | Vazio
+C -> DyC'
+C' -> BC'' | Vazio
+C'' -> y | Vazio	
+D -> yD'
+D' -> A | Vazio
+

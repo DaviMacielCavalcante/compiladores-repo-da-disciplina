@@ -1,0 +1,36 @@
+S -> S + S
+S + S -> A + B
+A + B -> B + S
+B + S -> C + S  
+C + S -> x + S
+x + S -> x + A
+x + A -> x + B
+x + B -> x + (S)
+x + (S) -> x + (A)
+x + (A) -> x + (A * A)
+x + (A * A) -> x + (B * A)
+x + (B * A) -> x + (C * A)
+x + (C * A) -> x + (y * A)
+x + (y * A) -> x + (y * B)
+x + (y * B) -> x + (y * S)
+x + (y * S) -> x + (y * S + S)
+x + (y * S + S) -> x + (y * A + S)
+x + (y * A + S) -> x + (y * B + S)
+x + (y * B + S) -> x + (y * (S) + S)
+x + (y * (S) + S) -> x + (y * (A) + S)
+x + (y * (A) + S) -> x + (y * (A * A) + S)
+x + (y * (A * A) + S) -> x + (y * (B * A) + S)
+x + (y * (B * A) + S) -> x + (y * (C * A) + S)
+x + (y * (C * A) + S) -> x + (y * (z * A) + S)
+x + (y * (z * A) + S) -> x + (y * (z * B) + S)
+x + (y * (z * B) + S) -> x + (y * (z * C) + S)
+x + (y * (z * C) + S) -> x + (y * (z * x) + S)
+x + (y * (z * x) + S) -> x + (y * (z * x) + A)
+x + (y * (z * x) + A) -> x + (y * (z * x) + B)
+x + (y * (z * x) + B) -> x + (y * (z * x) + C)
+x + (y * (z * x) + C) -> x + (y * (z * x) + z)
+
+
+
+
+ 

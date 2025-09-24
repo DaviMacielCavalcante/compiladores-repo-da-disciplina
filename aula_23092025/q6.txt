@@ -1,0 +1,19 @@
+A → BCy | Bz | BCD
+B → CzD | Cz
+C → xy | xDB
+D → yzA | y | yz
+
+A -> BA' 
+A'-> CA'' | Vazio
+A'' -> y | D
+B -> CzB'
+B' -> D | VAZIO
+C -> xC'
+C'-> y | DB
+D -> yD'
+D' -> zD''
+D'' -> A | Vazio
+
+
+
+ 

@@ -1,0 +1,13 @@
+A → AxC | Byw | ACz
+B → Cyz | yBz | BAC
+C → xDy | Dw
+D → xDx | yDy | Dz | Dw
+
+A  -> BywA'
+A' -> xCA' | CzA' | Vazio
+B  -> yBzB' | CyzB'
+B' -> ACB' | Vazio  
+C -> xDy | Dw
+D -> xDxD' | yDyD'
+D' -> zD' | wD' | Vazio
+

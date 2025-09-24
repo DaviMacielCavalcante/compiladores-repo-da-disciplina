@@ -1,0 +1,12 @@
+A → Bxy | ABz
+B → xCy | x
+C → y | Cxy | CDz
+D → xz | Dzy | xBA
+
+A -> BxyA'
+A' -> BzA' | Vazio
+B -> xCy | x
+C -> yC' 
+C' -> xyC' | DzC' | Vazio
+D -> xBAD' | xzD'
+D' -> zyD' | Vazio

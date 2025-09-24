@@ -1,0 +1,9 @@
+P    →  L
+L    →  CL 
+CL   → cIf
+cIfL → "if" expr "then" C "else" C 
+"if" expr "then" C "else" C   → "if" i = 1 "then" C "else" C 
+"if" i = 3 "then" C "else" C  → "if" i = 3 "then" i = eq "else" C 
+"if" i = 3 "then" i = eq "else" C  → "if" i = 3 "then" i = 1 "else" C 
+"if" i = 3 "then" i = 1 "else" C  → "if" i = 3 "then" i = 1 "else" i=eq 
+"if" i = 3 "then" i = 1 "else" i=eq  → "if" i = 3 "then" i = 1 "else" i=0 
