@@ -10,8 +10,8 @@ from PythonParserVisitor import PythonParserVisitor
 class PythonInterpreter(PythonParserVisitor):
     def __init__(self):
         self.variables = {}
-        self.break_flag = False     # Flag para controlar break
-        self.continue_flag = False  # Flag para controlar continue
+        self.break_flag = False
+        self.continue_flag = False
     
     def visitProgram(self, ctx):
         for statement in ctx.statement():
@@ -19,23 +19,69 @@ class PythonInterpreter(PythonParserVisitor):
     
     def visitAssignmentStatement(self, ctx):
         var_name = ctx.IDENTIFIER().getText()
-        value = self.visit(ctx.expression())
-        self.variables[var_name] = value
+        value = self.visit(ctx.expression()[-1])  # Último expression é o valor
+        
+        # Verificar se é atribuição a array
+        if ctx.LBRACKET():
+            # Atribuição a elemento do array: arr[0] = 5 ou matriz[0][1] = 10
+            indices = []
+            for i in range(len(ctx.expression()) - 1):  # Todos exceto o último
+                indices.append(self.visit(ctx.expression()[i]))
+            
+            # Pegar o array
+            if var_name not in self.variables:
+                raise Exception(f"Array '{var_name}' não definido")
+            
+            arr = self.variables[var_name]
+            
+            # Navegar pelos índices (suporta múltiplas dimensões)
+            for idx in indices[:-1]:
+                arr = arr[int(idx)]
+            
+            # Atribuir valor no último índice
+            arr[int(indices[-1])] = value
+        else:
+            # Atribuição simples
+            self.variables[var_name] = value
+        
         return value
     
     def visitPrintStatement(self, ctx):
-        # Pegar todas as expressões separadas por vírgula
         expressions = ctx.expression()
         values = []
         
-        # Avaliar cada expressão
         for expr in expressions:
             value = self.visit(expr)
             values.append(str(value))
         
-        # Imprimir valores separados por espaço (como Python real)
         print(' '.join(values))
         return values
+    
+    def visitInputStatement(self, ctx):
+        var_name = ctx.IDENTIFIER().getText()
+        
+        # Pegar mensagem opcional
+        message = ""
+        if ctx.STRING():
+            message = ctx.STRING().getText()[1:-1]
+        
+        # Ler entrada do usuário
+        if message:
+            user_input = input(message)
+        else:
+            user_input = input()
+        
+        # Tentar converter para número
+        try:
+            value = int(user_input)
+        except ValueError:
+            try:
+                value = float(user_input)
+            except ValueError:
+                value = user_input
+        
+        self.variables[var_name] = value
+        return value
     
     def visitIfStatement(self, ctx):
         condition = self.visit(ctx.expression())
@@ -45,82 +91,63 @@ class PythonInterpreter(PythonParserVisitor):
             self.visit(ctx.block(1))
     
     def visitWhileStatement(self, ctx):
-        self.break_flag = False     # Reset flags
+        self.break_flag = False
         self.continue_flag = False
         
         while self.visit(ctx.expression()) and not self.break_flag:
-            self.continue_flag = False  # Reset continue flag a cada iteração
+            self.continue_flag = False
             self.visit(ctx.block())
-            # Continue faz pular para próxima iteração, não sair do loop
             
-        self.break_flag = False     # Reset após sair do loop
+        self.break_flag = False
         self.continue_flag = False
     
     def visitForStatement(self, ctx):
-        self.break_flag = False     # Reset flags
+        self.break_flag = False
         self.continue_flag = False
         
-        # Pegar nome da variável do loop
         var_name = ctx.IDENTIFIER().getText()
-        
-        # Pegar parâmetros do range
         expressions = ctx.expression()
         
         if len(expressions) == 1:
-            # range(end)
             start = 0
             end = self.visit(expressions[0])
             step = 1
         elif len(expressions) == 2:
-            # range(start, end)
             start = self.visit(expressions[0])
             end = self.visit(expressions[1])
             step = 1
         elif len(expressions) == 3:
-            # range(start, end, step)
             start = self.visit(expressions[0])
             end = self.visit(expressions[1])
             step = self.visit(expressions[2])
         else:
             raise Exception("Range deve ter 1, 2 ou 3 parâmetros")
         
-        # Executar o loop
         current = start
         while (step > 0 and current < end) or (step < 0 and current > end):
             if self.break_flag:
                 break
             
-            # Definir variável do loop
             self.variables[var_name] = current
-            
-            # Reset continue flag a cada iteração
             self.continue_flag = False
-            
-            # Executar bloco
             self.visit(ctx.block())
-            
-            # Se continue foi executado, pular para próxima iteração
-            # (não precisa fazer nada especial, só incrementar)
-            
-            # Incrementar
             current += step
         
-        self.break_flag = False     # Reset após sair do loop
+        self.break_flag = False
         self.continue_flag = False
     
     def visitDoWhileStatement(self, ctx):
-        self.break_flag = False     # Reset flags
+        self.break_flag = False
         self.continue_flag = False
         
-        # Do-while executa pelo menos uma vez
         self.continue_flag = False
         self.visit(ctx.block())
         
         while self.visit(ctx.expression()) and not self.break_flag:
-            self.continue_flag = False  # Reset continue flag a cada iteração
+            self.continue_flag = False
             self.visit(ctx.block())
             
-        self.break_flag = False     # Reset após sair do loop
+        self.break_flag = False
         self.continue_flag = False
     
     def visitBreakStatement(self, ctx):
@@ -135,18 +162,14 @@ class PythonInterpreter(PythonParserVisitor):
         return self.visit(ctx.expression())
     
     def visitBlock(self, ctx):
-        # Verificar se há statements no bloco
         if ctx.statement() and len(ctx.statement()) > 0:
             for statement in ctx.statement():
                 self.visit(statement)
-                # Se break ou continue foi executado, parar de executar statements
                 if self.break_flag or self.continue_flag:
                     break
         elif ctx.statement() and len(ctx.statement()) == 0:
-            # Bloco vazio entre chaves - não faz nada
             pass
         else:
-            # Statement único (sem chaves)
             self.visit(ctx.statement())
     
     def visitPow(self, ctx):
@@ -219,6 +242,28 @@ class PythonInterpreter(PythonParserVisitor):
     def visitParentheses(self, ctx):
         return self.visit(ctx.expression())
     
+    def visitArrayAccess(self, ctx):
+        var_name = ctx.IDENTIFIER().getText()
+        
+        if var_name not in self.variables:
+            raise Exception(f"Array '{var_name}' não definido")
+        
+        arr = self.variables[var_name]
+        
+        # Processar cada índice
+        for expr in ctx.expression():
+            idx = int(self.visit(expr))
+            arr = arr[idx]
+        
+        return arr
+    
+    def visitArrayLiteral(self, ctx):
+        elements = []
+        if ctx.expression():
+            for expr in ctx.expression():
+                elements.append(self.visit(expr))
+        return elements
+    
     def visitVariable(self, ctx):
         var_name = ctx.getText()
         if var_name in self.variables:
@@ -234,7 +279,7 @@ class PythonInterpreter(PythonParserVisitor):
             return int(value)
     
     def visitString(self, ctx):
-        return ctx.getText()[1:-1]  # Remove aspas
+        return ctx.getText()[1:-1]
     
     def visitBoolTrue(self, ctx):
         return True
@@ -243,8 +288,6 @@ class PythonInterpreter(PythonParserVisitor):
         return False
 
 def run_script(filename):
-    """Executa um script do Python primitivo"""
-    
     if not os.path.exists(filename):
         print(f"Erro: Arquivo '{filename}' não encontrado.")
         return False
@@ -257,18 +300,15 @@ def run_script(filename):
         return False
     
     try:
-        # Parse do código
         lexer = PythonLexer(InputStream(code))
         stream = CommonTokenStream(lexer)
         parser = PythonParser(stream)
         tree = parser.program()
         
-        # Verificar erros de sintaxe
         if parser.getNumberOfSyntaxErrors() > 0:
             print(f"ERRO DE SINTAXE em '{filename}'")
             return False
         
-        # Executar o código
         interpreter = PythonInterpreter()
         interpreter.visit(tree)
         return True
@@ -279,7 +319,7 @@ def run_script(filename):
 
 def main():
     if len(sys.argv) != 2:
-        print("Uso: python run_script.py <arquivo.py>")
+        print("Uso: python homebrew_Interpreter.py <arquivo.py>")
         return
     
     filename = sys.argv[1]

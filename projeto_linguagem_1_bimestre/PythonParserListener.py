@@ -44,6 +44,15 @@ class PythonParserListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PythonParser#inputStatement.
+    def enterInputStatement(self, ctx:PythonParser.InputStatementContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#inputStatement.
+    def exitInputStatement(self, ctx:PythonParser.InputStatementContext):
+        pass
+
+
     # Enter a parse tree produced by PythonParser#ifStatement.
     def enterIfStatement(self, ctx:PythonParser.IfStatementContext):
         pass
@@ -116,15 +125,6 @@ class PythonParserListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by PythonParser#defStatement.
-    def enterDefStatement(self, ctx:PythonParser.DefStatementContext):
-        pass
-
-    # Exit a parse tree produced by PythonParser#defStatement.
-    def exitDefStatement(self, ctx:PythonParser.DefStatementContext):
-        pass
-
-
     # Enter a parse tree produced by PythonParser#Parenteses.
     def enterParenteses(self, ctx:PythonParser.ParentesesContext):
         pass
@@ -152,15 +152,6 @@ class PythonParserListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by PythonParser#Number.
-    def enterNumber(self, ctx:PythonParser.NumberContext):
-        pass
-
-    # Exit a parse tree produced by PythonParser#Number.
-    def exitNumber(self, ctx:PythonParser.NumberContext):
-        pass
-
-
     # Enter a parse tree produced by PythonParser#MulDiv.
     def enterMulDiv(self, ctx:PythonParser.MulDivContext):
         pass
@@ -176,6 +167,51 @@ class PythonParserListener(ParseTreeListener):
 
     # Exit a parse tree produced by PythonParser#AddSub.
     def exitAddSub(self, ctx:PythonParser.AddSubContext):
+        pass
+
+
+    # Enter a parse tree produced by PythonParser#String.
+    def enterString(self, ctx:PythonParser.StringContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#String.
+    def exitString(self, ctx:PythonParser.StringContext):
+        pass
+
+
+    # Enter a parse tree produced by PythonParser#ArrayLiteral.
+    def enterArrayLiteral(self, ctx:PythonParser.ArrayLiteralContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#ArrayLiteral.
+    def exitArrayLiteral(self, ctx:PythonParser.ArrayLiteralContext):
+        pass
+
+
+    # Enter a parse tree produced by PythonParser#logical.
+    def enterLogical(self, ctx:PythonParser.LogicalContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#logical.
+    def exitLogical(self, ctx:PythonParser.LogicalContext):
+        pass
+
+
+    # Enter a parse tree produced by PythonParser#ArrayAccess.
+    def enterArrayAccess(self, ctx:PythonParser.ArrayAccessContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#ArrayAccess.
+    def exitArrayAccess(self, ctx:PythonParser.ArrayAccessContext):
+        pass
+
+
+    # Enter a parse tree produced by PythonParser#Number.
+    def enterNumber(self, ctx:PythonParser.NumberContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#Number.
+    def exitNumber(self, ctx:PythonParser.NumberContext):
         pass
 
 
@@ -206,30 +242,12 @@ class PythonParserListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by PythonParser#String.
-    def enterString(self, ctx:PythonParser.StringContext):
-        pass
-
-    # Exit a parse tree produced by PythonParser#String.
-    def exitString(self, ctx:PythonParser.StringContext):
-        pass
-
-
     # Enter a parse tree produced by PythonParser#BoolTrue.
     def enterBoolTrue(self, ctx:PythonParser.BoolTrueContext):
         pass
 
     # Exit a parse tree produced by PythonParser#BoolTrue.
     def exitBoolTrue(self, ctx:PythonParser.BoolTrueContext):
-        pass
-
-
-    # Enter a parse tree produced by PythonParser#logical.
-    def enterLogical(self, ctx:PythonParser.LogicalContext):
-        pass
-
-    # Exit a parse tree produced by PythonParser#logical.
-    def exitLogical(self, ctx:PythonParser.LogicalContext):
         pass
 
 

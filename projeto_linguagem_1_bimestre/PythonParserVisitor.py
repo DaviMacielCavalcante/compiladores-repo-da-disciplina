@@ -29,6 +29,11 @@ class PythonParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by PythonParser#inputStatement.
+    def visitInputStatement(self, ctx:PythonParser.InputStatementContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by PythonParser#ifStatement.
     def visitIfStatement(self, ctx:PythonParser.IfStatementContext):
         return self.visitChildren(ctx)
@@ -69,11 +74,6 @@ class PythonParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by PythonParser#defStatement.
-    def visitDefStatement(self, ctx:PythonParser.DefStatementContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by PythonParser#Parenteses.
     def visitParenteses(self, ctx:PythonParser.ParentesesContext):
         return self.visitChildren(ctx)
@@ -89,11 +89,6 @@ class PythonParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by PythonParser#Number.
-    def visitNumber(self, ctx:PythonParser.NumberContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by PythonParser#MulDiv.
     def visitMulDiv(self, ctx:PythonParser.MulDivContext):
         return self.visitChildren(ctx)
@@ -101,6 +96,31 @@ class PythonParserVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by PythonParser#AddSub.
     def visitAddSub(self, ctx:PythonParser.AddSubContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by PythonParser#String.
+    def visitString(self, ctx:PythonParser.StringContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by PythonParser#ArrayLiteral.
+    def visitArrayLiteral(self, ctx:PythonParser.ArrayLiteralContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by PythonParser#logical.
+    def visitLogical(self, ctx:PythonParser.LogicalContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by PythonParser#ArrayAccess.
+    def visitArrayAccess(self, ctx:PythonParser.ArrayAccessContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by PythonParser#Number.
+    def visitNumber(self, ctx:PythonParser.NumberContext):
         return self.visitChildren(ctx)
 
 
@@ -119,18 +139,8 @@ class PythonParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by PythonParser#String.
-    def visitString(self, ctx:PythonParser.StringContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by PythonParser#BoolTrue.
     def visitBoolTrue(self, ctx:PythonParser.BoolTrueContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by PythonParser#logical.
-    def visitLogical(self, ctx:PythonParser.LogicalContext):
         return self.visitChildren(ctx)
 
 

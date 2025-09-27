@@ -9,6 +9,7 @@ program: statement* EOF;
 statement
     : assignmentStatement
     | printStatement
+    | inputStatement
     | ifStatement
     | whileStatement
     | forStatement
@@ -16,14 +17,16 @@ statement
     | doWhileStatement
     | breakStatement
     | continueStatement
-    | defStatement
     ;
 
-// Atribuição
-assignmentStatement: IDENTIFIER ASSIGN expression SEMICOLON?;
+// Atribuição (suporta arrays)
+assignmentStatement: IDENTIFIER (LBRACKET expression RBRACKET)* ASSIGN expression SEMICOLON?;
 
 // Print
 printStatement: PRINT LPAREN expression (COMMA expression)* RPAREN SEMICOLON?;
+
+// Input - lê entrada do usuário
+inputStatement: IDENTIFIER ASSIGN INPUT LPAREN STRING? RPAREN SEMICOLON?;
 
 // If statement
 ifStatement: IF expression COLON block (ELSE COLON block)?;
@@ -49,10 +52,7 @@ expressionStatement: expression SEMICOLON?;
 // Bloco de código
 block: LBRACE statement* RBRACE | statement;
 
-// Def 
-defStatement: DEF IDENTIFIER LPAREN expression* RPAREN COLON LBRACE statement* RBRACE SEMICOLON?;
-
-// Expressões
+// Expressões (com suporte a arrays)
 expression
     : expression pow_op expression              # pow 
     | expression mul_div expression             # MulDiv
@@ -61,6 +61,8 @@ expression
     | expression bitwise_and_or expression      # bitwise
     | expression logical_op expression          # logical
     | LPAREN expression RPAREN                  # Parenteses
+    | IDENTIFIER (LBRACKET expression RBRACKET)+ # ArrayAccess
+    | LBRACKET (expression (COMMA expression)*)? RBRACKET # ArrayLiteral
     | IDENTIFIER                                # Variable
     | NUMBER                                    # Number
     | STRING                                    # String

@@ -2,6 +2,7 @@ lexer grammar PythonLexer;
 
 // Palavras-chave
 PRINT: 'print';
+INPUT: 'input';
 IF: 'if';
 ELSE: 'else';
 WHILE: 'while';
@@ -13,7 +14,6 @@ BREAK: 'break';
 CONTINUE: 'continue';
 TRUE: 'True';
 FALSE: 'False';
-DEF: 'def';
 
 // Operadores
 ASSIGN: '=';
@@ -46,6 +46,8 @@ LPAREN: '(';
 RPAREN: ')';
 LBRACE: '{';
 RBRACE: '}';
+LBRACKET: '[';
+RBRACKET: ']';
 COLON: ':';
 SEMICOLON: ';';
 COMMA: ',';
