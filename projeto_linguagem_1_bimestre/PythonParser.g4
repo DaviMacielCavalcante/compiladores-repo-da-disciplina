@@ -16,6 +16,7 @@ statement
     | doWhileStatement
     | breakStatement
     | continueStatement
+    | defStatement
     ;
 
 // Atribuição
@@ -47,6 +48,9 @@ expressionStatement: expression SEMICOLON?;
 
 // Bloco de código
 block: LBRACE statement* RBRACE | statement;
+
+// Def 
+defStatement: DEF IDENTIFIER LPAREN expression* RPAREN COLON LBRACE statement* RBRACE SEMICOLON?;
 
 // Expressões
 expression

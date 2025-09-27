@@ -69,6 +69,11 @@ class PythonParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by PythonParser#defStatement.
+    def visitDefStatement(self, ctx:PythonParser.DefStatementContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by PythonParser#Parenteses.
     def visitParenteses(self, ctx:PythonParser.ParentesesContext):
         return self.visitChildren(ctx)

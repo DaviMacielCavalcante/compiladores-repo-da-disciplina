@@ -45,3 +45,9 @@ for k in range(1, 10, 2): {
     }
 }
 print("For dentro de for terminou")
+
+def teste(): {
+    print("Função teste chamada")
+}
+    
+    

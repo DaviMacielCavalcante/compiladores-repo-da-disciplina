@@ -116,6 +116,15 @@ class PythonParserListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PythonParser#defStatement.
+    def enterDefStatement(self, ctx:PythonParser.DefStatementContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#defStatement.
+    def exitDefStatement(self, ctx:PythonParser.DefStatementContext):
+        pass
+
+
     # Enter a parse tree produced by PythonParser#Parenteses.
     def enterParenteses(self, ctx:PythonParser.ParentesesContext):
         pass
