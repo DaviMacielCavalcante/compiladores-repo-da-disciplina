@@ -107,6 +107,15 @@ class PythonParserListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PythonParser#defStatement.
+    def enterDefStatement(self, ctx:PythonParser.DefStatementContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#defStatement.
+    def exitDefStatement(self, ctx:PythonParser.DefStatementContext):
+        pass
+
+
     # Enter a parse tree produced by PythonParser#expressionStatement.
     def enterExpressionStatement(self, ctx:PythonParser.ExpressionStatementContext):
         pass
@@ -152,21 +161,21 @@ class PythonParserListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by PythonParser#MulDiv.
-    def enterMulDiv(self, ctx:PythonParser.MulDivContext):
-        pass
-
-    # Exit a parse tree produced by PythonParser#MulDiv.
-    def exitMulDiv(self, ctx:PythonParser.MulDivContext):
-        pass
-
-
     # Enter a parse tree produced by PythonParser#AddSub.
     def enterAddSub(self, ctx:PythonParser.AddSubContext):
         pass
 
     # Exit a parse tree produced by PythonParser#AddSub.
     def exitAddSub(self, ctx:PythonParser.AddSubContext):
+        pass
+
+
+    # Enter a parse tree produced by PythonParser#MulDiv.
+    def enterMulDiv(self, ctx:PythonParser.MulDivContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#MulDiv.
+    def exitMulDiv(self, ctx:PythonParser.MulDivContext):
         pass
 
 

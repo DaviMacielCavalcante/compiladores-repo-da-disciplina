@@ -17,6 +17,7 @@ statement
     | doWhileStatement
     | breakStatement
     | continueStatement
+    | defStatement
     ;
 
 // Atribuição (suporta arrays)
@@ -46,20 +47,23 @@ breakStatement: BREAK SEMICOLON?;
 // Continue
 continueStatement: CONTINUE SEMICOLON?;
 
+// Def 
+defStatement: DEF IDENTIFIER LPAREN expression* RPAREN COLON LBRACE statement* RBRACE SEMICOLON?;
+
 // Expressão como declaração
 expressionStatement: expression SEMICOLON?;
 
 // Bloco de código
 block: LBRACE statement* RBRACE | statement;
 
-// Expressões (com suporte a arrays)
+// Expressões (com suporte a arrays) - PRECEDÊNCIA CORRIGIDA
 expression
-    : expression pow_op expression              # pow 
-    | expression mul_div expression             # MulDiv
-    | expression add_sub expression             # AddSub
-    | expression comparison_op expression       # comparison
-    | expression bitwise_and_or expression      # bitwise
-    | expression logical_op expression          # logical
+    : expression logical_op expression          # logical    
+    | expression bitwise_and_or expression      # bitwise    
+    | expression comparison_op expression       # comparison 
+    | expression add_sub expression             # AddSub     
+    | expression mul_div expression             # MulDiv     
+    | expression pow_op expression              # pow        
     | LPAREN expression RPAREN                  # Parenteses
     | IDENTIFIER (LBRACKET expression RBRACKET)+ # ArrayAccess
     | LBRACKET (expression (COMMA expression)*)? RBRACKET # ArrayLiteral

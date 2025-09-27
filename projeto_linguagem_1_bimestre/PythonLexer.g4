@@ -14,6 +14,7 @@ BREAK: 'break';
 CONTINUE: 'continue';
 TRUE: 'True';
 FALSE: 'False';
+DEF: 'def';
 
 // Operadores
 ASSIGN: '=';

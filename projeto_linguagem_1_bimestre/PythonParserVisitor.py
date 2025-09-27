@@ -64,6 +64,11 @@ class PythonParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by PythonParser#defStatement.
+    def visitDefStatement(self, ctx:PythonParser.DefStatementContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by PythonParser#expressionStatement.
     def visitExpressionStatement(self, ctx:PythonParser.ExpressionStatementContext):
         return self.visitChildren(ctx)
@@ -89,13 +94,13 @@ class PythonParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by PythonParser#MulDiv.
-    def visitMulDiv(self, ctx:PythonParser.MulDivContext):
+    # Visit a parse tree produced by PythonParser#AddSub.
+    def visitAddSub(self, ctx:PythonParser.AddSubContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by PythonParser#AddSub.
-    def visitAddSub(self, ctx:PythonParser.AddSubContext):
+    # Visit a parse tree produced by PythonParser#MulDiv.
+    def visitMulDiv(self, ctx:PythonParser.MulDivContext):
         return self.visitChildren(ctx)
 
 
