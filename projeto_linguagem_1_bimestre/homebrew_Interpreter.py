@@ -5,9 +5,9 @@ import os
 from antlr4 import *
 from PythonLexer import PythonLexer
 from PythonParser import PythonParser
-from PythonVisitor import PythonVisitor
+from PythonParserVisitor import PythonParserVisitor
 
-class PythonInterpreter(PythonVisitor):
+class PythonInterpreter(PythonParserVisitor):
     def __init__(self):
         self.variables = {}
         self.break_flag = False     # Flag para controlar break

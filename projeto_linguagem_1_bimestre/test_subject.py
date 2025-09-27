@@ -3,7 +3,6 @@ y = 2 ** 3
 print(x)
 print(y)
 
-
 print("While")
 while x < 20: {
     if x > 10: {

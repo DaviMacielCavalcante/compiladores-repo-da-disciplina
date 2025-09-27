@@ -1,4 +1,4 @@
-# Generated from Python.g4 by ANTLR 4.13.2
+# Generated from PythonParser.g4 by ANTLR 4.13.2
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
@@ -25,8 +25,8 @@ def serializedATN():
         12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,
         12,1,12,1,12,5,12,177,8,12,10,12,12,12,180,9,12,1,13,1,13,1,14,1,
         14,1,15,1,15,1,16,1,16,1,17,1,17,1,18,1,18,1,18,0,1,24,19,0,2,4,
-        6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,0,5,1,0,21,22,1,0,
-        23,25,1,0,27,32,1,0,33,35,1,0,36,37,206,0,41,1,0,0,0,2,55,1,0,0,
+        6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,0,5,1,0,14,15,1,0,
+        16,18,1,0,20,25,1,0,26,28,1,0,29,30,206,0,41,1,0,0,0,2,55,1,0,0,
         0,4,57,1,0,0,0,6,63,1,0,0,0,8,77,1,0,0,0,10,86,1,0,0,0,12,91,1,0,
         0,0,14,109,1,0,0,0,16,117,1,0,0,0,18,121,1,0,0,0,20,125,1,0,0,0,
         22,138,1,0,0,0,24,150,1,0,0,0,26,181,1,0,0,0,28,183,1,0,0,0,30,185,
@@ -37,51 +37,52 @@ def serializedATN():
         10,0,52,56,3,14,7,0,53,56,3,16,8,0,54,56,3,18,9,0,55,46,1,0,0,0,
         55,47,1,0,0,0,55,48,1,0,0,0,55,49,1,0,0,0,55,50,1,0,0,0,55,51,1,
         0,0,0,55,52,1,0,0,0,55,53,1,0,0,0,55,54,1,0,0,0,56,3,1,0,0,0,57,
-        58,5,38,0,0,58,59,5,1,0,0,59,61,3,24,12,0,60,62,5,2,0,0,61,60,1,
-        0,0,0,61,62,1,0,0,0,62,5,1,0,0,0,63,64,5,3,0,0,64,65,5,4,0,0,65,
-        70,3,24,12,0,66,67,5,5,0,0,67,69,3,24,12,0,68,66,1,0,0,0,69,72,1,
-        0,0,0,70,68,1,0,0,0,70,71,1,0,0,0,71,73,1,0,0,0,72,70,1,0,0,0,73,
-        75,5,6,0,0,74,76,5,2,0,0,75,74,1,0,0,0,75,76,1,0,0,0,76,7,1,0,0,
-        0,77,78,5,7,0,0,78,79,3,24,12,0,79,80,5,8,0,0,80,84,3,22,11,0,81,
-        82,5,9,0,0,82,83,5,8,0,0,83,85,3,22,11,0,84,81,1,0,0,0,84,85,1,0,
-        0,0,85,9,1,0,0,0,86,87,5,10,0,0,87,88,3,24,12,0,88,89,5,8,0,0,89,
-        90,3,22,11,0,90,11,1,0,0,0,91,92,5,11,0,0,92,93,5,38,0,0,93,94,5,
-        12,0,0,94,95,5,13,0,0,95,96,5,4,0,0,96,103,3,24,12,0,97,98,5,5,0,
-        0,98,101,3,24,12,0,99,100,5,5,0,0,100,102,3,24,12,0,101,99,1,0,0,
-        0,101,102,1,0,0,0,102,104,1,0,0,0,103,97,1,0,0,0,103,104,1,0,0,0,
-        104,105,1,0,0,0,105,106,5,6,0,0,106,107,5,8,0,0,107,108,3,22,11,
-        0,108,13,1,0,0,0,109,110,5,14,0,0,110,111,5,8,0,0,111,112,3,22,11,
-        0,112,113,5,10,0,0,113,115,3,24,12,0,114,116,5,2,0,0,115,114,1,0,
-        0,0,115,116,1,0,0,0,116,15,1,0,0,0,117,119,5,15,0,0,118,120,5,2,
-        0,0,119,118,1,0,0,0,119,120,1,0,0,0,120,17,1,0,0,0,121,123,5,16,
-        0,0,122,124,5,2,0,0,123,122,1,0,0,0,123,124,1,0,0,0,124,19,1,0,0,
-        0,125,127,3,24,12,0,126,128,5,2,0,0,127,126,1,0,0,0,127,128,1,0,
-        0,0,128,21,1,0,0,0,129,133,5,17,0,0,130,132,3,2,1,0,131,130,1,0,
-        0,0,132,135,1,0,0,0,133,131,1,0,0,0,133,134,1,0,0,0,134,136,1,0,
-        0,0,135,133,1,0,0,0,136,139,5,18,0,0,137,139,3,2,1,0,138,129,1,0,
-        0,0,138,137,1,0,0,0,139,23,1,0,0,0,140,141,6,12,-1,0,141,142,5,4,
-        0,0,142,143,3,24,12,0,143,144,5,6,0,0,144,151,1,0,0,0,145,151,5,
-        38,0,0,146,151,5,39,0,0,147,151,5,40,0,0,148,151,5,19,0,0,149,151,
-        5,20,0,0,150,140,1,0,0,0,150,145,1,0,0,0,150,146,1,0,0,0,150,147,
-        1,0,0,0,150,148,1,0,0,0,150,149,1,0,0,0,151,178,1,0,0,0,152,153,
-        10,12,0,0,153,154,3,30,15,0,154,155,3,24,12,13,155,177,1,0,0,0,156,
-        157,10,11,0,0,157,158,3,28,14,0,158,159,3,24,12,12,159,177,1,0,0,
-        0,160,161,10,10,0,0,161,162,3,26,13,0,162,163,3,24,12,11,163,177,
-        1,0,0,0,164,165,10,9,0,0,165,166,3,32,16,0,166,167,3,24,12,10,167,
-        177,1,0,0,0,168,169,10,8,0,0,169,170,3,36,18,0,170,171,3,24,12,9,
-        171,177,1,0,0,0,172,173,10,7,0,0,173,174,3,34,17,0,174,175,3,24,
-        12,8,175,177,1,0,0,0,176,152,1,0,0,0,176,156,1,0,0,0,176,160,1,0,
-        0,0,176,164,1,0,0,0,176,168,1,0,0,0,176,172,1,0,0,0,177,180,1,0,
-        0,0,178,176,1,0,0,0,178,179,1,0,0,0,179,25,1,0,0,0,180,178,1,0,0,
-        0,181,182,7,0,0,0,182,27,1,0,0,0,183,184,7,1,0,0,184,29,1,0,0,0,
-        185,186,5,26,0,0,186,31,1,0,0,0,187,188,7,2,0,0,188,33,1,0,0,0,189,
-        190,7,3,0,0,190,35,1,0,0,0,191,192,7,4,0,0,192,37,1,0,0,0,17,41,
-        55,61,70,75,84,101,103,115,119,123,127,133,138,150,176,178
+        58,5,38,0,0,58,59,5,13,0,0,59,61,3,24,12,0,60,62,5,36,0,0,61,60,
+        1,0,0,0,61,62,1,0,0,0,62,5,1,0,0,0,63,64,5,1,0,0,64,65,5,31,0,0,
+        65,70,3,24,12,0,66,67,5,37,0,0,67,69,3,24,12,0,68,66,1,0,0,0,69,
+        72,1,0,0,0,70,68,1,0,0,0,70,71,1,0,0,0,71,73,1,0,0,0,72,70,1,0,0,
+        0,73,75,5,32,0,0,74,76,5,36,0,0,75,74,1,0,0,0,75,76,1,0,0,0,76,7,
+        1,0,0,0,77,78,5,2,0,0,78,79,3,24,12,0,79,80,5,35,0,0,80,84,3,22,
+        11,0,81,82,5,3,0,0,82,83,5,35,0,0,83,85,3,22,11,0,84,81,1,0,0,0,
+        84,85,1,0,0,0,85,9,1,0,0,0,86,87,5,4,0,0,87,88,3,24,12,0,88,89,5,
+        35,0,0,89,90,3,22,11,0,90,11,1,0,0,0,91,92,5,5,0,0,92,93,5,38,0,
+        0,93,94,5,6,0,0,94,95,5,7,0,0,95,96,5,31,0,0,96,103,3,24,12,0,97,
+        98,5,37,0,0,98,101,3,24,12,0,99,100,5,37,0,0,100,102,3,24,12,0,101,
+        99,1,0,0,0,101,102,1,0,0,0,102,104,1,0,0,0,103,97,1,0,0,0,103,104,
+        1,0,0,0,104,105,1,0,0,0,105,106,5,32,0,0,106,107,5,35,0,0,107,108,
+        3,22,11,0,108,13,1,0,0,0,109,110,5,8,0,0,110,111,5,35,0,0,111,112,
+        3,22,11,0,112,113,5,4,0,0,113,115,3,24,12,0,114,116,5,36,0,0,115,
+        114,1,0,0,0,115,116,1,0,0,0,116,15,1,0,0,0,117,119,5,9,0,0,118,120,
+        5,36,0,0,119,118,1,0,0,0,119,120,1,0,0,0,120,17,1,0,0,0,121,123,
+        5,10,0,0,122,124,5,36,0,0,123,122,1,0,0,0,123,124,1,0,0,0,124,19,
+        1,0,0,0,125,127,3,24,12,0,126,128,5,36,0,0,127,126,1,0,0,0,127,128,
+        1,0,0,0,128,21,1,0,0,0,129,133,5,33,0,0,130,132,3,2,1,0,131,130,
+        1,0,0,0,132,135,1,0,0,0,133,131,1,0,0,0,133,134,1,0,0,0,134,136,
+        1,0,0,0,135,133,1,0,0,0,136,139,5,34,0,0,137,139,3,2,1,0,138,129,
+        1,0,0,0,138,137,1,0,0,0,139,23,1,0,0,0,140,141,6,12,-1,0,141,142,
+        5,31,0,0,142,143,3,24,12,0,143,144,5,32,0,0,144,151,1,0,0,0,145,
+        151,5,38,0,0,146,151,5,39,0,0,147,151,5,40,0,0,148,151,5,11,0,0,
+        149,151,5,12,0,0,150,140,1,0,0,0,150,145,1,0,0,0,150,146,1,0,0,0,
+        150,147,1,0,0,0,150,148,1,0,0,0,150,149,1,0,0,0,151,178,1,0,0,0,
+        152,153,10,12,0,0,153,154,3,30,15,0,154,155,3,24,12,13,155,177,1,
+        0,0,0,156,157,10,11,0,0,157,158,3,28,14,0,158,159,3,24,12,12,159,
+        177,1,0,0,0,160,161,10,10,0,0,161,162,3,26,13,0,162,163,3,24,12,
+        11,163,177,1,0,0,0,164,165,10,9,0,0,165,166,3,32,16,0,166,167,3,
+        24,12,10,167,177,1,0,0,0,168,169,10,8,0,0,169,170,3,36,18,0,170,
+        171,3,24,12,9,171,177,1,0,0,0,172,173,10,7,0,0,173,174,3,34,17,0,
+        174,175,3,24,12,8,175,177,1,0,0,0,176,152,1,0,0,0,176,156,1,0,0,
+        0,176,160,1,0,0,0,176,164,1,0,0,0,176,168,1,0,0,0,176,172,1,0,0,
+        0,177,180,1,0,0,0,178,176,1,0,0,0,178,179,1,0,0,0,179,25,1,0,0,0,
+        180,178,1,0,0,0,181,182,7,0,0,0,182,27,1,0,0,0,183,184,7,1,0,0,184,
+        29,1,0,0,0,185,186,5,19,0,0,186,31,1,0,0,0,187,188,7,2,0,0,188,33,
+        1,0,0,0,189,190,7,3,0,0,190,35,1,0,0,0,191,192,7,4,0,0,192,37,1,
+        0,0,0,17,41,55,61,70,75,84,101,103,115,119,123,127,133,138,150,176,
+        178
     ]
 
 class PythonParser ( Parser ):
 
-    grammarFileName = "Python.g4"
+    grammarFileName = "PythonParser.g4"
 
     atn = ATNDeserializer().deserialize(serializedATN())
 
@@ -89,24 +90,20 @@ class PythonParser ( Parser ):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [ "<INVALID>", "'='", "';'", "'print'", "'('", "','", 
-                     "')'", "'if'", "':'", "'else'", "'while'", "'for'", 
-                     "'in'", "'range'", "'do'", "'break'", "'continue'", 
-                     "'{'", "'}'", "'True'", "'False'", "'+'", "'-'", "'*'", 
-                     "'/'", "'%'", "'**'", "'=='", "'!='", "'<'", "'>'", 
-                     "'<='", "'>='", "'and'", "'or'", "'not'", "'&'", "'|'" ]
+    literalNames = [ "<INVALID>", "'print'", "'if'", "'else'", "'while'", 
+                     "'for'", "'in'", "'range'", "'do'", "'break'", "'continue'", 
+                     "'True'", "'False'", "'='", "'+'", "'-'", "'*'", "'/'", 
+                     "'%'", "'**'", "'=='", "'!='", "'<'", "'>'", "'<='", 
+                     "'>='", "'and'", "'or'", "'not'", "'&'", "'|'", "'('", 
+                     "')'", "'{'", "'}'", "':'", "';'", "','" ]
 
-    symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                      "<INVALID>", "<INVALID>", "IDENTIFIER", "NUMBER", 
-                      "STRING", "WS", "COMMENT" ]
+    symbolicNames = [ "<INVALID>", "PRINT", "IF", "ELSE", "WHILE", "FOR", 
+                      "IN", "RANGE", "DO", "BREAK", "CONTINUE", "TRUE", 
+                      "FALSE", "ASSIGN", "PLUS", "MINUS", "MULT", "DIV", 
+                      "MOD", "POW", "EQ", "NEQ", "LT", "GT", "LTE", "GTE", 
+                      "AND", "OR", "NOT", "BITAND", "BITOR", "LPAREN", "RPAREN", 
+                      "LBRACE", "RBRACE", "COLON", "SEMICOLON", "COMMA", 
+                      "IDENTIFIER", "NUMBER", "STRING", "WS", "COMMENT" ]
 
     RULE_program = 0
     RULE_statement = 1
@@ -135,43 +132,43 @@ class PythonParser ( Parser ):
                    "comparison_op", "logical_op", "bitwise_and_or" ]
 
     EOF = Token.EOF
-    T__0=1
-    T__1=2
-    T__2=3
-    T__3=4
-    T__4=5
-    T__5=6
-    T__6=7
-    T__7=8
-    T__8=9
-    T__9=10
-    T__10=11
-    T__11=12
-    T__12=13
-    T__13=14
-    T__14=15
-    T__15=16
-    T__16=17
-    T__17=18
-    T__18=19
-    T__19=20
-    T__20=21
-    T__21=22
-    T__22=23
-    T__23=24
-    T__24=25
-    T__25=26
-    T__26=27
-    T__27=28
-    T__28=29
-    T__29=30
-    T__30=31
-    T__31=32
-    T__32=33
-    T__33=34
-    T__34=35
-    T__35=36
-    T__36=37
+    PRINT=1
+    IF=2
+    ELSE=3
+    WHILE=4
+    FOR=5
+    IN=6
+    RANGE=7
+    DO=8
+    BREAK=9
+    CONTINUE=10
+    TRUE=11
+    FALSE=12
+    ASSIGN=13
+    PLUS=14
+    MINUS=15
+    MULT=16
+    DIV=17
+    MOD=18
+    POW=19
+    EQ=20
+    NEQ=21
+    LT=22
+    GT=23
+    LTE=24
+    GTE=25
+    AND=26
+    OR=27
+    NOT=28
+    BITAND=29
+    BITOR=30
+    LPAREN=31
+    RPAREN=32
+    LBRACE=33
+    RBRACE=34
+    COLON=35
+    SEMICOLON=36
+    COMMA=37
     IDENTIFIER=38
     NUMBER=39
     STRING=40
@@ -234,7 +231,7 @@ class PythonParser ( Parser ):
             self.state = 41
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while (((_la) & ~0x3f) == 0 and ((1 << _la) & 1924147039384) != 0):
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & 1926292840246) != 0):
                 self.state = 38
                 self.statement()
                 self.state = 43
@@ -397,9 +394,15 @@ class PythonParser ( Parser ):
         def IDENTIFIER(self):
             return self.getToken(PythonParser.IDENTIFIER, 0)
 
+        def ASSIGN(self):
+            return self.getToken(PythonParser.ASSIGN, 0)
+
         def expression(self):
             return self.getTypedRuleContext(PythonParser.ExpressionContext,0)
 
+
+        def SEMICOLON(self):
+            return self.getToken(PythonParser.SEMICOLON, 0)
 
         def getRuleIndex(self):
             return PythonParser.RULE_assignmentStatement
@@ -431,15 +434,15 @@ class PythonParser ( Parser ):
             self.state = 57
             self.match(PythonParser.IDENTIFIER)
             self.state = 58
-            self.match(PythonParser.T__0)
+            self.match(PythonParser.ASSIGN)
             self.state = 59
             self.expression(0)
             self.state = 61
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if _la==2:
+            if _la==36:
                 self.state = 60
-                self.match(PythonParser.T__1)
+                self.match(PythonParser.SEMICOLON)
 
 
         except RecognitionException as re:
@@ -458,12 +461,30 @@ class PythonParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+        def PRINT(self):
+            return self.getToken(PythonParser.PRINT, 0)
+
+        def LPAREN(self):
+            return self.getToken(PythonParser.LPAREN, 0)
+
         def expression(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(PythonParser.ExpressionContext)
             else:
                 return self.getTypedRuleContext(PythonParser.ExpressionContext,i)
 
+
+        def RPAREN(self):
+            return self.getToken(PythonParser.RPAREN, 0)
+
+        def COMMA(self, i:int=None):
+            if i is None:
+                return self.getTokens(PythonParser.COMMA)
+            else:
+                return self.getToken(PythonParser.COMMA, i)
+
+        def SEMICOLON(self):
+            return self.getToken(PythonParser.SEMICOLON, 0)
 
         def getRuleIndex(self):
             return PythonParser.RULE_printStatement
@@ -493,17 +514,17 @@ class PythonParser ( Parser ):
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 63
-            self.match(PythonParser.T__2)
+            self.match(PythonParser.PRINT)
             self.state = 64
-            self.match(PythonParser.T__3)
+            self.match(PythonParser.LPAREN)
             self.state = 65
             self.expression(0)
             self.state = 70
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==5:
+            while _la==37:
                 self.state = 66
-                self.match(PythonParser.T__4)
+                self.match(PythonParser.COMMA)
                 self.state = 67
                 self.expression(0)
                 self.state = 72
@@ -511,13 +532,13 @@ class PythonParser ( Parser ):
                 _la = self._input.LA(1)
 
             self.state = 73
-            self.match(PythonParser.T__5)
+            self.match(PythonParser.RPAREN)
             self.state = 75
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if _la==2:
+            if _la==36:
                 self.state = 74
-                self.match(PythonParser.T__1)
+                self.match(PythonParser.SEMICOLON)
 
 
         except RecognitionException as re:
@@ -536,9 +557,18 @@ class PythonParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+        def IF(self):
+            return self.getToken(PythonParser.IF, 0)
+
         def expression(self):
             return self.getTypedRuleContext(PythonParser.ExpressionContext,0)
 
+
+        def COLON(self, i:int=None):
+            if i is None:
+                return self.getTokens(PythonParser.COLON)
+            else:
+                return self.getToken(PythonParser.COLON, i)
 
         def block(self, i:int=None):
             if i is None:
@@ -546,6 +576,9 @@ class PythonParser ( Parser ):
             else:
                 return self.getTypedRuleContext(PythonParser.BlockContext,i)
 
+
+        def ELSE(self):
+            return self.getToken(PythonParser.ELSE, 0)
 
         def getRuleIndex(self):
             return PythonParser.RULE_ifStatement
@@ -574,11 +607,11 @@ class PythonParser ( Parser ):
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 77
-            self.match(PythonParser.T__6)
+            self.match(PythonParser.IF)
             self.state = 78
             self.expression(0)
             self.state = 79
-            self.match(PythonParser.T__7)
+            self.match(PythonParser.COLON)
             self.state = 80
             self.block()
             self.state = 84
@@ -586,9 +619,9 @@ class PythonParser ( Parser ):
             la_ = self._interp.adaptivePredict(self._input,5,self._ctx)
             if la_ == 1:
                 self.state = 81
-                self.match(PythonParser.T__8)
+                self.match(PythonParser.ELSE)
                 self.state = 82
-                self.match(PythonParser.T__7)
+                self.match(PythonParser.COLON)
                 self.state = 83
                 self.block()
 
@@ -609,9 +642,15 @@ class PythonParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+        def WHILE(self):
+            return self.getToken(PythonParser.WHILE, 0)
+
         def expression(self):
             return self.getTypedRuleContext(PythonParser.ExpressionContext,0)
 
+
+        def COLON(self):
+            return self.getToken(PythonParser.COLON, 0)
 
         def block(self):
             return self.getTypedRuleContext(PythonParser.BlockContext,0)
@@ -644,11 +683,11 @@ class PythonParser ( Parser ):
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 86
-            self.match(PythonParser.T__9)
+            self.match(PythonParser.WHILE)
             self.state = 87
             self.expression(0)
             self.state = 88
-            self.match(PythonParser.T__7)
+            self.match(PythonParser.COLON)
             self.state = 89
             self.block()
         except RecognitionException as re:
@@ -667,8 +706,20 @@ class PythonParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+        def FOR(self):
+            return self.getToken(PythonParser.FOR, 0)
+
         def IDENTIFIER(self):
             return self.getToken(PythonParser.IDENTIFIER, 0)
+
+        def IN(self):
+            return self.getToken(PythonParser.IN, 0)
+
+        def RANGE(self):
+            return self.getToken(PythonParser.RANGE, 0)
+
+        def LPAREN(self):
+            return self.getToken(PythonParser.LPAREN, 0)
 
         def expression(self, i:int=None):
             if i is None:
@@ -677,9 +728,21 @@ class PythonParser ( Parser ):
                 return self.getTypedRuleContext(PythonParser.ExpressionContext,i)
 
 
+        def RPAREN(self):
+            return self.getToken(PythonParser.RPAREN, 0)
+
+        def COLON(self):
+            return self.getToken(PythonParser.COLON, 0)
+
         def block(self):
             return self.getTypedRuleContext(PythonParser.BlockContext,0)
 
+
+        def COMMA(self, i:int=None):
+            if i is None:
+                return self.getTokens(PythonParser.COMMA)
+            else:
+                return self.getToken(PythonParser.COMMA, i)
 
         def getRuleIndex(self):
             return PythonParser.RULE_forStatement
@@ -709,31 +772,31 @@ class PythonParser ( Parser ):
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 91
-            self.match(PythonParser.T__10)
+            self.match(PythonParser.FOR)
             self.state = 92
             self.match(PythonParser.IDENTIFIER)
             self.state = 93
-            self.match(PythonParser.T__11)
+            self.match(PythonParser.IN)
             self.state = 94
-            self.match(PythonParser.T__12)
+            self.match(PythonParser.RANGE)
             self.state = 95
-            self.match(PythonParser.T__3)
+            self.match(PythonParser.LPAREN)
             self.state = 96
             self.expression(0)
             self.state = 103
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if _la==5:
+            if _la==37:
                 self.state = 97
-                self.match(PythonParser.T__4)
+                self.match(PythonParser.COMMA)
                 self.state = 98
                 self.expression(0)
                 self.state = 101
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if _la==5:
+                if _la==37:
                     self.state = 99
-                    self.match(PythonParser.T__4)
+                    self.match(PythonParser.COMMA)
                     self.state = 100
                     self.expression(0)
 
@@ -741,9 +804,9 @@ class PythonParser ( Parser ):
 
 
             self.state = 105
-            self.match(PythonParser.T__5)
+            self.match(PythonParser.RPAREN)
             self.state = 106
-            self.match(PythonParser.T__7)
+            self.match(PythonParser.COLON)
             self.state = 107
             self.block()
         except RecognitionException as re:
@@ -762,13 +825,25 @@ class PythonParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+        def DO(self):
+            return self.getToken(PythonParser.DO, 0)
+
+        def COLON(self):
+            return self.getToken(PythonParser.COLON, 0)
+
         def block(self):
             return self.getTypedRuleContext(PythonParser.BlockContext,0)
 
 
+        def WHILE(self):
+            return self.getToken(PythonParser.WHILE, 0)
+
         def expression(self):
             return self.getTypedRuleContext(PythonParser.ExpressionContext,0)
 
+
+        def SEMICOLON(self):
+            return self.getToken(PythonParser.SEMICOLON, 0)
 
         def getRuleIndex(self):
             return PythonParser.RULE_doWhileStatement
@@ -798,21 +873,21 @@ class PythonParser ( Parser ):
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 109
-            self.match(PythonParser.T__13)
+            self.match(PythonParser.DO)
             self.state = 110
-            self.match(PythonParser.T__7)
+            self.match(PythonParser.COLON)
             self.state = 111
             self.block()
             self.state = 112
-            self.match(PythonParser.T__9)
+            self.match(PythonParser.WHILE)
             self.state = 113
             self.expression(0)
             self.state = 115
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if _la==2:
+            if _la==36:
                 self.state = 114
-                self.match(PythonParser.T__1)
+                self.match(PythonParser.SEMICOLON)
 
 
         except RecognitionException as re:
@@ -831,6 +906,11 @@ class PythonParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+        def BREAK(self):
+            return self.getToken(PythonParser.BREAK, 0)
+
+        def SEMICOLON(self):
+            return self.getToken(PythonParser.SEMICOLON, 0)
 
         def getRuleIndex(self):
             return PythonParser.RULE_breakStatement
@@ -860,13 +940,13 @@ class PythonParser ( Parser ):
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 117
-            self.match(PythonParser.T__14)
+            self.match(PythonParser.BREAK)
             self.state = 119
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if _la==2:
+            if _la==36:
                 self.state = 118
-                self.match(PythonParser.T__1)
+                self.match(PythonParser.SEMICOLON)
 
 
         except RecognitionException as re:
@@ -885,6 +965,11 @@ class PythonParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+        def CONTINUE(self):
+            return self.getToken(PythonParser.CONTINUE, 0)
+
+        def SEMICOLON(self):
+            return self.getToken(PythonParser.SEMICOLON, 0)
 
         def getRuleIndex(self):
             return PythonParser.RULE_continueStatement
@@ -914,13 +999,13 @@ class PythonParser ( Parser ):
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 121
-            self.match(PythonParser.T__15)
+            self.match(PythonParser.CONTINUE)
             self.state = 123
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if _la==2:
+            if _la==36:
                 self.state = 122
-                self.match(PythonParser.T__1)
+                self.match(PythonParser.SEMICOLON)
 
 
         except RecognitionException as re:
@@ -942,6 +1027,9 @@ class PythonParser ( Parser ):
         def expression(self):
             return self.getTypedRuleContext(PythonParser.ExpressionContext,0)
 
+
+        def SEMICOLON(self):
+            return self.getToken(PythonParser.SEMICOLON, 0)
 
         def getRuleIndex(self):
             return PythonParser.RULE_expressionStatement
@@ -975,9 +1063,9 @@ class PythonParser ( Parser ):
             self.state = 127
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if _la==2:
+            if _la==36:
                 self.state = 126
-                self.match(PythonParser.T__1)
+                self.match(PythonParser.SEMICOLON)
 
 
         except RecognitionException as re:
@@ -995,6 +1083,12 @@ class PythonParser ( Parser ):
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
+
+        def LBRACE(self):
+            return self.getToken(PythonParser.LBRACE, 0)
+
+        def RBRACE(self):
+            return self.getToken(PythonParser.RBRACE, 0)
 
         def statement(self, i:int=None):
             if i is None:
@@ -1032,14 +1126,14 @@ class PythonParser ( Parser ):
             self.state = 138
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [17]:
+            if token in [33]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 129
-                self.match(PythonParser.T__16)
+                self.match(PythonParser.LBRACE)
                 self.state = 133
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                while (((_la) & ~0x3f) == 0 and ((1 << _la) & 1924147039384) != 0):
+                while (((_la) & ~0x3f) == 0 and ((1 << _la) & 1926292840246) != 0):
                     self.state = 130
                     self.statement()
                     self.state = 135
@@ -1047,9 +1141,9 @@ class PythonParser ( Parser ):
                     _la = self._input.LA(1)
 
                 self.state = 136
-                self.match(PythonParser.T__17)
+                self.match(PythonParser.RBRACE)
                 pass
-            elif token in [3, 4, 7, 10, 11, 14, 15, 16, 19, 20, 38, 39, 40]:
+            elif token in [1, 2, 4, 5, 8, 9, 10, 11, 12, 31, 38, 39, 40]:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 137
                 self.statement()
@@ -1080,6 +1174,35 @@ class PythonParser ( Parser ):
      
         def copyFrom(self, ctx:ParserRuleContext):
             super().copyFrom(ctx)
+
+
+    class ParentesesContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a PythonParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def LPAREN(self):
+            return self.getToken(PythonParser.LPAREN, 0)
+        def expression(self):
+            return self.getTypedRuleContext(PythonParser.ExpressionContext,0)
+
+        def RPAREN(self):
+            return self.getToken(PythonParser.RPAREN, 0)
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterParenteses" ):
+                listener.enterParenteses(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitParenteses" ):
+                listener.exitParenteses(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitParenteses" ):
+                return visitor.visitParenteses(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class VariableContext(ExpressionContext):
@@ -1229,6 +1352,8 @@ class PythonParser ( Parser ):
             super().__init__(parser)
             self.copyFrom(ctx)
 
+        def FALSE(self):
+            return self.getToken(PythonParser.FALSE, 0)
 
         def enterRule(self, listener:ParseTreeListener):
             if hasattr( listener, "enterBoolFalse" ):
@@ -1337,6 +1462,8 @@ class PythonParser ( Parser ):
             super().__init__(parser)
             self.copyFrom(ctx)
 
+        def TRUE(self):
+            return self.getToken(PythonParser.TRUE, 0)
 
         def enterRule(self, listener:ParseTreeListener):
             if hasattr( listener, "enterBoolTrue" ):
@@ -1349,31 +1476,6 @@ class PythonParser ( Parser ):
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitBoolTrue" ):
                 return visitor.visitBoolTrue(self)
-            else:
-                return visitor.visitChildren(self)
-
-
-    class ParenthesesContext(ExpressionContext):
-
-        def __init__(self, parser, ctx:ParserRuleContext): # actually a PythonParser.ExpressionContext
-            super().__init__(parser)
-            self.copyFrom(ctx)
-
-        def expression(self):
-            return self.getTypedRuleContext(PythonParser.ExpressionContext,0)
-
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterParentheses" ):
-                listener.enterParentheses(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitParentheses" ):
-                listener.exitParentheses(self)
-
-        def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitParentheses" ):
-                return visitor.visitParentheses(self)
             else:
                 return visitor.visitChildren(self)
 
@@ -1422,17 +1524,17 @@ class PythonParser ( Parser ):
             self.state = 150
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [4]:
-                localctx = PythonParser.ParenthesesContext(self, localctx)
+            if token in [31]:
+                localctx = PythonParser.ParentesesContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
 
                 self.state = 141
-                self.match(PythonParser.T__3)
+                self.match(PythonParser.LPAREN)
                 self.state = 142
                 self.expression(0)
                 self.state = 143
-                self.match(PythonParser.T__5)
+                self.match(PythonParser.RPAREN)
                 pass
             elif token in [38]:
                 localctx = PythonParser.VariableContext(self, localctx)
@@ -1455,19 +1557,19 @@ class PythonParser ( Parser ):
                 self.state = 147
                 self.match(PythonParser.STRING)
                 pass
-            elif token in [19]:
+            elif token in [11]:
                 localctx = PythonParser.BoolTrueContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
                 self.state = 148
-                self.match(PythonParser.T__18)
+                self.match(PythonParser.TRUE)
                 pass
-            elif token in [20]:
+            elif token in [12]:
                 localctx = PythonParser.BoolFalseContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
                 self.state = 149
-                self.match(PythonParser.T__19)
+                self.match(PythonParser.FALSE)
                 pass
             else:
                 raise NoViableAltException(self)
@@ -1583,6 +1685,11 @@ class PythonParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+        def PLUS(self):
+            return self.getToken(PythonParser.PLUS, 0)
+
+        def MINUS(self):
+            return self.getToken(PythonParser.MINUS, 0)
 
         def getRuleIndex(self):
             return PythonParser.RULE_add_sub
@@ -1613,7 +1720,7 @@ class PythonParser ( Parser ):
             self.enterOuterAlt(localctx, 1)
             self.state = 181
             _la = self._input.LA(1)
-            if not(_la==21 or _la==22):
+            if not(_la==14 or _la==15):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -1634,6 +1741,14 @@ class PythonParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+        def MULT(self):
+            return self.getToken(PythonParser.MULT, 0)
+
+        def DIV(self):
+            return self.getToken(PythonParser.DIV, 0)
+
+        def MOD(self):
+            return self.getToken(PythonParser.MOD, 0)
 
         def getRuleIndex(self):
             return PythonParser.RULE_mul_div
@@ -1664,7 +1779,7 @@ class PythonParser ( Parser ):
             self.enterOuterAlt(localctx, 1)
             self.state = 183
             _la = self._input.LA(1)
-            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 58720256) != 0)):
+            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 458752) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -1685,6 +1800,8 @@ class PythonParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+        def POW(self):
+            return self.getToken(PythonParser.POW, 0)
 
         def getRuleIndex(self):
             return PythonParser.RULE_pow_op
@@ -1713,7 +1830,7 @@ class PythonParser ( Parser ):
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 185
-            self.match(PythonParser.T__25)
+            self.match(PythonParser.POW)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -1730,6 +1847,23 @@ class PythonParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+        def EQ(self):
+            return self.getToken(PythonParser.EQ, 0)
+
+        def NEQ(self):
+            return self.getToken(PythonParser.NEQ, 0)
+
+        def LT(self):
+            return self.getToken(PythonParser.LT, 0)
+
+        def GT(self):
+            return self.getToken(PythonParser.GT, 0)
+
+        def LTE(self):
+            return self.getToken(PythonParser.LTE, 0)
+
+        def GTE(self):
+            return self.getToken(PythonParser.GTE, 0)
 
         def getRuleIndex(self):
             return PythonParser.RULE_comparison_op
@@ -1760,7 +1894,7 @@ class PythonParser ( Parser ):
             self.enterOuterAlt(localctx, 1)
             self.state = 187
             _la = self._input.LA(1)
-            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 8455716864) != 0)):
+            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 66060288) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -1781,6 +1915,14 @@ class PythonParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+        def AND(self):
+            return self.getToken(PythonParser.AND, 0)
+
+        def OR(self):
+            return self.getToken(PythonParser.OR, 0)
+
+        def NOT(self):
+            return self.getToken(PythonParser.NOT, 0)
 
         def getRuleIndex(self):
             return PythonParser.RULE_logical_op
@@ -1811,7 +1953,7 @@ class PythonParser ( Parser ):
             self.enterOuterAlt(localctx, 1)
             self.state = 189
             _la = self._input.LA(1)
-            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 60129542144) != 0)):
+            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 469762048) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -1832,6 +1974,11 @@ class PythonParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+        def BITAND(self):
+            return self.getToken(PythonParser.BITAND, 0)
+
+        def BITOR(self):
+            return self.getToken(PythonParser.BITOR, 0)
 
         def getRuleIndex(self):
             return PythonParser.RULE_bitwise_and_or
@@ -1862,7 +2009,7 @@ class PythonParser ( Parser ):
             self.enterOuterAlt(localctx, 1)
             self.state = 191
             _la = self._input.LA(1)
-            if not(_la==36 or _la==37):
+            if not(_la==29 or _la==30):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)

@@ -1,4 +1,4 @@
-# Generated from Python.g4 by ANTLR 4.13.2
+# Generated from PythonParser.g4 by ANTLR 4.13.2
 from antlr4 import *
 if "." in __name__:
     from .PythonParser import PythonParser
@@ -6,7 +6,7 @@ else:
     from PythonParser import PythonParser
 
 # This class defines a complete listener for a parse tree produced by PythonParser.
-class PythonListener(ParseTreeListener):
+class PythonParserListener(ParseTreeListener):
 
     # Enter a parse tree produced by PythonParser#program.
     def enterProgram(self, ctx:PythonParser.ProgramContext):
@@ -116,6 +116,15 @@ class PythonListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PythonParser#Parenteses.
+    def enterParenteses(self, ctx:PythonParser.ParentesesContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#Parenteses.
+    def exitParenteses(self, ctx:PythonParser.ParentesesContext):
+        pass
+
+
     # Enter a parse tree produced by PythonParser#Variable.
     def enterVariable(self, ctx:PythonParser.VariableContext):
         pass
@@ -203,15 +212,6 @@ class PythonListener(ParseTreeListener):
 
     # Exit a parse tree produced by PythonParser#BoolTrue.
     def exitBoolTrue(self, ctx:PythonParser.BoolTrueContext):
-        pass
-
-
-    # Enter a parse tree produced by PythonParser#Parentheses.
-    def enterParentheses(self, ctx:PythonParser.ParenthesesContext):
-        pass
-
-    # Exit a parse tree produced by PythonParser#Parentheses.
-    def exitParentheses(self, ctx:PythonParser.ParenthesesContext):
         pass
 
 

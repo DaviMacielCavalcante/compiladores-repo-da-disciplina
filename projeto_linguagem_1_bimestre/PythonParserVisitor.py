@@ -1,4 +1,4 @@
-# Generated from Python.g4 by ANTLR 4.13.2
+# Generated from PythonParser.g4 by ANTLR 4.13.2
 from antlr4 import *
 if "." in __name__:
     from .PythonParser import PythonParser
@@ -7,7 +7,7 @@ else:
 
 # This class defines a complete generic visitor for a parse tree produced by PythonParser.
 
-class PythonVisitor(ParseTreeVisitor):
+class PythonParserVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by PythonParser#program.
     def visitProgram(self, ctx:PythonParser.ProgramContext):
@@ -69,6 +69,11 @@ class PythonVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by PythonParser#Parenteses.
+    def visitParenteses(self, ctx:PythonParser.ParentesesContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by PythonParser#Variable.
     def visitVariable(self, ctx:PythonParser.VariableContext):
         return self.visitChildren(ctx)
@@ -116,11 +121,6 @@ class PythonVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by PythonParser#BoolTrue.
     def visitBoolTrue(self, ctx:PythonParser.BoolTrueContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by PythonParser#Parentheses.
-    def visitParentheses(self, ctx:PythonParser.ParenthesesContext):
         return self.visitChildren(ctx)
 
 
