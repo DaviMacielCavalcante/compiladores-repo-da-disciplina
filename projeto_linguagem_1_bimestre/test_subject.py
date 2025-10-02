@@ -69,5 +69,19 @@ while argumento > 1: {
     
 }
 
+# def teste(a, b): {
+#     print("Função teste chamada")
+# }
+
+
+# def soma(a, b): {
+#     resultado = a + b
+#     print("Soma: ", resultado)
+# }
+
 print("Fatorial: ", fatorial)
 print("Flamengo: ", flamengo[1])
+#soma(2, 3)
+#print("x")
+#teste(1, 2)
+#print(2, 3)

@@ -24,16 +24,6 @@ class PythonParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by PythonParser#printStatement.
-    def visitPrintStatement(self, ctx:PythonParser.PrintStatementContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by PythonParser#inputStatement.
-    def visitInputStatement(self, ctx:PythonParser.InputStatementContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by PythonParser#ifStatement.
     def visitIfStatement(self, ctx:PythonParser.IfStatementContext):
         return self.visitChildren(ctx)
@@ -69,6 +59,11 @@ class PythonParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by PythonParser#functionCallStatement.
+    def visitFunctionCallStatement(self, ctx:PythonParser.FunctionCallStatementContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by PythonParser#expressionStatement.
     def visitExpressionStatement(self, ctx:PythonParser.ExpressionStatementContext):
         return self.visitChildren(ctx)
@@ -76,11 +71,6 @@ class PythonParserVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by PythonParser#block.
     def visitBlock(self, ctx:PythonParser.BlockContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by PythonParser#Parenteses.
-    def visitParenteses(self, ctx:PythonParser.ParentesesContext):
         return self.visitChildren(ctx)
 
 
@@ -144,8 +134,18 @@ class PythonParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by PythonParser#FunctionCall.
+    def visitFunctionCall(self, ctx:PythonParser.FunctionCallContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by PythonParser#BoolTrue.
     def visitBoolTrue(self, ctx:PythonParser.BoolTrueContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by PythonParser#Parentheses.
+    def visitParentheses(self, ctx:PythonParser.ParenthesesContext):
         return self.visitChildren(ctx)
 
 

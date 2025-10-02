@@ -1,8 +1,6 @@
 lexer grammar PythonLexer;
 
-// Palavras-chave
-PRINT: 'print';
-INPUT: 'input';
+// Palavras-chave 
 IF: 'if';
 ELSE: 'else';
 WHILE: 'while';

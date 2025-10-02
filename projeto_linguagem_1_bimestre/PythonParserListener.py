@@ -35,24 +35,6 @@ class PythonParserListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by PythonParser#printStatement.
-    def enterPrintStatement(self, ctx:PythonParser.PrintStatementContext):
-        pass
-
-    # Exit a parse tree produced by PythonParser#printStatement.
-    def exitPrintStatement(self, ctx:PythonParser.PrintStatementContext):
-        pass
-
-
-    # Enter a parse tree produced by PythonParser#inputStatement.
-    def enterInputStatement(self, ctx:PythonParser.InputStatementContext):
-        pass
-
-    # Exit a parse tree produced by PythonParser#inputStatement.
-    def exitInputStatement(self, ctx:PythonParser.InputStatementContext):
-        pass
-
-
     # Enter a parse tree produced by PythonParser#ifStatement.
     def enterIfStatement(self, ctx:PythonParser.IfStatementContext):
         pass
@@ -116,6 +98,15 @@ class PythonParserListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PythonParser#functionCallStatement.
+    def enterFunctionCallStatement(self, ctx:PythonParser.FunctionCallStatementContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#functionCallStatement.
+    def exitFunctionCallStatement(self, ctx:PythonParser.FunctionCallStatementContext):
+        pass
+
+
     # Enter a parse tree produced by PythonParser#expressionStatement.
     def enterExpressionStatement(self, ctx:PythonParser.ExpressionStatementContext):
         pass
@@ -131,15 +122,6 @@ class PythonParserListener(ParseTreeListener):
 
     # Exit a parse tree produced by PythonParser#block.
     def exitBlock(self, ctx:PythonParser.BlockContext):
-        pass
-
-
-    # Enter a parse tree produced by PythonParser#Parenteses.
-    def enterParenteses(self, ctx:PythonParser.ParentesesContext):
-        pass
-
-    # Exit a parse tree produced by PythonParser#Parenteses.
-    def exitParenteses(self, ctx:PythonParser.ParentesesContext):
         pass
 
 
@@ -251,12 +233,30 @@ class PythonParserListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PythonParser#FunctionCall.
+    def enterFunctionCall(self, ctx:PythonParser.FunctionCallContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#FunctionCall.
+    def exitFunctionCall(self, ctx:PythonParser.FunctionCallContext):
+        pass
+
+
     # Enter a parse tree produced by PythonParser#BoolTrue.
     def enterBoolTrue(self, ctx:PythonParser.BoolTrueContext):
         pass
 
     # Exit a parse tree produced by PythonParser#BoolTrue.
     def exitBoolTrue(self, ctx:PythonParser.BoolTrueContext):
+        pass
+
+
+    # Enter a parse tree produced by PythonParser#Parentheses.
+    def enterParentheses(self, ctx:PythonParser.ParenthesesContext):
+        pass
+
+    # Exit a parse tree produced by PythonParser#Parentheses.
+    def exitParentheses(self, ctx:PythonParser.ParenthesesContext):
         pass
 
 

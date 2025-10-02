@@ -10,8 +10,40 @@ from PythonParserVisitor import PythonParserVisitor
 class PythonInterpreter(PythonParserVisitor):
     def __init__(self):
         self.variables = {}
+        self.functions = {}
         self.break_flag = False
         self.continue_flag = False
+        
+        # NOVIDADE: Registrar funções embutidas
+        self.builtin_functions = {
+            'print': self._builtin_print,
+            'input': self._builtin_input,
+        }
+    
+    # NOVIDADE: Função embutida print
+    def _builtin_print(self, args):
+        """Função embutida print"""
+        values = [str(arg) for arg in args]
+        print(' '.join(values))
+        return None
+    
+    # NOVIDADE: Função embutida input
+    def _builtin_input(self, args):
+        """Função embutida input"""
+        if len(args) > 1:
+            raise Exception("input() aceita no máximo 1 argumento")
+        
+        message = str(args[0]) if args else ""
+        user_input = input(message)
+        
+        # Tentar converter para número
+        try:
+            return int(user_input)
+        except ValueError:
+            try:
+                return float(user_input)
+            except ValueError:
+                return user_input
     
     def visitProgram(self, ctx):
         for statement in ctx.statement():
@@ -19,68 +51,25 @@ class PythonInterpreter(PythonParserVisitor):
     
     def visitAssignmentStatement(self, ctx):
         var_name = ctx.IDENTIFIER().getText()
-        value = self.visit(ctx.expression()[-1])  # Último expression é o valor
+        value = self.visit(ctx.expression()[-1])
         
-        # Verificar se é atribuição a array
         if ctx.LBRACKET():
-            # Atribuição a elemento do array: arr[0] = 5 ou matriz[0][1] = 10
             indices = []
-            for i in range(len(ctx.expression()) - 1):  # Todos exceto o último
+            for i in range(len(ctx.expression()) - 1):
                 indices.append(self.visit(ctx.expression()[i]))
             
-            # Pegar o array
             if var_name not in self.variables:
                 raise Exception(f"Array '{var_name}' não definido")
             
             arr = self.variables[var_name]
             
-            # Navegar pelos índices (suporta múltiplas dimensões)
             for idx in indices[:-1]:
                 arr = arr[int(idx)]
             
-            # Atribuir valor no último índice
             arr[int(indices[-1])] = value
         else:
-            # Atribuição simples
             self.variables[var_name] = value
         
-        return value
-    
-    def visitPrintStatement(self, ctx):
-        expressions = ctx.expression()
-        values = []
-        
-        for expr in expressions:
-            value = self.visit(expr)
-            values.append(str(value))
-        
-        print(' '.join(values))
-        return values
-    
-    def visitInputStatement(self, ctx):
-        var_name = ctx.IDENTIFIER().getText()
-        
-        # Pegar mensagem opcional
-        message = ""
-        if ctx.STRING():
-            message = ctx.STRING().getText()[1:-1]
-        
-        # Ler entrada do usuário
-        if message:
-            user_input = input(message)
-        else:
-            user_input = input()
-        
-        # Tentar converter para número
-        try:
-            value = int(user_input)
-        except ValueError:
-            try:
-                value = float(user_input)
-            except ValueError:
-                value = user_input
-        
-        self.variables[var_name] = value
         return value
     
     def visitIfStatement(self, ctx):
@@ -250,7 +239,6 @@ class PythonInterpreter(PythonParserVisitor):
         
         arr = self.variables[var_name]
         
-        # Processar cada índice
         for expr in ctx.expression():
             idx = int(self.visit(expr))
             arr = arr[idx]
@@ -286,6 +274,61 @@ class PythonInterpreter(PythonParserVisitor):
     
     def visitBoolFalse(self, ctx):
         return False
+    
+    def visitDefStatement(self, ctx):
+        func_name = ctx.IDENTIFIER(0).getText()
+        
+        params = []
+        for i in range(1, len(ctx.IDENTIFIER())):
+            params.append(ctx.IDENTIFIER(i).getText())
+        
+        self.functions[func_name] = {
+            'params': params,
+            'body': ctx.statement()
+        }
+        
+        return None
+    
+    # MODIFICADO: Agora verifica funções embutidas primeiro
+    def visitFunctionCall(self, ctx):
+        """Chamar função (embutida ou definida pelo usuário)"""
+        func_name = ctx.IDENTIFIER().getText()
+        
+        # Avaliar argumentos
+        args = []
+        if ctx.expression():
+            for expr in ctx.expression():
+                args.append(self.visit(expr))
+        
+        # Verificar se é função embutida
+        if func_name in self.builtin_functions:
+            return self.builtin_functions[func_name](args)
+        
+        # Senão, procurar função definida pelo usuário
+        if func_name not in self.functions:
+            raise Exception(f"Função '{func_name}' não definida")
+        
+        func_def = self.functions[func_name]
+        
+        if len(args) != len(func_def['params']):
+            raise Exception(f"Função '{func_name}' espera {len(func_def['params'])} parâmetros, mas recebeu {len(args)}")
+        
+        saved_vars = self.variables.copy()
+        
+        for i, param_name in enumerate(func_def['params']):
+            self.variables[param_name] = args[i]
+        
+        result = None
+        for statement in func_def['body']:
+            result = self.visit(statement)
+        
+        self.variables = saved_vars
+        
+        return result
+    
+    def visitFunctionCallStatement(self, ctx):
+        """Chamar função como statement"""
+        return self.visitFunctionCall(ctx)
 
 def run_script(filename):
     if not os.path.exists(filename):
@@ -319,7 +362,7 @@ def run_script(filename):
 
 def main():
     if len(sys.argv) != 2:
-        print("Uso: python homebrew_Interpreter.py <arquivo.py>")
+        print("Uso: python homebrew_interpreter.py <arquivo.py>")
         return
     
     filename = sys.argv[1]
