@@ -199,9 +199,221 @@ Resultado: x = (y = 5)  [associa à direita]
 
 ---
 
-## 3. Resumo das Transformações
+### 2.4 Verificação de Fatoração
 
-### Estrutura Hierárquica das Expressões
+**Fatoração** significa extrair prefixos comuns de produções alternativas para eliminar ambiguidade.
+
+**Exemplo de gramática NÃO fatorada:**
+```bnf
+# PROBLEMA: ambas começam com 'if' <expression> ':'
+<ifStatement> ::= 'if' <expression> ':' <block>
+<ifStatement> ::= 'if' <expression> ':' <block> 'else' ':' <block>
+```
+
+**Após fatoração:**
+```bnf
+<ifStatement> ::= 'if' <expression> ':' <block> <optional_else>
+<optional_else> ::= 'else' ':' <block>
+<optional_else> ::= ε
+```
+
+#### Nossa Gramática - Análise de Fatoração
+
+**1. Statements - FATORADA ✅**
+```bnf
+<statement> ::= <ifStatement>           # começa com 'if'
+<statement> ::= <whileStatement>        # começa com 'while'
+<statement> ::= <forStatement>          # começa com 'for'
+<statement> ::= <doWhileStatement>      # começa com 'do'
+<statement> ::= <breakStatement>        # começa com 'break'
+<statement> ::= <continueStatement>     # começa com 'continue'
+<statement> ::= <defStatement>          # começa com 'def'
+<statement> ::= <expressionStatement>   # começa com IDENTIFIER, NUMBER, etc
+```
+**Cada alternativa começa com token diferente** → Não há prefixo comum!
+
+**2. Primary - FATORADA ✅**
+```bnf
+<primary> ::= 'IDENTIFIER'              # IDENTIFIER
+<primary> ::= 'NUMBER'                  # NUMBER
+<primary> ::= 'STRING'                  # STRING
+<primary> ::= 'True'                    # True
+<primary> ::= 'False'                   # False
+<primary> ::= '(' <expression> ')'      # (
+<primary> ::= '[' <optional_expr_list> ']'  # [
+```
+**Todos os primeiros símbolos são distintos** → Não precisa fatorar!
+
+**3. Operadores - FATORADA ✅**
+```bnf
+<comparison_op> ::= '=='    # ==
+<comparison_op> ::= '!='    # !=
+<comparison_op> ::= '<'     # <
+<comparison_op> ::= '>'     # >
+<comparison_op> ::= '<='    # <=
+<comparison_op> ::= '>='    # >=
+```
+**Todos tokens diferentes** → Não precisa fatorar!
+
+**Conclusão:** A gramática já está implicitamente fatorada após as transformações anteriores (eliminação de ambiguidade e unificação de statements). Nenhuma fatoração adicional foi necessária.
+
+---
+
+### 2.5 Conversão EBNF → BNF Pura
+
+A gramática após eliminação de recursão ainda usava notação EBNF (`*`, `?`, `+`). Para implementação manual do parser LL(1), foi necessário converter para BNF pura.
+
+#### Padrões de Conversão
+
+**Padrão 1: A* (zero ou mais)**
+```bnf
+# EBNF:
+<logicalOrExpr> ::= <logicalAndExpr> ('or' <logicalAndExpr>)*
+
+# BNF pura:
+<logicalOrExpr> ::= <logicalAndExpr> <logical_or_tail>
+<logical_or_tail> ::= 'or' <logicalAndExpr> <logical_or_tail>
+<logical_or_tail> ::= ε
+```
+
+**Padrão 2: A? (zero ou um / opcional)**
+```bnf
+# EBNF:
+<expressionStatement> ::= <expression> ';'?
+
+# BNF pura:
+<expressionStatement> ::= <expression> <optional_semicolon>
+<optional_semicolon> ::= ';'
+<optional_semicolon> ::= ε
+```
+
+**Padrão 3: A+ (um ou mais)**
+```bnf
+# EBNF (hipotético):
+<postfixExpr> ::= <primary> <postfix>+
+
+# BNF pura (0 ou mais - nossa solução):
+<postfixExpr> ::= <primary> <postfix_list>
+<postfix_list> ::= <postfix> <postfix_list>
+<postfix_list> ::= ε
+```
+
+#### Resultado da Conversão
+
+**Estatísticas da gramática BNF pura:**
+- **54 não-terminais** (incluindo auxiliares para EBNF)
+- **43 terminais**
+- **100 produções** totais
+- **21 não-terminais com ε** (produções vazias)
+
+**Não-terminais auxiliares criados:**
+- `<statement_list>` - para `<statement>*`
+- `<logical_or_tail>` - para `('or' <logicalAndExpr>)*`
+- `<logical_and_tail>` - para `('and' <logicalNotExpr>)*`
+- `<bitwise_or_tail>` - para `('|' <bitwiseAndExpr>)*`
+- `<bitwise_and_tail>` - para `('&' <comparisonExpr>)*`
+- `<comparison_tail>` - para `(<comparison_op> <additiveExpr>)*`
+- `<additive_tail>` - para `(<add_op> <multiplicativeExpr>)*`
+- `<multiplicative_tail>` - para `(<mul_op> <powerExpr>)*`
+- `<postfix_list>` - para `<postfix>*`
+- `<optional_semicolon>` - para `';'?`
+- `<optional_else>` - para `('else' ':' <block>)?`
+- `<optional_args>` - para `<argList>?`
+- `<optional_expr_list>` - para `<expressionList>?`
+- `<optional_params>` - para `<paramList>?`
+- E outros (param_list_tail, arg_list_tail, expr_list_tail, etc)
+
+---
+
+### 2.6 Recursão à Direita Resultante
+
+Ao eliminar recursão à **esquerda**, todas as regras auxiliares ficaram com recursão à **direita**:
+
+```bnf
+# Padrão geral das regras _tail:
+<regra_tail> ::= operador <proximoNivel> <regra_tail>
+                                          ^^^^^^^^^^^^
+                                          recursão à DIREITA
+<regra_tail> ::= ε
+```
+
+**Por que recursão à direita é aceitável em LL(1)?**
+- Parsers LL(1) processam entrada da esquerda para direita
+- Recursão à direita não causa loop infinito
+- Permite associatividade à esquerda via acumulação na recursão
+
+**Exemplo - Parsing de `2 + 3 + 4`:**
+```
+<additiveExpr>
+  → <multiplicativeExpr> <additive_tail>
+  → 2 <additive_tail>
+  → 2 '+' <multiplicativeExpr> <additive_tail>
+  → 2 '+' 3 <additive_tail>
+  → 2 '+' 3 '+' <multiplicativeExpr> <additive_tail>
+  → 2 '+' 3 '+' 4 <additive_tail>
+  → 2 '+' 3 '+' 4 ε
+```
+
+A associatividade à esquerda `(2 + 3) + 4` é garantida pela **ordem de construção da árvore**, não pela recursão.
+
+---
+
+## 3. Pipeline Completo de Transformações
+
+```
+Gramática Original (ANTLR)
+    ↓
+┌─────────────────────────────────────────┐
+│ 1. Eliminação de Ambiguidade            │
+│    - Definir precedência (12 níveis)    │
+│    - Definir associatividade (E/D)      │
+│    ✅ Resultado: Precedência clara       │
+└─────────────────────────────────────────┘
+    ↓
+┌─────────────────────────────────────────┐
+│ 2. Eliminação de Recursão à Esquerda    │
+│    - A ::= A α | β  →  A ::= β A'       │
+│    - A' ::= α A' | ε                    │
+│    ✅ Criou recursão à direita           │
+└─────────────────────────────────────────┘
+    ↓
+┌─────────────────────────────────────────┐
+│ 3. Unificação de Statements             │
+│    - Assignment como expressão          │
+│    - Function call como expressão       │
+│    ✅ Resolveu conflito LL(1)            │
+└─────────────────────────────────────────┘
+    ↓
+┌─────────────────────────────────────────┐
+│ 4. Verificação de Fatoração             │
+│    - Buscar prefixos comuns             │
+│    ✅ NÃO ENCONTROU (já fatorada)        │
+└─────────────────────────────────────────┘
+    ↓
+┌─────────────────────────────────────────┐
+│ 5. Conversão EBNF → BNF Pura            │
+│    - * → regras com ε                   │
+│    - ? → regras com ε                   │
+│    - (grupo) → regras auxiliares        │
+│    ✅ 100 produções BNF puras            │
+└─────────────────────────────────────────┘
+    ↓
+Gramática LL(1) Final ✅
+- 54 não-terminais
+- 43 terminais
+- 100 produções
+- 21 produções com ε
+- Sem ambiguidade
+- Sem recursão à esquerda
+- Fatorada
+- Pronta para tabela LL(1)
+```
+
+---
+
+## 4. Estrutura Hierárquica Final
+
+### Versão EBNF (Simplificada)
 
 ```bnf
 <expression> ::= <assignmentExpr>
@@ -241,7 +453,107 @@ Resultado: x = (y = 5)  [associa à direita]
 
 ---
 
-## 4. Exemplos de Cálculo
+### Versão BNF Pura (Implementação Final)
+
+#### Programa e Statements
+
+```bnf
+<program> ::= <statement_list> 'EOF'
+<statement_list> ::= <statement> <statement_list>
+<statement_list> ::= ε
+
+<statement> ::= <ifStatement>
+<statement> ::= <whileStatement>
+<statement> ::= <forStatement>
+<statement> ::= <doWhileStatement>
+<statement> ::= <breakStatement>
+<statement> ::= <continueStatement>
+<statement> ::= <defStatement>
+<statement> ::= <expressionStatement>
+
+<expressionStatement> ::= <expression> <optional_semicolon>
+<optional_semicolon> ::= ';'
+<optional_semicolon> ::= ε
+```
+
+#### Hierarquia de Expressões (12 níveis - BNF Pura)
+
+```bnf
+# Nível 0: Assignment (direita)
+<expression> ::= <assignmentExpr>
+<assignmentExpr> ::= <logicalOrExpr> <assignment_tail>
+<assignment_tail> ::= '=' <assignmentExpr>
+<assignment_tail> ::= ε
+
+# Nível 1: OR lógico (esquerda)
+<logicalOrExpr> ::= <logicalAndExpr> <logical_or_tail>
+<logical_or_tail> ::= 'or' <logicalAndExpr> <logical_or_tail>
+<logical_or_tail> ::= ε
+
+# Nível 2: AND lógico (esquerda)
+<logicalAndExpr> ::= <logicalNotExpr> <logical_and_tail>
+<logical_and_tail> ::= 'and' <logicalNotExpr> <logical_and_tail>
+<logical_and_tail> ::= ε
+
+# Nível 3: NOT lógico (direita, unário)
+<logicalNotExpr> ::= 'not' <logicalNotExpr>
+<logicalNotExpr> ::= <bitwiseOrExpr>
+
+# Nível 4: OR bitwise (esquerda)
+<bitwiseOrExpr> ::= <bitwiseAndExpr> <bitwise_or_tail>
+<bitwise_or_tail> ::= '|' <bitwiseAndExpr> <bitwise_or_tail>
+<bitwise_or_tail> ::= ε
+
+# Nível 5: AND bitwise (esquerda)
+<bitwiseAndExpr> ::= <comparisonExpr> <bitwise_and_tail>
+<bitwise_and_tail> ::= '&' <comparisonExpr> <bitwise_and_tail>
+<bitwise_and_tail> ::= ε
+
+# Nível 6: Comparação (esquerda)
+<comparisonExpr> ::= <additiveExpr> <comparison_tail>
+<comparison_tail> ::= <comparison_op> <additiveExpr> <comparison_tail>
+<comparison_tail> ::= ε
+
+# Nível 7: Adição/Subtração (esquerda)
+<additiveExpr> ::= <multiplicativeExpr> <additive_tail>
+<additive_tail> ::= <add_op> <multiplicativeExpr> <additive_tail>
+<additive_tail> ::= ε
+
+# Nível 8: Multiplicação/Divisão/Módulo (esquerda)
+<multiplicativeExpr> ::= <powerExpr> <multiplicative_tail>
+<multiplicative_tail> ::= <mul_op> <powerExpr> <multiplicative_tail>
+<multiplicative_tail> ::= ε
+
+# Nível 9: Potência (direita)
+<powerExpr> ::= <unaryExpr> <power_tail>
+<power_tail> ::= '**' <powerExpr>
+<power_tail> ::= ε
+
+# Nível 10: Menos unário (direita)
+<unaryExpr> ::= '-' <unaryExpr>
+<unaryExpr> ::= <postfixExpr>
+
+# Nível 11: Acesso a array e chamada de função (esquerda)
+<postfixExpr> ::= <primary> <postfix_list>
+<postfix_list> ::= <postfix> <postfix_list>
+<postfix_list> ::= ε
+
+<postfix> ::= '[' <expression> ']'
+<postfix> ::= '(' <optional_args> ')'
+
+# Nível 12: Valores primários
+<primary> ::= 'IDENTIFIER'
+<primary> ::= 'NUMBER'
+<primary> ::= 'STRING'
+<primary> ::= 'True'
+<primary> ::= 'False'
+<primary> ::= '(' <expression> ')'
+<primary> ::= '[' <optional_expr_list> ']'
+```
+
+---
+
+## 5. Exemplos de Cálculo
 
 ### Exemplo 1: `2 + 3 * 4`
 - Multiplicação tem maior precedência (nível 8) que adição (nível 7)
@@ -270,7 +582,7 @@ Resultado: x = (y = 5)  [associa à direita]
 
 ---
 
-## 5. Verificação LL(1)
+## 6. Verificação LL(1)
 
 ### Análise de Conflitos em `<statement>`:
 
@@ -287,20 +599,159 @@ Resultado: x = (y = 5)  [associa à direita]
 
 **Resultado:** Sem conflitos. A gramática é LL(1).
 
+### Análise de Conflitos em `<primary>`:
+
+| Próximo Token | Produção Escolhida |
+|---------------|-------------------|
+| `'IDENTIFIER'` | `<primary> ::= 'IDENTIFIER'` |
+| `'NUMBER'` | `<primary> ::= 'NUMBER'` |
+| `'STRING'` | `<primary> ::= 'STRING'` |
+| `'True'` | `<primary> ::= 'True'` |
+| `'False'` | `<primary> ::= 'False'` |
+| `'('` | `<primary> ::= '(' <expression> ')'` |
+| `'['` | `<primary> ::= '[' <optional_expr_list> ']'` |
+
+**Resultado:** Sem conflitos. A gramática é LL(1) ✅
+
 ---
 
-## 6. Próximos Passos
+## 7. Ferramentas Desenvolvidas
 
-- Calcular conjuntos FIRST para cada não-terminal
-- Calcular conjuntos FOLLOW para cada não-terminal
-- Construir tabela de parsing LL(1)
-- Verificar ausência de conflitos na tabela (células com múltiplas entradas)
-- Implementar parser LL(1) em Python
-- Integrar com lexer ANTLR existente
+### 7.1 Classe Grammar (grammar.py)
+
+Carrega e representa gramática BNF pura:
+
+**Funcionalidades:**
+- Leitura de arquivo `.bnf`
+- Tokenização respeitando strings entre aspas
+- Identificação automática de não-terminais vs terminais
+- Suporte a epsilon (ε)
+- Detecção de produções vazias
+- Método `debug_print()` para visualização
+
+**Estruturas de dados:**
+```python
+class Grammar:
+    def __init__(self):
+        self.productions = {}      # dict: non-terminal -> list of productions
+        self.nonterminals = set()  # set de não-terminais
+        self.terminals = set()      # set de terminais
+        self.start_symbol = None   # símbolo inicial
+```
+
+**Uso:**
+```python
+from grammar import Grammar
+
+g = Grammar()
+g.load_from_file("gramatica_bnf_pura.bnf")
+g.debug_print()
+
+# Acessar estruturas
+print(g.start_symbol)  # '<program>'
+print(g.nonterminals)  # set de não-terminais
+print(g.terminals)     # set de terminais
+print(g.productions)   # dict de produções
+```
+
+**Arquivo gerado:**
+- `gramatica_bnf_pura.bnf` - 100 produções em BNF pura ✅
 
 ---
 
-## Referências
+## 8. Próximos Passos
 
-- Gramática ANTLR original: `PythonParser.g4`
-- Arquivos de gramática BNF: `gramatica_original.bnf` e `gramatica_sem_ambiguidade.bnf`
+### Fase Atual: ✅ Gramática LL(1) Completa
+
+**Já realizado:**
+1. ✅ Análise da gramática original (identificação de problemas)
+2. ✅ Eliminação de ambiguidade (precedência e associatividade)
+3. ✅ Eliminação de recursão à esquerda
+4. ✅ Unificação de statements (assignment como expressão)
+5. ✅ Verificação de fatoração
+6. ✅ Conversão EBNF → BNF pura
+7. ✅ Implementação da classe Grammar
+
+### Próximas Etapas:
+
+**Fase 2: Cálculo de FIRST e FOLLOW**
+- [ ] Implementar algoritmo de cálculo de FIRST
+- [ ] Implementar algoritmo de cálculo de FOLLOW
+- [ ] Validar conjuntos com exemplos
+- [ ] Gerar arquivos de saída (first_sets.txt, follow_sets.txt)
+
+**Fase 3: Construção da Tabela LL(1)**
+- [ ] Implementar construção da tabela de parsing
+- [ ] Detectar conflitos (células com múltiplas entradas)
+- [ ] Gerar visualização da tabela
+- [ ] Validar que tabela não tem conflitos
+
+**Fase 4: Implementação do Parser LL(1)**
+- [ ] Implementar parser baseado em pilha
+- [ ] Integrar com lexer ANTLR existente
+- [ ] Processar tokens e executar derivações
+- [ ] Gerar árvore de parsing
+
+**Fase 5: Testes e Validação**
+- [ ] Criar suite de testes (exemplos válidos e inválidos)
+- [ ] Comparar com parser ANTLR (validação cruzada)
+- [ ] Gerar relatórios de parsing
+- [ ] Documentar casos de teste
+
+**Fase 6: Documentação e Apresentação**
+- [ ] Finalizar documentação técnica
+- [ ] Criar slides para apresentação (10 min)
+- [ ] Preparar demonstrações ao vivo
+- [ ] Organizar repositório GitHub
+- [ ] Preparar entrega Google Classroom
+
+**Fase 7 (Opcional): Parser SLR (+1.0 ponto extra)**
+- [ ] Adaptar gramática para SLR(1)
+- [ ] Calcular coleção de itens LR(0)
+- [ ] Construir tabela de parsing SLR(1)
+- [ ] Implementar algoritmo de parsing SLR(1)
+
+**Prazo:** 10/12/2025
+
+---
+
+## 9. Referências
+
+**Arquivos de Gramática:**
+- `gramatica_original.bnf` - Gramática extraída do ANTLR (com ambiguidade)
+- `gramatica_sem_ambiguidade.bnf` - Versão EBNF (após eliminação de ambiguidade e recursão)
+- `gramatica_bnf_pura.bnf` - Versão BNF final (100 produções, pronta para LL(1))
+
+**Código Fonte:**
+- `PythonParser.g4` - Gramática ANTLR original
+- `PythonLexer.g4` - Lexer ANTLR
+- `grammar.py` - Classe para carregar e representar gramática BNF
+
+**Documentação:**
+- Este arquivo (`transformacoes.md`) - Documentação completa das transformações
+
+---
+
+## Changelog
+
+**Versão 3.0 (06/12/2024)**
+- ✅ Adicionada seção 2.4 (Verificação de Fatoração)
+- ✅ Adicionada seção 2.5 (Conversão EBNF → BNF Pura)
+- ✅ Adicionada seção 2.6 (Recursão à Direita Resultante)
+- ✅ Adicionada seção 3 (Pipeline Completo)
+- ✅ Expandida seção 4 (Estrutura Hierárquica - EBNF + BNF Pura)
+- ✅ Expandida seção 6 (Verificação LL(1) com análise de primary)
+- ✅ Adicionada seção 7 (Ferramentas Desenvolvidas)
+- ✅ Atualizada seção 8 (Próximos Passos com checklist detalhado)
+- ✅ Expandida seção 9 (Referências completas)
+- ✅ Adicionada seção Changelog
+
+**Versão 2.0 (05/12/2024)**
+- ✅ Adicionada seção 1.4 (Conflito LL(1) em Statements)
+- ✅ Adicionada seção 2.3 (Unificação de Statements)
+- ✅ Atualizada tabela de precedência (nível 0 = assignment)
+
+**Versão 1.0 (04/12/2024)**
+- ✅ Versão inicial
+- ✅ Seções 1.1-1.3 (Problemas identificados)
+- ✅ Seções 2.1-2.2 (Eliminação de ambiguidade e recursão)
