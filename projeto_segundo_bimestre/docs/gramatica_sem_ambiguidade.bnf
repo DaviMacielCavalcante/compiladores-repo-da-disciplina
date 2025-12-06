@@ -1,0 +1,107 @@
+# ============================================================
+# GRAMÁTICA LL(1) - VYTHON
+# Versão 2.0 - COM ASSIGNMENT COMO EXPRESSÃO
+# ============================================================
+
+# -------------------- PROGRAMA --------------------
+<program> ::= <statement>* EOF
+
+# -------------------- STATEMENTS --------------------
+<statement> ::= <ifStatement>
+              | <whileStatement>
+              | <forStatement>
+              | <doWhileStatement>
+              | <breakStatement>
+              | <continueStatement>
+              | <defStatement>
+              | <expressionStatement>
+
+# MUDANÇA: Agora apenas <expressionStatement>, que aceita qualquer expressão
+# (incluindo assignment e function call)
+<expressionStatement> ::= <expression> ';'?
+
+# -------------------- CONTROLE DE FLUXO --------------------
+<ifStatement> ::= 'if' <expression> ':' <block> ('else' ':' <block>)?
+
+<whileStatement> ::= 'while' <expression> ':' <block>
+
+<forStatement> ::= 'for' IDENTIFIER 'in' 'range' '(' <expression> (',' <expression> (',' <expression>)?)? ')' ':' <block>
+
+<doWhileStatement> ::= 'do' ':' <block> 'while' <expression> ';'?
+
+<breakStatement> ::= 'break' ';'?
+
+<continueStatement> ::= 'continue' ';'?
+
+<defStatement> ::= 'def' IDENTIFIER '(' <paramList>? ')' ':' '{' <statement>* '}' ';'?
+
+<paramList> ::= IDENTIFIER (',' IDENTIFIER)*
+
+# -------------------- BLOCOS --------------------
+<block> ::= '{' <statement>* '}'
+          | <statement>
+
+# -------------------- EXPRESSÕES (NOVA HIERARQUIA) --------------------
+
+# MUDANÇA: Expression agora começa com assignment
+<expression> ::= <assignmentExpr>
+
+# NOVO: Assignment tem menor precedência (nível 0)
+# Associa à DIREITA para permitir: x = y = z = 5
+<assignmentExpr> ::= <logicalOrExpr> ('=' <assignmentExpr>)?
+
+# Nível 1: OR lógico
+<logicalOrExpr> ::= <logicalAndExpr> ('or' <logicalAndExpr>)*
+
+# Nível 2: AND lógico
+<logicalAndExpr> ::= <logicalNotExpr> ('and' <logicalNotExpr>)*
+
+# Nível 3: NOT lógico (unário)
+<logicalNotExpr> ::= 'not' <logicalNotExpr>
+                   | <bitwiseOrExpr>
+
+# Nível 4: OR bitwise
+<bitwiseOrExpr> ::= <bitwiseAndExpr> ('|' <bitwiseAndExpr>)*
+
+# Nível 5: AND bitwise
+<bitwiseAndExpr> ::= <comparisonExpr> ('&' <comparisonExpr>)*
+
+# Nível 6: Comparação
+<comparisonExpr> ::= <additiveExpr> (('==' | '!=' | '<' | '>' | '<=' | '>=') <additiveExpr>)*
+
+# Nível 7: Adição e Subtração
+<additiveExpr> ::= <multiplicativeExpr> (('+' | '-') <multiplicativeExpr>)*
+
+# Nível 8: Multiplicação, Divisão e Módulo
+<multiplicativeExpr> ::= <powerExpr> (('*' | '/' | '%') <powerExpr>)*
+
+# Nível 9: Potência (associa à direita)
+<powerExpr> ::= <unaryExpr> ('**' <powerExpr>)?
+
+# Nível 10: Menos unário
+<unaryExpr> ::= '-' <unaryExpr>
+              | <postfixExpr>
+
+# Nível 11: Acesso a array e chamada de função
+<postfixExpr> ::= <primary> <postfix>*
+
+<postfix> ::= '[' <expression> ']'
+            | '(' <argList>? ')'
+
+# Nível 12: Valores primários
+<primary> ::= IDENTIFIER
+            | NUMBER
+            | STRING
+            | 'True'
+            | 'False'
+            | '(' <expression> ')'
+            | '[' <expressionList>? ']'
+
+# -------------------- LISTAS --------------------
+<argList> ::= <expression> (',' <expression>)*
+
+<expressionList> ::= <expression> (',' <expression>)*
+
+# -------------------- TERMINAIS --------------------
+# Definidos pelo lexer ANTLR (PythonLexer.g4)
+# IDENTIFIER, NUMBER, STRING, etc.
