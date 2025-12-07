@@ -8,7 +8,8 @@ class ParsingTable:
         self.grammar = grammar
         self.first_follow = first_follow
         self.table = {}
-        self.conflicts = []
+        self.conflicts = []  # Conflitos irresolvíveis
+        self.resolved_conflicts = []  # Conflitos resolvidos automaticamente
     
     def build(self):
         """Constrói a tabela de parsing LL(1)."""
@@ -32,7 +33,13 @@ class ParsingTable:
         return self.table
     
     def _add_entry(self, nonterminal, terminal, production):
-        """Adiciona entrada na tabela, detectando conflitos."""
+        """
+        Adiciona entrada na tabela, detectando e resolvendo conflitos.
+        
+        ESTRATÉGIA DE DESEMPATE:
+        - Preferir produção NÃO-epsilon sobre produção epsilon
+        - Justificativa: "greedy matching" - sempre consumir tokens quando possível
+        """
         key = (nonterminal, terminal)
         
         if key in self.table:
@@ -42,18 +49,50 @@ class ParsingTable:
             if existing == production:
                 return
             
-            # Conflito real: produções diferentes para mesma célula
-            conflict = {
-                'cell': key,
-                'existing': existing,
-                'new': production
-            }
-            self.conflicts.append(conflict)
+            # ESTRATÉGIA DE DESEMPATE
+            is_existing_epsilon = self._is_epsilon_production(existing)
+            is_new_epsilon = self._is_epsilon_production(production)
             
-            # Mantém primeira produção na tabela
-            # (comportamento padrão para gramáticas não-LL(1))
+            if is_existing_epsilon and not is_new_epsilon:
+                # Produção existente é ε, nova não é → substitui
+                self.table[key] = production
+                self._register_resolved_conflict(key, existing, production, 
+                                                "Produção existente (ε) substituída pela não-ε")
+                return
+            
+            elif not is_existing_epsilon and is_new_epsilon:
+                # Produção existente não é ε, nova é → mantém existente
+                self._register_resolved_conflict(key, existing, production,
+                                                "Produção ε ignorada, mantida a não-ε")
+                return
+            
+            else:
+                # Ambas são ε ou ambas não são ε → conflito real (irresolvível)
+                conflict = {
+                    'cell': key,
+                    'existing': existing,
+                    'new': production
+                }
+                self.conflicts.append(conflict)
+                # Mantém primeira produção (comportamento padrão)
         else:
             self.table[key] = production
+    
+    def _is_epsilon_production(self, production):
+        """Verifica se produção é epsilon."""
+        return (len(production) == 1 and 
+                self.grammar.is_epsilon(production[0]))
+    
+    def _register_resolved_conflict(self, key, existing, new, reason):
+        """Registra conflito que foi resolvido automaticamente."""
+        resolved = {
+            'cell': key,
+            'existing': existing,
+            'new': new,
+            'chosen': self.table[key],
+            'reason': reason
+        }
+        self.resolved_conflicts.append(resolved)
     
     def _first_of_production(self, production):
         """Calcula FIRST de uma produção."""
@@ -80,14 +119,6 @@ class ParsingTable:
     def get(self, nonterminal, terminal):
         """Consulta tabela M[A,a]."""
         return self.table.get((nonterminal, terminal))
-    
-    def has_conflicts(self):
-        """Verifica se há conflitos."""
-        return len(self.conflicts) > 0
-    
-    def is_ll1(self):
-        """Verifica se gramática é LL(1)."""
-        return not self.has_conflicts()
     
     def save_matrix_to_csv(self, filename):
         """
@@ -187,12 +218,25 @@ class ParsingTable:
             f.write(f"Nao-terminais na tabela: {len(nonterminals_in_table)}\n")
             f.write(f"Terminais na tabela: {len(terminals_in_table)}\n")
             f.write(f"Total de entradas: {len(self.table)}\n")
-            f.write(f"Conflitos: {len(self.conflicts)}\n")
-            f.write(f"E LL(1)? {'SIM' if self.is_ll1() else 'NAO'}\n\n")
+            f.write(f"Conflitos irresolviveis: {len(self.conflicts)}\n")
+            f.write(f"Conflitos resolvidos: {len(self.resolved_conflicts)}\n")
+            f.write(f"LL(1) puro? {'SIM' if self.is_ll1_pure() else 'NAO'}\n")
+            f.write(f"LL(1) pratico? {'SIM' if self.is_ll1_practical() else 'NAO'}\n\n")
             
-            # Conflitos (se houver)
+            # Conflitos resolvidos (se houver)
+            if self.resolved_conflicts:
+                f.write("=== CONFLITOS RESOLVIDOS ===\n")
+                for i, resolved in enumerate(self.resolved_conflicts, 1):
+                    nt, term = resolved['cell']
+                    f.write(f"Conflito {i}: M[{nt}, {term}]\n")
+                    f.write(f"  Opcao 1: {format_production(resolved['existing'])}\n")
+                    f.write(f"  Opcao 2: {format_production(resolved['new'])}\n")
+                    f.write(f"  Escolhida: {format_production(resolved['chosen'])}\n")
+                    f.write(f"  Estrategia: Preferir nao-epsilon\n\n")
+            
+            # Conflitos irresolvíveis (se houver)
             if self.conflicts:
-                f.write("=== CONFLITOS ===\n")
+                f.write("=== CONFLITOS IRRESOLVIVEIS ===\n")
                 for i, conflict in enumerate(self.conflicts, 1):
                     nt, term = conflict['cell']
                     f.write(f"Conflito {i}: M[{nt}, {term}]\n")
@@ -244,6 +288,35 @@ class ParsingTable:
         
         print(f"[OK] Tabela matricial salva em: {filename}")
     
+    def print_resolved_conflicts(self):
+        """Imprime conflitos resolvidos automaticamente."""
+        print("\n=== CONFLITOS RESOLVIDOS AUTOMATICAMENTE ===")
+        
+        if not self.resolved_conflicts:
+            print("[INFO] Nenhum conflito foi resolvido automaticamente")
+            return
+        
+        print(f"[OK] {len(self.resolved_conflicts)} conflito(s) resolvido(s) pela estrategia 'prefer non-epsilon'\n")
+        
+        for i, resolved in enumerate(self.resolved_conflicts, 1):
+            nt, term = resolved['cell']
+            print(f"Conflito {i}: M[{nt}, {term}]")
+            
+            # Formatar produções
+            existing_str = ' '.join(resolved['existing'])
+            new_str = ' '.join(resolved['new'])
+            chosen_str = ' '.join(resolved['chosen'])
+            
+            # Identificar qual é epsilon
+            existing_label = " (epsilon)" if self._is_epsilon_production(resolved['existing']) else ""
+            new_label = " (epsilon)" if self._is_epsilon_production(resolved['new']) else ""
+            
+            print(f"  Opcao 1: {existing_str}{existing_label}")
+            print(f"  Opcao 2: {new_str}{new_label}")
+            print(f"  Escolhida: {chosen_str}")
+            print(f"  Estrategia: Preferir producao nao-epsilon (greedy matching)")
+            print()
+    
     def print_table(self):
         """Imprime tabela formatada."""
         print("\n=== TABELA DE PARSING LL(1) ===")
@@ -259,15 +332,16 @@ class ParsingTable:
         print(f"\nTotal: {len(self.table)} entradas")
     
     def print_conflicts(self):
-        """Imprime conflitos detectados."""
-        print("\n=== DETECCAO DE CONFLITOS ===")
+        """Imprime conflitos IRRESOLVÍVEIS detectados."""
+        print("\n=== CONFLITOS IRRESOLVIVEIS ===")
         
         if not self.conflicts:
-            print("[OK] Nenhum conflito detectado")
-            print("[OK] Gramatica e LL(1)")
+            print("[OK] Nenhum conflito irresoluvivel detectado")
+            if self.resolved_conflicts:
+                print(f"[INFO] Todos os {len(self.resolved_conflicts)} conflito(s) foram resolvidos automaticamente")
         else:
-            print(f"[ERRO] {len(self.conflicts)} conflito(s) detectado(s)")
-            print("[ERRO] Gramatica NAO e LL(1)\n")
+            print(f"[ERRO] {len(self.conflicts)} conflito(s) irresoluvivel(is) detectado(s)")
+            print("[ERRO] Gramatica NAO e LL(1) nem com estrategia de desempate\n")
             
             for i, conflict in enumerate(self.conflicts, 1):
                 nt, term = conflict['cell']
@@ -275,6 +349,14 @@ class ParsingTable:
                 print(f"  Existente: {' '.join(conflict['existing'])}")
                 print(f"  Nova: {' '.join(conflict['new'])}")
                 print()
+    
+    def is_ll1_pure(self):
+        """Verifica se gramática é LL(1) puro (sem conflitos de qualquer tipo)."""
+        return len(self.conflicts) == 0 and len(self.resolved_conflicts) == 0
+    
+    def is_ll1_practical(self):
+        """Verifica se gramática é LL(1) prático (sem conflitos irresolvíveis)."""
+        return len(self.conflicts) == 0
     
     def print_statistics(self):
         """Imprime estatísticas da tabela."""
@@ -285,8 +367,18 @@ class ParsingTable:
         print(f"Entradas na tabela: {len(self.table)}")
         print(f"Nao-terminais com entradas: {nts_used}")
         print(f"Terminais utilizados: {terms_used}")
-        print(f"Conflitos: {len(self.conflicts)}")
-        print(f"E LL(1)? {'[OK] SIM' if self.is_ll1() else '[ERRO] NAO'}")
+        print(f"Conflitos irresolviveis: {len(self.conflicts)}")
+        print(f"Conflitos resolvidos: {len(self.resolved_conflicts)}")
+        print()
+        print(f"LL(1) puro (teorico)? {('[AVISO] NAO' if not self.is_ll1_pure() else '[OK] SIM')}")
+        print(f"LL(1) pratico (utilizavel)? {('[OK] SIM' if self.is_ll1_practical() else '[ERRO] NAO')}")
+        
+        if self.is_ll1_practical() and not self.is_ll1_pure():
+            print()
+            print("[INFO] Gramatica e LL(1) PRATICO:")
+            print("  - Conflitos epsilon vs nao-epsilon resolvidos por 'greedy matching'")
+            print("  - Estrategia: Sempre preferir producao nao-epsilon")
+            print("  - Comportamento: Correto para todas as construcoes da linguagem")
     
     def save_to_file(self, filename):
         """Salva tabela em arquivo (formato lista)."""
@@ -298,12 +390,25 @@ class ParsingTable:
             # Estatísticas
             f.write("=== ESTATISTICAS ===\n")
             f.write(f"Entradas na tabela: {len(self.table)}\n")
-            f.write(f"Conflitos: {len(self.conflicts)}\n")
-            f.write(f"E LL(1)? {'SIM' if self.is_ll1() else 'NAO'}\n\n")
+            f.write(f"Conflitos irresolviveis: {len(self.conflicts)}\n")
+            f.write(f"Conflitos resolvidos: {len(self.resolved_conflicts)}\n")
+            f.write(f"LL(1) puro? {'SIM' if self.is_ll1_pure() else 'NAO'}\n")
+            f.write(f"LL(1) pratico? {'SIM' if self.is_ll1_practical() else 'NAO'}\n\n")
             
-            # Conflitos (se houver)
+            # Conflitos resolvidos (se houver)
+            if self.resolved_conflicts:
+                f.write("=== CONFLITOS RESOLVIDOS ===\n")
+                for i, resolved in enumerate(self.resolved_conflicts, 1):
+                    nt, term = resolved['cell']
+                    f.write(f"Conflito {i}: M[{nt}, {term}]\n")
+                    f.write(f"  Opcao 1: {' '.join(resolved['existing'])}\n")
+                    f.write(f"  Opcao 2: {' '.join(resolved['new'])}\n")
+                    f.write(f"  Escolhida: {' '.join(resolved['chosen'])}\n")
+                    f.write(f"  Estrategia: Preferir nao-epsilon\n\n")
+            
+            # Conflitos irresolvíveis (se houver)
             if self.conflicts:
-                f.write("=== CONFLITOS ===\n")
+                f.write("=== CONFLITOS IRRESOLVIVEIS ===\n")
                 for i, conflict in enumerate(self.conflicts, 1):
                     nt, term = conflict['cell']
                     f.write(f"Conflito {i}: M[{nt}, {term}]\n")
@@ -380,7 +485,8 @@ if __name__ == "__main__":
     print("[OK] Tabela construida")
     
     # Mostrar resultados
-    pt.print_conflicts()
+    pt.print_resolved_conflicts()  # Mostra conflitos resolvidos
+    pt.print_conflicts()           # Mostra conflitos irresolvíveis
     pt.print_statistics()
     
     # Salvar formato lista

@@ -4,25 +4,35 @@ TABELA DE PARSING LL(1)
 
 === ESTATISTICAS ===
 Entradas na tabela: 636
-Conflitos: 4
-E LL(1)? NAO
+Conflitos irresolviveis: 0
+Conflitos resolvidos: 4
+LL(1) puro? NAO
+LL(1) pratico? SIM
 
-=== CONFLITOS ===
+=== CONFLITOS RESOLVIDOS ===
 Conflito 1: M[<optional_else>, 'else']
-  Existente: 'else' ':' <block>
-  Nova: ε
+  Opcao 1: 'else' ':' <block>
+  Opcao 2: ε
+  Escolhida: 'else' ':' <block>
+  Estrategia: Preferir nao-epsilon
 
-Conflito 2: M[<additive_tail>, '-']
-  Existente: <add_op> <multiplicativeExpr> <additive_tail>
-  Nova: ε
+Conflito 2: M[<postfix_list>, '[']
+  Opcao 1: <postfix> <postfix_list>
+  Opcao 2: ε
+  Escolhida: <postfix> <postfix_list>
+  Estrategia: Preferir nao-epsilon
 
-Conflito 3: M[<postfix_list>, '[']
-  Existente: <postfix> <postfix_list>
-  Nova: ε
+Conflito 3: M[<postfix_list>, '(']
+  Opcao 1: <postfix> <postfix_list>
+  Opcao 2: ε
+  Escolhida: <postfix> <postfix_list>
+  Estrategia: Preferir nao-epsilon
 
-Conflito 4: M[<postfix_list>, '(']
-  Existente: <postfix> <postfix_list>
-  Nova: ε
+Conflito 4: M[<additive_tail>, '-']
+  Opcao 1: <add_op> <multiplicativeExpr> <additive_tail>
+  Opcao 2: ε
+  Escolhida: <add_op> <multiplicativeExpr> <additive_tail>
+  Estrategia: Preferir nao-epsilon
 
 === TABELA ===
 NAO-TERMINAL                   TERMINAL             PRODUCAO                                          
