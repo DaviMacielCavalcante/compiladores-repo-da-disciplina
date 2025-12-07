@@ -112,7 +112,7 @@ if __name__ == "__main__":
     from grammar import Grammar
     
     g = Grammar()
-    g.load_from_file("grammar.txt")
+    g.load_from_file("../docs/gramatica_sem_ambiguidade.bnf")
     
     ff = FirstFollow(g)
     ff.compute_first()
