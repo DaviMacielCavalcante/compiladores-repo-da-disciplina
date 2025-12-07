@@ -1,171 +1,202 @@
-import os
-import sys
+#!/usr/bin/env python3
+"""
+Teste do formato matricial com a gramática do exemplo do professor.
+"""
 
-# adiciona a pasta src ao PYTHONPATH
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))  # pasta raiz do projeto
-SRC_DIR = os.path.join(BASE_DIR, "src")
-sys.path.append(SRC_DIR)
+import sys
+from pathlib import Path
+
+# Adiciona src ao path
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root / "src"))
 
 from grammar import Grammar
-from firstFollow import FirstFollow
-from parsingtable import ParsingTable
+from first_follow import FirstFollow
+from parsing_table import ParsingTable
 
 
-
-def test_simple_grammar():
-    """Testa com gramática simples de expressões."""
+def test_professor_grammar():
+    """Testa com a gramática do exemplo do professor (PDF)."""
     
-    print("=" * 60)
-    print("TESTE 1: GRAMÁTICA SIMPLES")
-    print("=" * 60)
+    print("=" * 70)
+    print("TESTE: GRAMATICA DO PROFESSOR (Atividade 6)")
+    print("=" * 70)
     
-    # Criar gramática de exemplo
+    # Criar gramática do exemplo
     g = Grammar()
-    g.start_symbol = '<E>'
-    g.nonterminals = {'<E>', "<E'>", '<T>', "<T'>", '<F>'}
-    g.terminals = {'+', '*', '(', ')', 'id'}
+    g.start_symbol = '<A>'
+    g.nonterminals = {'<A>', '<B>', '<C>', '<D>', '<E>'}
+    g.terminals = {'id', '+', '*', '(', ')', '$'}
     g.epsilon = 'ε'
     
-    # E → T E'
-    # E' → + T E' | ε
-    # T → F T'
-    # T' → * F T' | ε
-    # F → ( E ) | id
-    g.productions['<E>'] = [['<T>', "<E'>"]]
-    g.productions["<E'>"] = [['+', '<T>', "<E'>"], ['ε']]
-    g.productions['<T>'] = [['<F>', "<T'>"]]
-    g.productions["<T'>"] = [['*', '<F>', "<T'>"], ['ε']]
-    g.productions['<F>'] = [['(', '<E>', ')'], ['id']]
+    # Produções conforme o PDF:
+    # A → C B
+    # B → + C B | ε
+    # C → E D
+    # D → * E D | ε
+    # E → ( A ) | id
     
-    print("\nGRAMÁTICA:")
-    for nt in sorted(g.productions.keys()):
-        for prod in g.productions[nt]:
-            print(f"  {nt} ::= {' '.join(prod)}")
+    g.productions['<A>'] = [['<C>', '<B>']]
+    g.productions['<B>'] = [['+', '<C>', '<B>'], ['ε']]
+    g.productions['<C>'] = [['<E>', '<D>']]
+    g.productions['<D>'] = [['*', '<E>', '<D>'], ['ε']]
+    g.productions['<E>'] = [['(', '<A>', ')'], ['id']]
+    
+    print("\nGRAMATICA:")
+    print("  A -> C B")
+    print("  B -> + C B | ε")
+    print("  C -> E D")
+    print("  D -> * E D | ε")
+    print("  E -> ( A ) | id")
     
     # Calcular First e Follow
+    print("\n[INFO] Calculando FIRST e FOLLOW...")
     ff = FirstFollow(g)
     ff.compute_first()
     ff.compute_follow()
     
+    print("\nFIRST:")
+    for nt in sorted(g.nonterminals):
+        print(f"  FIRST({nt}) = {ff.first[nt]}")
+    
+    print("\nFOLLOW:")
+    for nt in sorted(g.nonterminals):
+        print(f"  FOLLOW({nt}) = {ff.follow[nt]}")
+    
     # Construir tabela
+    print("\n[INFO] Construindo tabela LL(1)...")
+    pt = ParsingTable(g, ff)
+    pt.build()
+    
+    # Verificar conflitos
+    pt.print_conflicts()
+    pt.print_statistics()
+    
+    # Salvar tabela matricial
+    output_file = project_root / "table_professor_example.txt"
+    pt.save_matrix_to_file(str(output_file), max_col_width=12, max_cell_width=25)
+    
+    # Salvar CSV (sem truncamento!)
+    csv_file = project_root / "table_professor_example.csv"
+    pt.save_matrix_to_csv(str(csv_file))
+    
+    print(f"\n[OK] Arquivos gerados:")
+    print(f"  - {output_file.name} (texto)")
+    print(f"  - {csv_file.name} (CSV - abra no Excel)")
+    
+    # Mostrar preview da tabela matricial
+    print("\n" + "=" * 70)
+    print("PREVIEW DA TABELA MATRICIAL:")
+    print("=" * 70)
+    
+    terminals = sorted(g.terminals)
+    nonterminals = sorted(g.nonterminals)
+    
+    # Cabeçalho
+    header = f"{'NT':<8}"
+    for term in terminals:
+        header += f"{term:<12}"
+    print(header)
+    print("-" * len(header))
+    
+    # Linhas
+    for nt in nonterminals:
+        row = f"{nt:<8}"
+        for term in terminals:
+            prod = pt.get(nt, term)
+            if prod:
+                if len(prod) == 1 and g.is_epsilon(prod[0]):
+                    cell = "ε"
+                else:
+                    cell = ' '.join(prod)
+                    if len(cell) > 10:
+                        cell = cell[:10]
+            else:
+                cell = ""
+            row += f"{cell:<12}"
+        print(row)
+    
+    print("\n" + "=" * 70)
+
+
+def test_vython_grammar():
+    """Testa com a gramática Vython (se disponível)."""
+    
+    print("\n\n" + "=" * 70)
+    print("TESTE: GRAMATICA VYTHON")
+    print("=" * 70)
+    
+    # Procurar arquivo
+    grammar_files = [
+        project_root / "gramatica_bnf_pura.bnf",
+        project_root / "docs" / "gramatica_bnf_pura.bnf",
+    ]
+    
+    grammar_file = None
+    for path in grammar_files:
+        if path.exists():
+            grammar_file = path
+            break
+    
+    if not grammar_file:
+        print("\n[AVISO] Arquivo gramatica_bnf_pura.bnf nao encontrado")
+        print("[INFO] Pulando teste Vython...")
+        return
+    
+    # Carregar gramática
+    g = Grammar()
+    g.load_from_file(str(grammar_file))
+    
+    print(f"\n[OK] Gramatica carregada: {grammar_file.name}")
+    print(f"  Nao-terminais: {len(g.nonterminals)}")
+    print(f"  Terminais: {len(g.terminals)}")
+    
+    # Processar
+    print("\n[INFO] Calculando FIRST e FOLLOW...")
+    ff = FirstFollow(g)
+    ff.compute_first()
+    ff.compute_follow()
+    
+    print("[INFO] Construindo tabela LL(1)...")
     pt = ParsingTable(g, ff)
     pt.build()
     
     # Resultados
     pt.print_conflicts()
     pt.print_statistics()
-    pt.print_table()
-
-
-def test_from_file():
-    """Testa com gramática carregada de arquivo."""
     
-    print("\n\n" + "=" * 60)
-    print("TESTE 2: GRAMÁTICA DO ARQUIVO")
-    print("=" * 60)
+    # Salvar tabela matricial
+    matrix_file = project_root / "vython_parsing_table_matrix.txt"
+    pt.save_matrix_to_file(str(matrix_file), max_col_width=15, max_cell_width=35)
     
-    try:
-        # Usar o mesmo caminho que parsingTable.py
-        grammar_file = "gramatica_sem_ambiguidade.bnf"
-        
-        # Carregar gramática (usa o mesmo sistema que grammar.py)
-        g = Grammar()
-        g.load_from_file(grammar_file)
-        
-        print(f"\nGramática carregada: {grammar_file}")
-        print(f"  Não-terminais: {len(g.nonterminals)}")
-        print(f"  Terminais: {len(g.terminals)}")
-        print(f"  Produções: {sum(len(p) for p in g.productions.values())}")
-        
-        # Calcular First e Follow
-        print("\nCalculando First e Follow...")
-        ff = FirstFollow(g)
-        ff.compute_first()
-        ff.compute_follow()
-        print("✓ Calculados")
-        
-        # Construir tabela
-        print("\nConstruindo tabela LL(1)...")
-        pt = ParsingTable(g, ff)
-        pt.build()
-        print("✓ Tabela construída")
-        
-        # Resultados
-        pt.print_conflicts()
-        pt.print_statistics()
-        
-        # Mostrar apenas primeiras entradas
-        print("\n=== TABELA LL(1) (primeiras 20 entradas) ===")
-        count = 0
-        for (nt, term), prod in sorted(pt.table.items()):
-            if count >= 20:
-                print(f"... e mais {len(pt.table) - 20} entradas")
-                break
-            prod_str = ' '.join(prod)
-            if len(prod_str) > 25:
-                prod_str = prod_str[:22] + "..."
-            print(f"M[{nt[:20]:<20}, {term[:15]:<15}] = {prod_str}")
-            count += 1
-        
-    except FileNotFoundError as e:
-        print(f"\n⚠ Arquivo não encontrado: {e}")
-        print("⚠ Certifique-se que 'gramatica_sem_ambiguidade.bnf' está no mesmo diretório")
-        print("Executando apenas teste com gramática simples")
-
-
-def test_lookup():
-    """Testa consulta à tabela."""
+    # Salvar CSV (sem truncamento!)
+    csv_file = project_root / "vython_parsing_table_matrix.csv"
+    pt.save_matrix_to_csv(str(csv_file))
     
-    print("\n\n" + "=" * 60)
-    print("TESTE 3: CONSULTA À TABELA")
-    print("=" * 60)
+    print(f"\n[OK] Arquivos gerados:")
+    print(f"  - {matrix_file.name} (texto)")
+    print(f"  - {csv_file.name} (CSV - abra no Excel)")
     
-    # Criar gramática simples
-    g = Grammar()
-    g.start_symbol = '<E>'
-    g.nonterminals = {'<E>', "<E'>", '<T>', "<T'>", '<F>'}
-    g.terminals = {'+', '*', '(', ')', 'id'}
-    g.epsilon = 'ε'
-    
-    g.productions['<E>'] = [['<T>', "<E'>"]]
-    g.productions["<E'>"] = [['+', '<T>', "<E'>"], ['ε']]
-    g.productions['<T>'] = [['<F>', "<T'>"]]
-    g.productions["<T'>"] = [['*', '<F>', "<T'>"], ['ε']]
-    g.productions['<F>'] = [['(', '<E>', ')'], ['id']]
-    
-    # Processar
-    ff = FirstFollow(g)
-    ff.compute_first()
-    ff.compute_follow()
-    
-    pt = ParsingTable(g, ff)
-    pt.build()
-    
-    # Testar consultas
-    print("\nConsultas à tabela:")
-    
-    queries = [
-        ('<E>', 'id'),
-        ('<E>', '('),
-        ("<E'>", '+'),
-        ("<E'>", ')'),
-        ('<T>', 'id'),
-        ('<F>', '('),
-    ]
-    
-    for nt, term in queries:
-        prod = pt.get(nt, term)
-        if prod:
-            print(f"✓ M[{nt}, {term}] = {' '.join(prod)}")
-        else:
-            print(f"✗ M[{nt}, {term}] = (vazio - erro sintático)")
+    # Aviso sobre tamanho
+    if len(g.nonterminals) > 20 or len(g.terminals) > 20:
+        print("\n[INFO] Tabela muito grande para visualizacao no terminal")
+        print(f"[INFO] Abra o arquivo CSV no Excel para ver a tabela completa")
 
 
 if __name__ == "__main__":
-    test_simple_grammar()
-    test_from_file()
-    test_lookup()
-    
-    print("\n" + "=" * 60)
-    print("✓ TODOS OS TESTES CONCLUÍDOS")
-    print("=" * 60)
+    try:
+        # Teste 1: Gramática do professor (pequena e clara)
+        test_professor_grammar()
+        
+        # Teste 2: Gramática Vython (grande)
+        test_vython_grammar()
+        
+        print("\n" + "=" * 70)
+        print("[OK] TESTES CONCLUIDOS")
+        print("=" * 70)
+        
+    except Exception as e:
+        print(f"\n[ERRO] {e}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)

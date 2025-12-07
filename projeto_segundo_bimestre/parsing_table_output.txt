@@ -1,0 +1,665 @@
+================================================================================
+TABELA DE PARSING LL(1)
+================================================================================
+
+=== ESTATISTICAS ===
+Entradas na tabela: 636
+Conflitos: 4
+E LL(1)? NAO
+
+=== CONFLITOS ===
+Conflito 1: M[<optional_else>, 'else']
+  Existente: 'else' ':' <block>
+  Nova: ε
+
+Conflito 2: M[<additive_tail>, '-']
+  Existente: <add_op> <multiplicativeExpr> <additive_tail>
+  Nova: ε
+
+Conflito 3: M[<postfix_list>, '[']
+  Existente: <postfix> <postfix_list>
+  Nova: ε
+
+Conflito 4: M[<postfix_list>, '(']
+  Existente: <postfix> <postfix_list>
+  Nova: ε
+
+=== TABELA ===
+NAO-TERMINAL                   TERMINAL             PRODUCAO                                          
+----------------------------------------------------------------------------------------------------
+<add_op>                       '+'                  '+'                                               
+<add_op>                       '-'                  '-'                                               
+<additiveExpr>                 '('                  <multiplicativeExpr> <additive_tail>              
+<additiveExpr>                 '-'                  <multiplicativeExpr> <additive_tail>              
+<additiveExpr>                 'False'              <multiplicativeExpr> <additive_tail>              
+<additiveExpr>                 'IDENTIFIER'         <multiplicativeExpr> <additive_tail>              
+<additiveExpr>                 'NUMBER'             <multiplicativeExpr> <additive_tail>              
+<additiveExpr>                 'STRING'             <multiplicativeExpr> <additive_tail>              
+<additiveExpr>                 'True'               <multiplicativeExpr> <additive_tail>              
+<additiveExpr>                 '['                  <multiplicativeExpr> <additive_tail>              
+<additive_tail>                '!='                 ε                                                 
+<additive_tail>                '&'                  ε                                                 
+<additive_tail>                '('                  ε                                                 
+<additive_tail>                ')'                  ε                                                 
+<additive_tail>                '+'                  <add_op> <multiplicativeExpr> <additive_tail>     
+<additive_tail>                ','                  ε                                                 
+<additive_tail>                '-'                  <add_op> <multiplicativeExpr> <additive_tail>     
+<additive_tail>                ':'                  ε                                                 
+<additive_tail>                ';'                  ε                                                 
+<additive_tail>                '<'                  ε                                                 
+<additive_tail>                '<='                 ε                                                 
+<additive_tail>                '='                  ε                                                 
+<additive_tail>                '=='                 ε                                                 
+<additive_tail>                '>'                  ε                                                 
+<additive_tail>                '>='                 ε                                                 
+<additive_tail>                'EOF'                ε                                                 
+<additive_tail>                'False'              ε                                                 
+<additive_tail>                'IDENTIFIER'         ε                                                 
+<additive_tail>                'NUMBER'             ε                                                 
+<additive_tail>                'STRING'             ε                                                 
+<additive_tail>                'True'               ε                                                 
+<additive_tail>                '['                  ε                                                 
+<additive_tail>                ']'                  ε                                                 
+<additive_tail>                'and'                ε                                                 
+<additive_tail>                'break'              ε                                                 
+<additive_tail>                'continue'           ε                                                 
+<additive_tail>                'def'                ε                                                 
+<additive_tail>                'do'                 ε                                                 
+<additive_tail>                'else'               ε                                                 
+<additive_tail>                'for'                ε                                                 
+<additive_tail>                'if'                 ε                                                 
+<additive_tail>                'not'                ε                                                 
+<additive_tail>                'or'                 ε                                                 
+<additive_tail>                'while'              ε                                                 
+<additive_tail>                '|'                  ε                                                 
+<additive_tail>                '}'                  ε                                                 
+<argList>                      '('                  <expression> <arg_list_tail>                      
+<argList>                      '-'                  <expression> <arg_list_tail>                      
+<argList>                      'False'              <expression> <arg_list_tail>                      
+<argList>                      'IDENTIFIER'         <expression> <arg_list_tail>                      
+<argList>                      'NUMBER'             <expression> <arg_list_tail>                      
+<argList>                      'STRING'             <expression> <arg_list_tail>                      
+<argList>                      'True'               <expression> <arg_list_tail>                      
+<argList>                      '['                  <expression> <arg_list_tail>                      
+<argList>                      'not'                <expression> <arg_list_tail>                      
+<arg_list_tail>                ')'                  ε                                                 
+<arg_list_tail>                ','                  ',' <expression> <arg_list_tail>                  
+<assignmentExpr>               '('                  <logicalOrExpr> <assignment_tail>                 
+<assignmentExpr>               '-'                  <logicalOrExpr> <assignment_tail>                 
+<assignmentExpr>               'False'              <logicalOrExpr> <assignment_tail>                 
+<assignmentExpr>               'IDENTIFIER'         <logicalOrExpr> <assignment_tail>                 
+<assignmentExpr>               'NUMBER'             <logicalOrExpr> <assignment_tail>                 
+<assignmentExpr>               'STRING'             <logicalOrExpr> <assignment_tail>                 
+<assignmentExpr>               'True'               <logicalOrExpr> <assignment_tail>                 
+<assignmentExpr>               '['                  <logicalOrExpr> <assignment_tail>                 
+<assignmentExpr>               'not'                <logicalOrExpr> <assignment_tail>                 
+<assignment_tail>              '('                  ε                                                 
+<assignment_tail>              ')'                  ε                                                 
+<assignment_tail>              ','                  ε                                                 
+<assignment_tail>              '-'                  ε                                                 
+<assignment_tail>              ':'                  ε                                                 
+<assignment_tail>              ';'                  ε                                                 
+<assignment_tail>              '='                  '=' <assignmentExpr>                              
+<assignment_tail>              'EOF'                ε                                                 
+<assignment_tail>              'False'              ε                                                 
+<assignment_tail>              'IDENTIFIER'         ε                                                 
+<assignment_tail>              'NUMBER'             ε                                                 
+<assignment_tail>              'STRING'             ε                                                 
+<assignment_tail>              'True'               ε                                                 
+<assignment_tail>              '['                  ε                                                 
+<assignment_tail>              ']'                  ε                                                 
+<assignment_tail>              'break'              ε                                                 
+<assignment_tail>              'continue'           ε                                                 
+<assignment_tail>              'def'                ε                                                 
+<assignment_tail>              'do'                 ε                                                 
+<assignment_tail>              'else'               ε                                                 
+<assignment_tail>              'for'                ε                                                 
+<assignment_tail>              'if'                 ε                                                 
+<assignment_tail>              'not'                ε                                                 
+<assignment_tail>              'while'              ε                                                 
+<assignment_tail>              '}'                  ε                                                 
+<bitwiseAndExpr>               '('                  <comparisonExpr> <bitwise_and_tail>               
+<bitwiseAndExpr>               '-'                  <comparisonExpr> <bitwise_and_tail>               
+<bitwiseAndExpr>               'False'              <comparisonExpr> <bitwise_and_tail>               
+<bitwiseAndExpr>               'IDENTIFIER'         <comparisonExpr> <bitwise_and_tail>               
+<bitwiseAndExpr>               'NUMBER'             <comparisonExpr> <bitwise_and_tail>               
+<bitwiseAndExpr>               'STRING'             <comparisonExpr> <bitwise_and_tail>               
+<bitwiseAndExpr>               'True'               <comparisonExpr> <bitwise_and_tail>               
+<bitwiseAndExpr>               '['                  <comparisonExpr> <bitwise_and_tail>               
+<bitwiseOrExpr>                '('                  <bitwiseAndExpr> <bitwise_or_tail>                
+<bitwiseOrExpr>                '-'                  <bitwiseAndExpr> <bitwise_or_tail>                
+<bitwiseOrExpr>                'False'              <bitwiseAndExpr> <bitwise_or_tail>                
+<bitwiseOrExpr>                'IDENTIFIER'         <bitwiseAndExpr> <bitwise_or_tail>                
+<bitwiseOrExpr>                'NUMBER'             <bitwiseAndExpr> <bitwise_or_tail>                
+<bitwiseOrExpr>                'STRING'             <bitwiseAndExpr> <bitwise_or_tail>                
+<bitwiseOrExpr>                'True'               <bitwiseAndExpr> <bitwise_or_tail>                
+<bitwiseOrExpr>                '['                  <bitwiseAndExpr> <bitwise_or_tail>                
+<bitwise_and_tail>             '&'                  '&' <comparisonExpr> <bitwise_and_tail>           
+<bitwise_and_tail>             '('                  ε                                                 
+<bitwise_and_tail>             ')'                  ε                                                 
+<bitwise_and_tail>             ','                  ε                                                 
+<bitwise_and_tail>             '-'                  ε                                                 
+<bitwise_and_tail>             ':'                  ε                                                 
+<bitwise_and_tail>             ';'                  ε                                                 
+<bitwise_and_tail>             '='                  ε                                                 
+<bitwise_and_tail>             'EOF'                ε                                                 
+<bitwise_and_tail>             'False'              ε                                                 
+<bitwise_and_tail>             'IDENTIFIER'         ε                                                 
+<bitwise_and_tail>             'NUMBER'             ε                                                 
+<bitwise_and_tail>             'STRING'             ε                                                 
+<bitwise_and_tail>             'True'               ε                                                 
+<bitwise_and_tail>             '['                  ε                                                 
+<bitwise_and_tail>             ']'                  ε                                                 
+<bitwise_and_tail>             'and'                ε                                                 
+<bitwise_and_tail>             'break'              ε                                                 
+<bitwise_and_tail>             'continue'           ε                                                 
+<bitwise_and_tail>             'def'                ε                                                 
+<bitwise_and_tail>             'do'                 ε                                                 
+<bitwise_and_tail>             'else'               ε                                                 
+<bitwise_and_tail>             'for'                ε                                                 
+<bitwise_and_tail>             'if'                 ε                                                 
+<bitwise_and_tail>             'not'                ε                                                 
+<bitwise_and_tail>             'or'                 ε                                                 
+<bitwise_and_tail>             'while'              ε                                                 
+<bitwise_and_tail>             '|'                  ε                                                 
+<bitwise_and_tail>             '}'                  ε                                                 
+<bitwise_or_tail>              '('                  ε                                                 
+<bitwise_or_tail>              ')'                  ε                                                 
+<bitwise_or_tail>              ','                  ε                                                 
+<bitwise_or_tail>              '-'                  ε                                                 
+<bitwise_or_tail>              ':'                  ε                                                 
+<bitwise_or_tail>              ';'                  ε                                                 
+<bitwise_or_tail>              '='                  ε                                                 
+<bitwise_or_tail>              'EOF'                ε                                                 
+<bitwise_or_tail>              'False'              ε                                                 
+<bitwise_or_tail>              'IDENTIFIER'         ε                                                 
+<bitwise_or_tail>              'NUMBER'             ε                                                 
+<bitwise_or_tail>              'STRING'             ε                                                 
+<bitwise_or_tail>              'True'               ε                                                 
+<bitwise_or_tail>              '['                  ε                                                 
+<bitwise_or_tail>              ']'                  ε                                                 
+<bitwise_or_tail>              'and'                ε                                                 
+<bitwise_or_tail>              'break'              ε                                                 
+<bitwise_or_tail>              'continue'           ε                                                 
+<bitwise_or_tail>              'def'                ε                                                 
+<bitwise_or_tail>              'do'                 ε                                                 
+<bitwise_or_tail>              'else'               ε                                                 
+<bitwise_or_tail>              'for'                ε                                                 
+<bitwise_or_tail>              'if'                 ε                                                 
+<bitwise_or_tail>              'not'                ε                                                 
+<bitwise_or_tail>              'or'                 ε                                                 
+<bitwise_or_tail>              'while'              ε                                                 
+<bitwise_or_tail>              '|'                  '|' <bitwiseAndExpr> <bitwise_or_tail>            
+<bitwise_or_tail>              '}'                  ε                                                 
+<block>                        '('                  <statement>                                       
+<block>                        '-'                  <statement>                                       
+<block>                        'False'              <statement>                                       
+<block>                        'IDENTIFIER'         <statement>                                       
+<block>                        'NUMBER'             <statement>                                       
+<block>                        'STRING'             <statement>                                       
+<block>                        'True'               <statement>                                       
+<block>                        '['                  <statement>                                       
+<block>                        'break'              <statement>                                       
+<block>                        'continue'           <statement>                                       
+<block>                        'def'                <statement>                                       
+<block>                        'do'                 <statement>                                       
+<block>                        'for'                <statement>                                       
+<block>                        'if'                 <statement>                                       
+<block>                        'not'                <statement>                                       
+<block>                        'while'              <statement>                                       
+<block>                        '{'                  '{' <statement_list> '}'                          
+<breakStatement>               'break'              'break' <optional_semicolon>                      
+<comparisonExpr>               '('                  <additiveExpr> <comparison_tail>                  
+<comparisonExpr>               '-'                  <additiveExpr> <comparison_tail>                  
+<comparisonExpr>               'False'              <additiveExpr> <comparison_tail>                  
+<comparisonExpr>               'IDENTIFIER'         <additiveExpr> <comparison_tail>                  
+<comparisonExpr>               'NUMBER'             <additiveExpr> <comparison_tail>                  
+<comparisonExpr>               'STRING'             <additiveExpr> <comparison_tail>                  
+<comparisonExpr>               'True'               <additiveExpr> <comparison_tail>                  
+<comparisonExpr>               '['                  <additiveExpr> <comparison_tail>                  
+<comparison_op>                '!='                 '!='                                              
+<comparison_op>                '<'                  '<'                                               
+<comparison_op>                '<='                 '<='                                              
+<comparison_op>                '=='                 '=='                                              
+<comparison_op>                '>'                  '>'                                               
+<comparison_op>                '>='                 '>='                                              
+<comparison_tail>              '!='                 <comparison_op> <additiveExpr> <comparison_tail>  
+<comparison_tail>              '&'                  ε                                                 
+<comparison_tail>              '('                  ε                                                 
+<comparison_tail>              ')'                  ε                                                 
+<comparison_tail>              ','                  ε                                                 
+<comparison_tail>              '-'                  ε                                                 
+<comparison_tail>              ':'                  ε                                                 
+<comparison_tail>              ';'                  ε                                                 
+<comparison_tail>              '<'                  <comparison_op> <additiveExpr> <comparison_tail>  
+<comparison_tail>              '<='                 <comparison_op> <additiveExpr> <comparison_tail>  
+<comparison_tail>              '='                  ε                                                 
+<comparison_tail>              '=='                 <comparison_op> <additiveExpr> <comparison_tail>  
+<comparison_tail>              '>'                  <comparison_op> <additiveExpr> <comparison_tail>  
+<comparison_tail>              '>='                 <comparison_op> <additiveExpr> <comparison_tail>  
+<comparison_tail>              'EOF'                ε                                                 
+<comparison_tail>              'False'              ε                                                 
+<comparison_tail>              'IDENTIFIER'         ε                                                 
+<comparison_tail>              'NUMBER'             ε                                                 
+<comparison_tail>              'STRING'             ε                                                 
+<comparison_tail>              'True'               ε                                                 
+<comparison_tail>              '['                  ε                                                 
+<comparison_tail>              ']'                  ε                                                 
+<comparison_tail>              'and'                ε                                                 
+<comparison_tail>              'break'              ε                                                 
+<comparison_tail>              'continue'           ε                                                 
+<comparison_tail>              'def'                ε                                                 
+<comparison_tail>              'do'                 ε                                                 
+<comparison_tail>              'else'               ε                                                 
+<comparison_tail>              'for'                ε                                                 
+<comparison_tail>              'if'                 ε                                                 
+<comparison_tail>              'not'                ε                                                 
+<comparison_tail>              'or'                 ε                                                 
+<comparison_tail>              'while'              ε                                                 
+<comparison_tail>              '|'                  ε                                                 
+<comparison_tail>              '}'                  ε                                                 
+<continueStatement>            'continue'           'continue' <optional_semicolon>                   
+<defStatement>                 'def'                'def' 'IDENTIFIER' '(' <optional_params> ')' ':' '{' <statement_list> '}' <optional_semicolon>
+<doWhileStatement>             'do'                 'do' ':' <block> 'while' <expression> <optional_semicolon>
+<expr_list_tail>               ','                  ',' <expression> <expr_list_tail>                 
+<expr_list_tail>               ']'                  ε                                                 
+<expression>                   '('                  <assignmentExpr>                                  
+<expression>                   '-'                  <assignmentExpr>                                  
+<expression>                   'False'              <assignmentExpr>                                  
+<expression>                   'IDENTIFIER'         <assignmentExpr>                                  
+<expression>                   'NUMBER'             <assignmentExpr>                                  
+<expression>                   'STRING'             <assignmentExpr>                                  
+<expression>                   'True'               <assignmentExpr>                                  
+<expression>                   '['                  <assignmentExpr>                                  
+<expression>                   'not'                <assignmentExpr>                                  
+<expressionList>               '('                  <expression> <expr_list_tail>                     
+<expressionList>               '-'                  <expression> <expr_list_tail>                     
+<expressionList>               'False'              <expression> <expr_list_tail>                     
+<expressionList>               'IDENTIFIER'         <expression> <expr_list_tail>                     
+<expressionList>               'NUMBER'             <expression> <expr_list_tail>                     
+<expressionList>               'STRING'             <expression> <expr_list_tail>                     
+<expressionList>               'True'               <expression> <expr_list_tail>                     
+<expressionList>               '['                  <expression> <expr_list_tail>                     
+<expressionList>               'not'                <expression> <expr_list_tail>                     
+<expressionStatement>          '('                  <expression> <optional_semicolon>                 
+<expressionStatement>          '-'                  <expression> <optional_semicolon>                 
+<expressionStatement>          'False'              <expression> <optional_semicolon>                 
+<expressionStatement>          'IDENTIFIER'         <expression> <optional_semicolon>                 
+<expressionStatement>          'NUMBER'             <expression> <optional_semicolon>                 
+<expressionStatement>          'STRING'             <expression> <optional_semicolon>                 
+<expressionStatement>          'True'               <expression> <optional_semicolon>                 
+<expressionStatement>          '['                  <expression> <optional_semicolon>                 
+<expressionStatement>          'not'                <expression> <optional_semicolon>                 
+<forStatement>                 'for'                'for' 'IDENTIFIER' 'in' 'range' '(' <range_args> ')' ':' <block>
+<ifStatement>                  'if'                 'if' <expression> ':' <block> <optional_else>     
+<logicalAndExpr>               '('                  <logicalNotExpr> <logical_and_tail>               
+<logicalAndExpr>               '-'                  <logicalNotExpr> <logical_and_tail>               
+<logicalAndExpr>               'False'              <logicalNotExpr> <logical_and_tail>               
+<logicalAndExpr>               'IDENTIFIER'         <logicalNotExpr> <logical_and_tail>               
+<logicalAndExpr>               'NUMBER'             <logicalNotExpr> <logical_and_tail>               
+<logicalAndExpr>               'STRING'             <logicalNotExpr> <logical_and_tail>               
+<logicalAndExpr>               'True'               <logicalNotExpr> <logical_and_tail>               
+<logicalAndExpr>               '['                  <logicalNotExpr> <logical_and_tail>               
+<logicalAndExpr>               'not'                <logicalNotExpr> <logical_and_tail>               
+<logicalNotExpr>               '('                  <bitwiseOrExpr>                                   
+<logicalNotExpr>               '-'                  <bitwiseOrExpr>                                   
+<logicalNotExpr>               'False'              <bitwiseOrExpr>                                   
+<logicalNotExpr>               'IDENTIFIER'         <bitwiseOrExpr>                                   
+<logicalNotExpr>               'NUMBER'             <bitwiseOrExpr>                                   
+<logicalNotExpr>               'STRING'             <bitwiseOrExpr>                                   
+<logicalNotExpr>               'True'               <bitwiseOrExpr>                                   
+<logicalNotExpr>               '['                  <bitwiseOrExpr>                                   
+<logicalNotExpr>               'not'                'not' <logicalNotExpr>                            
+<logicalOrExpr>                '('                  <logicalAndExpr> <logical_or_tail>                
+<logicalOrExpr>                '-'                  <logicalAndExpr> <logical_or_tail>                
+<logicalOrExpr>                'False'              <logicalAndExpr> <logical_or_tail>                
+<logicalOrExpr>                'IDENTIFIER'         <logicalAndExpr> <logical_or_tail>                
+<logicalOrExpr>                'NUMBER'             <logicalAndExpr> <logical_or_tail>                
+<logicalOrExpr>                'STRING'             <logicalAndExpr> <logical_or_tail>                
+<logicalOrExpr>                'True'               <logicalAndExpr> <logical_or_tail>                
+<logicalOrExpr>                '['                  <logicalAndExpr> <logical_or_tail>                
+<logicalOrExpr>                'not'                <logicalAndExpr> <logical_or_tail>                
+<logical_and_tail>             '('                  ε                                                 
+<logical_and_tail>             ')'                  ε                                                 
+<logical_and_tail>             ','                  ε                                                 
+<logical_and_tail>             '-'                  ε                                                 
+<logical_and_tail>             ':'                  ε                                                 
+<logical_and_tail>             ';'                  ε                                                 
+<logical_and_tail>             '='                  ε                                                 
+<logical_and_tail>             'EOF'                ε                                                 
+<logical_and_tail>             'False'              ε                                                 
+<logical_and_tail>             'IDENTIFIER'         ε                                                 
+<logical_and_tail>             'NUMBER'             ε                                                 
+<logical_and_tail>             'STRING'             ε                                                 
+<logical_and_tail>             'True'               ε                                                 
+<logical_and_tail>             '['                  ε                                                 
+<logical_and_tail>             ']'                  ε                                                 
+<logical_and_tail>             'and'                'and' <logicalNotExpr> <logical_and_tail>         
+<logical_and_tail>             'break'              ε                                                 
+<logical_and_tail>             'continue'           ε                                                 
+<logical_and_tail>             'def'                ε                                                 
+<logical_and_tail>             'do'                 ε                                                 
+<logical_and_tail>             'else'               ε                                                 
+<logical_and_tail>             'for'                ε                                                 
+<logical_and_tail>             'if'                 ε                                                 
+<logical_and_tail>             'not'                ε                                                 
+<logical_and_tail>             'or'                 ε                                                 
+<logical_and_tail>             'while'              ε                                                 
+<logical_and_tail>             '}'                  ε                                                 
+<logical_or_tail>              '('                  ε                                                 
+<logical_or_tail>              ')'                  ε                                                 
+<logical_or_tail>              ','                  ε                                                 
+<logical_or_tail>              '-'                  ε                                                 
+<logical_or_tail>              ':'                  ε                                                 
+<logical_or_tail>              ';'                  ε                                                 
+<logical_or_tail>              '='                  ε                                                 
+<logical_or_tail>              'EOF'                ε                                                 
+<logical_or_tail>              'False'              ε                                                 
+<logical_or_tail>              'IDENTIFIER'         ε                                                 
+<logical_or_tail>              'NUMBER'             ε                                                 
+<logical_or_tail>              'STRING'             ε                                                 
+<logical_or_tail>              'True'               ε                                                 
+<logical_or_tail>              '['                  ε                                                 
+<logical_or_tail>              ']'                  ε                                                 
+<logical_or_tail>              'break'              ε                                                 
+<logical_or_tail>              'continue'           ε                                                 
+<logical_or_tail>              'def'                ε                                                 
+<logical_or_tail>              'do'                 ε                                                 
+<logical_or_tail>              'else'               ε                                                 
+<logical_or_tail>              'for'                ε                                                 
+<logical_or_tail>              'if'                 ε                                                 
+<logical_or_tail>              'not'                ε                                                 
+<logical_or_tail>              'or'                 'or' <logicalAndExpr> <logical_or_tail>           
+<logical_or_tail>              'while'              ε                                                 
+<logical_or_tail>              '}'                  ε                                                 
+<mul_op>                       '%'                  '%'                                               
+<mul_op>                       '*'                  '*'                                               
+<mul_op>                       '/'                  '/'                                               
+<multiplicativeExpr>           '('                  <powerExpr> <multiplicative_tail>                 
+<multiplicativeExpr>           '-'                  <powerExpr> <multiplicative_tail>                 
+<multiplicativeExpr>           'False'              <powerExpr> <multiplicative_tail>                 
+<multiplicativeExpr>           'IDENTIFIER'         <powerExpr> <multiplicative_tail>                 
+<multiplicativeExpr>           'NUMBER'             <powerExpr> <multiplicative_tail>                 
+<multiplicativeExpr>           'STRING'             <powerExpr> <multiplicative_tail>                 
+<multiplicativeExpr>           'True'               <powerExpr> <multiplicative_tail>                 
+<multiplicativeExpr>           '['                  <powerExpr> <multiplicative_tail>                 
+<multiplicative_tail>          '!='                 ε                                                 
+<multiplicative_tail>          '%'                  <mul_op> <powerExpr> <multiplicative_tail>        
+<multiplicative_tail>          '&'                  ε                                                 
+<multiplicative_tail>          '('                  ε                                                 
+<multiplicative_tail>          ')'                  ε                                                 
+<multiplicative_tail>          '*'                  <mul_op> <powerExpr> <multiplicative_tail>        
+<multiplicative_tail>          '+'                  ε                                                 
+<multiplicative_tail>          ','                  ε                                                 
+<multiplicative_tail>          '-'                  ε                                                 
+<multiplicative_tail>          '/'                  <mul_op> <powerExpr> <multiplicative_tail>        
+<multiplicative_tail>          ':'                  ε                                                 
+<multiplicative_tail>          ';'                  ε                                                 
+<multiplicative_tail>          '<'                  ε                                                 
+<multiplicative_tail>          '<='                 ε                                                 
+<multiplicative_tail>          '='                  ε                                                 
+<multiplicative_tail>          '=='                 ε                                                 
+<multiplicative_tail>          '>'                  ε                                                 
+<multiplicative_tail>          '>='                 ε                                                 
+<multiplicative_tail>          'EOF'                ε                                                 
+<multiplicative_tail>          'False'              ε                                                 
+<multiplicative_tail>          'IDENTIFIER'         ε                                                 
+<multiplicative_tail>          'NUMBER'             ε                                                 
+<multiplicative_tail>          'STRING'             ε                                                 
+<multiplicative_tail>          'True'               ε                                                 
+<multiplicative_tail>          '['                  ε                                                 
+<multiplicative_tail>          ']'                  ε                                                 
+<multiplicative_tail>          'and'                ε                                                 
+<multiplicative_tail>          'break'              ε                                                 
+<multiplicative_tail>          'continue'           ε                                                 
+<multiplicative_tail>          'def'                ε                                                 
+<multiplicative_tail>          'do'                 ε                                                 
+<multiplicative_tail>          'else'               ε                                                 
+<multiplicative_tail>          'for'                ε                                                 
+<multiplicative_tail>          'if'                 ε                                                 
+<multiplicative_tail>          'not'                ε                                                 
+<multiplicative_tail>          'or'                 ε                                                 
+<multiplicative_tail>          'while'              ε                                                 
+<multiplicative_tail>          '|'                  ε                                                 
+<multiplicative_tail>          '}'                  ε                                                 
+<optional_args>                '('                  <argList>                                         
+<optional_args>                ')'                  ε                                                 
+<optional_args>                '-'                  <argList>                                         
+<optional_args>                'False'              <argList>                                         
+<optional_args>                'IDENTIFIER'         <argList>                                         
+<optional_args>                'NUMBER'             <argList>                                         
+<optional_args>                'STRING'             <argList>                                         
+<optional_args>                'True'               <argList>                                         
+<optional_args>                '['                  <argList>                                         
+<optional_args>                'not'                <argList>                                         
+<optional_else>                '('                  ε                                                 
+<optional_else>                '-'                  ε                                                 
+<optional_else>                'EOF'                ε                                                 
+<optional_else>                'False'              ε                                                 
+<optional_else>                'IDENTIFIER'         ε                                                 
+<optional_else>                'NUMBER'             ε                                                 
+<optional_else>                'STRING'             ε                                                 
+<optional_else>                'True'               ε                                                 
+<optional_else>                '['                  ε                                                 
+<optional_else>                'break'              ε                                                 
+<optional_else>                'continue'           ε                                                 
+<optional_else>                'def'                ε                                                 
+<optional_else>                'do'                 ε                                                 
+<optional_else>                'else'               'else' ':' <block>                                
+<optional_else>                'for'                ε                                                 
+<optional_else>                'if'                 ε                                                 
+<optional_else>                'not'                ε                                                 
+<optional_else>                'while'              ε                                                 
+<optional_else>                '}'                  ε                                                 
+<optional_expr_list>           '('                  <expressionList>                                  
+<optional_expr_list>           '-'                  <expressionList>                                  
+<optional_expr_list>           'False'              <expressionList>                                  
+<optional_expr_list>           'IDENTIFIER'         <expressionList>                                  
+<optional_expr_list>           'NUMBER'             <expressionList>                                  
+<optional_expr_list>           'STRING'             <expressionList>                                  
+<optional_expr_list>           'True'               <expressionList>                                  
+<optional_expr_list>           '['                  <expressionList>                                  
+<optional_expr_list>           ']'                  ε                                                 
+<optional_expr_list>           'not'                <expressionList>                                  
+<optional_params>              ')'                  ε                                                 
+<optional_params>              'IDENTIFIER'         <paramList>                                       
+<optional_semicolon>           '('                  ε                                                 
+<optional_semicolon>           '-'                  ε                                                 
+<optional_semicolon>           ';'                  ';'                                               
+<optional_semicolon>           'EOF'                ε                                                 
+<optional_semicolon>           'False'              ε                                                 
+<optional_semicolon>           'IDENTIFIER'         ε                                                 
+<optional_semicolon>           'NUMBER'             ε                                                 
+<optional_semicolon>           'STRING'             ε                                                 
+<optional_semicolon>           'True'               ε                                                 
+<optional_semicolon>           '['                  ε                                                 
+<optional_semicolon>           'break'              ε                                                 
+<optional_semicolon>           'continue'           ε                                                 
+<optional_semicolon>           'def'                ε                                                 
+<optional_semicolon>           'do'                 ε                                                 
+<optional_semicolon>           'else'               ε                                                 
+<optional_semicolon>           'for'                ε                                                 
+<optional_semicolon>           'if'                 ε                                                 
+<optional_semicolon>           'not'                ε                                                 
+<optional_semicolon>           'while'              ε                                                 
+<optional_semicolon>           '}'                  ε                                                 
+<paramList>                    'IDENTIFIER'         'IDENTIFIER' <param_list_tail>                    
+<param_list_tail>              ')'                  ε                                                 
+<param_list_tail>              ','                  ',' 'IDENTIFIER' <param_list_tail>                
+<postfix>                      '('                  '(' <optional_args> ')'                           
+<postfix>                      '['                  '[' <expression> ']'                              
+<postfixExpr>                  '('                  <primary> <postfix_list>                          
+<postfixExpr>                  'False'              <primary> <postfix_list>                          
+<postfixExpr>                  'IDENTIFIER'         <primary> <postfix_list>                          
+<postfixExpr>                  'NUMBER'             <primary> <postfix_list>                          
+<postfixExpr>                  'STRING'             <primary> <postfix_list>                          
+<postfixExpr>                  'True'               <primary> <postfix_list>                          
+<postfixExpr>                  '['                  <primary> <postfix_list>                          
+<postfix_list>                 '!='                 ε                                                 
+<postfix_list>                 '%'                  ε                                                 
+<postfix_list>                 '&'                  ε                                                 
+<postfix_list>                 '('                  <postfix> <postfix_list>                          
+<postfix_list>                 ')'                  ε                                                 
+<postfix_list>                 '*'                  ε                                                 
+<postfix_list>                 '**'                 ε                                                 
+<postfix_list>                 '+'                  ε                                                 
+<postfix_list>                 ','                  ε                                                 
+<postfix_list>                 '-'                  ε                                                 
+<postfix_list>                 '/'                  ε                                                 
+<postfix_list>                 ':'                  ε                                                 
+<postfix_list>                 ';'                  ε                                                 
+<postfix_list>                 '<'                  ε                                                 
+<postfix_list>                 '<='                 ε                                                 
+<postfix_list>                 '='                  ε                                                 
+<postfix_list>                 '=='                 ε                                                 
+<postfix_list>                 '>'                  ε                                                 
+<postfix_list>                 '>='                 ε                                                 
+<postfix_list>                 'EOF'                ε                                                 
+<postfix_list>                 'False'              ε                                                 
+<postfix_list>                 'IDENTIFIER'         ε                                                 
+<postfix_list>                 'NUMBER'             ε                                                 
+<postfix_list>                 'STRING'             ε                                                 
+<postfix_list>                 'True'               ε                                                 
+<postfix_list>                 '['                  <postfix> <postfix_list>                          
+<postfix_list>                 ']'                  ε                                                 
+<postfix_list>                 'and'                ε                                                 
+<postfix_list>                 'break'              ε                                                 
+<postfix_list>                 'continue'           ε                                                 
+<postfix_list>                 'def'                ε                                                 
+<postfix_list>                 'do'                 ε                                                 
+<postfix_list>                 'else'               ε                                                 
+<postfix_list>                 'for'                ε                                                 
+<postfix_list>                 'if'                 ε                                                 
+<postfix_list>                 'not'                ε                                                 
+<postfix_list>                 'or'                 ε                                                 
+<postfix_list>                 'while'              ε                                                 
+<postfix_list>                 '|'                  ε                                                 
+<postfix_list>                 '}'                  ε                                                 
+<powerExpr>                    '('                  <unaryExpr> <power_tail>                          
+<powerExpr>                    '-'                  <unaryExpr> <power_tail>                          
+<powerExpr>                    'False'              <unaryExpr> <power_tail>                          
+<powerExpr>                    'IDENTIFIER'         <unaryExpr> <power_tail>                          
+<powerExpr>                    'NUMBER'             <unaryExpr> <power_tail>                          
+<powerExpr>                    'STRING'             <unaryExpr> <power_tail>                          
+<powerExpr>                    'True'               <unaryExpr> <power_tail>                          
+<powerExpr>                    '['                  <unaryExpr> <power_tail>                          
+<power_tail>                   '!='                 ε                                                 
+<power_tail>                   '%'                  ε                                                 
+<power_tail>                   '&'                  ε                                                 
+<power_tail>                   '('                  ε                                                 
+<power_tail>                   ')'                  ε                                                 
+<power_tail>                   '*'                  ε                                                 
+<power_tail>                   '**'                 '**' <powerExpr>                                  
+<power_tail>                   '+'                  ε                                                 
+<power_tail>                   ','                  ε                                                 
+<power_tail>                   '-'                  ε                                                 
+<power_tail>                   '/'                  ε                                                 
+<power_tail>                   ':'                  ε                                                 
+<power_tail>                   ';'                  ε                                                 
+<power_tail>                   '<'                  ε                                                 
+<power_tail>                   '<='                 ε                                                 
+<power_tail>                   '='                  ε                                                 
+<power_tail>                   '=='                 ε                                                 
+<power_tail>                   '>'                  ε                                                 
+<power_tail>                   '>='                 ε                                                 
+<power_tail>                   'EOF'                ε                                                 
+<power_tail>                   'False'              ε                                                 
+<power_tail>                   'IDENTIFIER'         ε                                                 
+<power_tail>                   'NUMBER'             ε                                                 
+<power_tail>                   'STRING'             ε                                                 
+<power_tail>                   'True'               ε                                                 
+<power_tail>                   '['                  ε                                                 
+<power_tail>                   ']'                  ε                                                 
+<power_tail>                   'and'                ε                                                 
+<power_tail>                   'break'              ε                                                 
+<power_tail>                   'continue'           ε                                                 
+<power_tail>                   'def'                ε                                                 
+<power_tail>                   'do'                 ε                                                 
+<power_tail>                   'else'               ε                                                 
+<power_tail>                   'for'                ε                                                 
+<power_tail>                   'if'                 ε                                                 
+<power_tail>                   'not'                ε                                                 
+<power_tail>                   'or'                 ε                                                 
+<power_tail>                   'while'              ε                                                 
+<power_tail>                   '|'                  ε                                                 
+<power_tail>                   '}'                  ε                                                 
+<primary>                      '('                  '(' <expression> ')'                              
+<primary>                      'False'              'False'                                           
+<primary>                      'IDENTIFIER'         'IDENTIFIER'                                      
+<primary>                      'NUMBER'             'NUMBER'                                          
+<primary>                      'STRING'             'STRING'                                          
+<primary>                      'True'               'True'                                            
+<primary>                      '['                  '[' <optional_expr_list> ']'                      
+<program>                      '('                  <statement_list> 'EOF'                            
+<program>                      '-'                  <statement_list> 'EOF'                            
+<program>                      'EOF'                <statement_list> 'EOF'                            
+<program>                      'False'              <statement_list> 'EOF'                            
+<program>                      'IDENTIFIER'         <statement_list> 'EOF'                            
+<program>                      'NUMBER'             <statement_list> 'EOF'                            
+<program>                      'STRING'             <statement_list> 'EOF'                            
+<program>                      'True'               <statement_list> 'EOF'                            
+<program>                      '['                  <statement_list> 'EOF'                            
+<program>                      'break'              <statement_list> 'EOF'                            
+<program>                      'continue'           <statement_list> 'EOF'                            
+<program>                      'def'                <statement_list> 'EOF'                            
+<program>                      'do'                 <statement_list> 'EOF'                            
+<program>                      'for'                <statement_list> 'EOF'                            
+<program>                      'if'                 <statement_list> 'EOF'                            
+<program>                      'not'                <statement_list> 'EOF'                            
+<program>                      'while'              <statement_list> 'EOF'                            
+<range_args>                   '('                  <expression> <range_args_tail>                    
+<range_args>                   '-'                  <expression> <range_args_tail>                    
+<range_args>                   'False'              <expression> <range_args_tail>                    
+<range_args>                   'IDENTIFIER'         <expression> <range_args_tail>                    
+<range_args>                   'NUMBER'             <expression> <range_args_tail>                    
+<range_args>                   'STRING'             <expression> <range_args_tail>                    
+<range_args>                   'True'               <expression> <range_args_tail>                    
+<range_args>                   '['                  <expression> <range_args_tail>                    
+<range_args>                   'not'                <expression> <range_args_tail>                    
+<range_args_tail2>             ')'                  ε                                                 
+<range_args_tail2>             ','                  ',' <expression>                                  
+<range_args_tail>              ')'                  ε                                                 
+<range_args_tail>              ','                  ',' <expression> <range_args_tail2>               
+<statement>                    '('                  <expressionStatement>                             
+<statement>                    '-'                  <expressionStatement>                             
+<statement>                    'False'              <expressionStatement>                             
+<statement>                    'IDENTIFIER'         <expressionStatement>                             
+<statement>                    'NUMBER'             <expressionStatement>                             
+<statement>                    'STRING'             <expressionStatement>                             
+<statement>                    'True'               <expressionStatement>                             
+<statement>                    '['                  <expressionStatement>                             
+<statement>                    'break'              <breakStatement>                                  
+<statement>                    'continue'           <continueStatement>                               
+<statement>                    'def'                <defStatement>                                    
+<statement>                    'do'                 <doWhileStatement>                                
+<statement>                    'for'                <forStatement>                                    
+<statement>                    'if'                 <ifStatement>                                     
+<statement>                    'not'                <expressionStatement>                             
+<statement>                    'while'              <whileStatement>                                  
+<statement_list>               '('                  <statement> <statement_list>                      
+<statement_list>               '-'                  <statement> <statement_list>                      
+<statement_list>               'EOF'                ε                                                 
+<statement_list>               'False'              <statement> <statement_list>                      
+<statement_list>               'IDENTIFIER'         <statement> <statement_list>                      
+<statement_list>               'NUMBER'             <statement> <statement_list>                      
+<statement_list>               'STRING'             <statement> <statement_list>                      
+<statement_list>               'True'               <statement> <statement_list>                      
+<statement_list>               '['                  <statement> <statement_list>                      
+<statement_list>               'break'              <statement> <statement_list>                      
+<statement_list>               'continue'           <statement> <statement_list>                      
+<statement_list>               'def'                <statement> <statement_list>                      
+<statement_list>               'do'                 <statement> <statement_list>                      
+<statement_list>               'for'                <statement> <statement_list>                      
+<statement_list>               'if'                 <statement> <statement_list>                      
+<statement_list>               'not'                <statement> <statement_list>                      
+<statement_list>               'while'              <statement> <statement_list>                      
+<statement_list>               '}'                  ε                                                 
+<unaryExpr>                    '('                  <postfixExpr>                                     
+<unaryExpr>                    '-'                  '-' <unaryExpr>                                   
+<unaryExpr>                    'False'              <postfixExpr>                                     
+<unaryExpr>                    'IDENTIFIER'         <postfixExpr>                                     
+<unaryExpr>                    'NUMBER'             <postfixExpr>                                     
+<unaryExpr>                    'STRING'             <postfixExpr>                                     
+<unaryExpr>                    'True'               <postfixExpr>                                     
+<unaryExpr>                    '['                  <postfixExpr>                                     
+<whileStatement>               'while'              'while' <expression> ':' <block>                  
