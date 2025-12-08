@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./src",
+        "./projeto_segundo_bimestre/src"
+    ]
+}
