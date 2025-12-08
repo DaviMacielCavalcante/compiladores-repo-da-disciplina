@@ -1,372 +1,243 @@
+#!/usr/bin/env python3
 """
-Parser LL(1) para Vython
-Implementa análise sintática top-down com pilha
+Parser LL(1) com Pilha - Implementação Pura
+Requisito da lauda: Tabela de casamento (MATCH) com pilha
 """
 
-from typing import List, Dict, Tuple, Optional
-from collections import defaultdict
-
-
-class ASTNode:
-    """Nó da Árvore Sintática Abstrata (AST)"""
-    
-    def __init__(self, symbol: str, value: str = None, children: List['ASTNode'] = None):
-        """
-        Args:
-            symbol: Símbolo gramatical (não-terminal ou terminal)
-            value: Valor do token (para terminais)
-            children: Lista de filhos (para não-terminais)
-        """
-        self.symbol = symbol
-        self.value = value
-        self.children = children or []
-        
-    def add_child(self, node: 'ASTNode'):
-        """Adiciona um filho ao nó"""
-        self.children.append(node)
-        
-    def is_terminal(self) -> bool:
-        """Verifica se é um nó terminal"""
-        return len(self.children) == 0 and self.value is not None
-        
-    def print_tree(self, indent: int = 0, prefix: str = ""):
-        """Imprime a árvore de forma visual"""
-        # Símbolo epsilon não é impresso
-        if self.symbol == 'ε':
-            return
-            
-        # Imprime o nó atual
-        print(f"{' ' * indent}{prefix}{self.symbol}", end="")
-        if self.value is not None:
-            print(f" = '{self.value}'", end="")
-        print()
-        
-        # Imprime filhos
-        for i, child in enumerate(self.children):
-            is_last = (i == len(self.children) - 1)
-            child_prefix = "└── " if is_last else "├── "
-            child.print_tree(indent + 4, child_prefix)
-            
-    def to_dict(self) -> dict:
-        """Converte árvore para dicionário (para JSON)"""
-        result = {
-            'symbol': self.symbol,
-            'value': self.value
-        }
-        
-        if self.children:
-            result['children'] = [child.to_dict() for child in self.children if child.symbol != 'ε']
-            
-        return result
-
-
-class ParseError(Exception):
-    """Erro de parsing"""
-    
-    def __init__(self, message: str, token: str = None, expected: List[str] = None, position: int = None):
-        self.message = message
-        self.token = token
-        self.expected = expected
-        self.position = position
-        super().__init__(self.format_error())
-        
-    def format_error(self) -> str:
-        """Formata mensagem de erro"""
-        msg = f"Erro de sintaxe: {self.message}"
-        
-        if self.position is not None:
-            msg += f" (posição {self.position})"
-            
-        if self.token:
-            msg += f"\n  Token encontrado: '{self.token}'"
-            
-        if self.expected:
-            msg += f"\n  Esperado um de: {', '.join(self.expected)}"
-            
-        return msg
+from collections import deque
 
 
 class LL1Parser:
-    """
-    Parser LL(1) com pilha
-    
-    Implementa o algoritmo de parsing top-down preditivo
-    usando a tabela de parsing LL(1).
-    """
+    """Parser LL(1) usando tabela de parsing e pilha."""
     
     def __init__(self, grammar, parsing_table):
         """
+        Inicializa parser.
+        
         Args:
             grammar: Objeto Grammar com a gramática
-            parsing_table: Objeto ParsingTable com a tabela M[NT, T]
+            parsing_table: Objeto ParsingTable com tabela construída
         """
         self.grammar = grammar
-        self.parsing_table = parsing_table
-        self.stack = []
-        self.input_tokens = []
-        self.current_position = 0
+        self.table = parsing_table.table
+        self.stack = deque()
+        self.tokens = []
+        self.position = 0
+        self.accepted = False
+        self.derivations = []  # Guarda derivações
         
-        # Para construir AST
-        self.ast_stack = []
-        
-    def parse(self, tokens: List[Tuple[str, str]]) -> ASTNode:
+    def parse(self, tokens):
         """
-        Realiza parsing de uma lista de tokens
+        Analisa lista de tokens usando LL(1) com pilha.
         
         Args:
-            tokens: Lista de tuplas (tipo_token, valor)
-                   Ex: [('IDENTIFIER', 'x'), ('=', '='), ('NUMBER', '5')]
-                   
-        Returns:
-            Raiz da árvore sintática (AST)
+            tokens: Lista de tuplas (tipo, valor) ou objetos Token
             
-        Raises:
-            ParseError: Se houver erro de sintaxe
+        Returns:
+            bool: True se aceito, False se rejeitado
         """
         # Inicializar
-        self.input_tokens = tokens + [('$', '$')]  # Adiciona fim de entrada
-        self.current_position = 0
+        self.tokens = self._normalize_tokens(tokens)
+        self.position = 0
+        self.stack = deque()
+        self.derivations = []
+        self.accepted = False
         
-        # Pilha: [$, <program>]
-        self.stack = ['$', self.grammar.start_symbol]
+        # Configurar pilha: $ e símbolo inicial
+        self.stack.append('$')
+        self.stack.append(self.grammar.start_symbol)
         
-        # Pilha AST
-        self.ast_stack = []
+        # Derivação inicial
+        self.derivations.append(self.grammar.start_symbol)
         
-        # Processar
+        print(f"[PARSER] Iniciando análise")
+        print(f"[PARSER] Tokens: {len(self.tokens)}")
+        print(f"[PARSER] Pilha inicial: $ {self.grammar.start_symbol}")
+        
+        # Algoritmo LL(1)
+        step = 0
         while len(self.stack) > 0:
-            # Topo da pilha e próximo token
-            X = self.stack[-1]  # Topo da pilha
-            a_type, a_value = self._current_token()
+            step += 1
+            top = self.stack[-1]  # Topo da pilha
+            current_token = self._current_token()
             
-            # Token atual (tipo ou valor para terminais especiais)
-            a = a_type
-            
-            # DEBUG (opcional)
-            # print(f"Stack: {self.stack[-5:]}, Token: ({a_type}, {a_value})")
+            # Debug (primeiros passos e cada 50)
+            if step <= 5 or step % 50 == 0:
+                print(f"[Passo {step}] Pilha: {self._format_stack()} | Token: {current_token[0]}:'{current_token[1]}'")
             
             # Caso 1: Topo é terminal
-            if self._is_terminal(X):
-                if self._match_terminal(X, a_type, a_value):
-                    # Match! Desempilha e avança
+            if self._is_terminal(top):
+                if self._match(top, current_token):
+                    # MATCH: Remove da pilha e avança token
                     self.stack.pop()
-                    
-                    # Cria nó terminal na AST
-                    terminal_node = ASTNode(X, a_value)
-                    self.ast_stack.append(terminal_node)
-                    
-                    self.current_position += 1
+                    self.position += 1
+                    if step <= 5:
+                        print(f"  → MATCH '{top}'")
                 else:
-                    # Erro: terminal não corresponde
-                    raise ParseError(
-                        f"Terminal '{X}' não corresponde ao token",
-                        token=f"{a_type}:'{a_value}'",
-                        expected=[X],
-                        position=self.current_position
-                    )
-                    
+                    # Erro: Terminal não casa
+                    print(f"[ERRO] Esperado '{top}', encontrado '{current_token[0]}:{current_token[1]}'")
+                    return False
+            
             # Caso 2: Topo é não-terminal
-            else:
-                # Buscar produção na tabela M[X, a]
-                production = self._get_production(X, a)
+            elif self._is_nonterminal(top):
+                production = self._get_production(top, current_token[0])
                 
                 if production is None:
-                    # Erro: sem produção na tabela
-                    expected = self._get_expected_tokens(X)
-                    raise ParseError(
-                        f"Token inesperado para não-terminal '{X}'",
-                        token=f"{a_type}:'{a_value}'",
-                        expected=expected,
-                        position=self.current_position
-                    )
-                    
-                # Desempilha X
-                self.stack.pop()
+                    # Erro: Sem produção na tabela
+                    print(f"[ERRO] Sem produção M[{top}, {current_token[0]}]")
+                    return False
                 
-                # Cria nó para o não-terminal
-                nt_node = ASTNode(X)
+                # Aplicar produção
+                self.stack.pop()  # Remove não-terminal
                 
-                # Empilha produção (ordem reversa!)
-                # Se produção = [A, B, C], empilhar: C, B, A
-                if not self.grammar.is_epsilon(production[0]):
-                    for symbol in reversed(production):
+                # Adicionar produção na pilha (ordem reversa)
+                for symbol in reversed(production):
+                    if not self.grammar.is_epsilon(symbol):
                         self.stack.append(symbol)
-                        
-                # Registra nó para construir AST depois
-                self.ast_stack.append((nt_node, len(production)))
                 
-        # Parsing completado com sucesso!
-        # Construir AST final
-        return self._build_ast()
+                # Registrar derivação
+                prod_str = ' '.join(production)
+                if step <= 5:
+                    print(f"  → EXPAND {top} → {prod_str}")
+                self.derivations.append(f"{top} → {prod_str}")
+            
+            # Caso 3: Topo é $
+            elif top == '$':
+                if current_token[0] == '$':
+                    # Sucesso!
+                    print(f"[PARSER] ✅ ACEITO (em {step} passos)")
+                    self.accepted = True
+                    return True
+                else:
+                    # Erro: Tokens sobrando
+                    print(f"[ERRO] Esperado fim ($), mas há tokens sobrando")
+                    return False
+            
+            # Proteção contra loop infinito
+            if step > 10000:
+                print(f"[ERRO] Limite de passos excedido (possível loop)")
+                return False
         
-    def _current_token(self) -> Tuple[str, str]:
-        """Retorna token atual"""
-        if self.current_position < len(self.input_tokens):
-            return self.input_tokens[self.current_position]
+        # Não deveria chegar aqui
+        print(f"[ERRO] Pilha vazia antes do fim")
+        return False
+    
+    def _normalize_tokens(self, tokens):
+        """
+        Normaliza tokens para formato (tipo, valor).
+        Adiciona $ no final.
+        """
+        normalized = []
+        
+        for token in tokens:
+            if isinstance(token, tuple):
+                # Já é tupla
+                normalized.append(token)
+            elif hasattr(token, 'type') and hasattr(token, 'value'):
+                # Objeto Token
+                normalized.append((token.type, token.value))
+            else:
+                # String?
+                normalized.append((str(token), str(token)))
+        
+        # Adicionar $ no final
+        normalized.append(('$', '$'))
+        
+        return normalized
+    
+    def _current_token(self):
+        """Retorna token atual."""
+        if self.position < len(self.tokens):
+            return self.tokens[self.position]
         return ('$', '$')
+    
+    def _is_terminal(self, symbol):
+        """Verifica se símbolo é terminal."""
+        return symbol in self.grammar.terminals or symbol.startswith("'")
+    
+    def _is_nonterminal(self, symbol):
+        """Verifica se símbolo é não-terminal."""
+        return symbol in self.grammar.nonterminals
+    
+    def _match(self, expected, token):
+        """
+        Implementa MATCH - casa terminal da pilha com token.
         
-    def _is_terminal(self, symbol: str) -> bool:
-        """Verifica se símbolo é terminal"""
-        # Remover aspas para comparação
-        clean_symbol = symbol.strip("'")
-        
-        # $ é terminal especial (fim de entrada)
-        if clean_symbol == '$' or symbol == '$':
-            return True
+        Args:
+            expected: Terminal esperado (da pilha)
+            token: Tupla (tipo, valor)
             
-        # Tokens especiais sem aspas na gramática
-        if clean_symbol in ['IDENTIFIER', 'NUMBER', 'STRING', 'True', 'False', 'EOF']:
-            return True
-            
-        # Não-terminais têm formato <nome>
-        if symbol.startswith('<') and symbol.endswith('>'):
-            return False
-            
-        # Qualquer outra coisa (operadores, keywords) é terminal
-        return True
-                
-    def _match_terminal(self, expected: str, token_type: str, token_value: str) -> bool:
-        """Verifica se terminal esperado corresponde ao token"""
-        # $ casa com $
-        if expected == '$' and token_type == '$':
-            return True
-            
-        # Remover aspas do expected se tiver
+        Returns:
+            bool: True se casa, False caso contrário
+        """
+        # Normalizar expected (remover aspas)
         expected_clean = expected.strip("'")
+        token_type = token[0]
+        token_value = token[1]
         
-        # CASO 1: Terminais especiais (IDENTIFIER, NUMBER, STRING, True, False)
-        # Estes NÃO têm aspas na gramática, mas podem ter na tabela
-        if expected_clean in ['IDENTIFIER', 'NUMBER', 'STRING', 'True', 'False', 'EOF']:
-            return expected_clean == token_type
-            
-        # CASO 2: Palavras-chave e operadores
-        # Na gramática: 'if', 'while', '+', '-', etc.
-        # No token: tipo = 'if', valor = 'if'
-        
-        # Comparar com tipo do token
+        # Tentar casar por tipo ou valor
         if expected_clean == token_type:
             return True
-            
-        # Comparar com valor do token
         if expected_clean == token_value:
             return True
-            
+        
+        # Tokens especiais (IDENTIFIER, NUMBER, STRING)
+        if expected_clean in ['IDENTIFIER', 'NUMBER', 'STRING']:
+            return expected_clean == token_type
+        
         return False
-        
-    def _get_production(self, nonterminal: str, terminal: str) -> Optional[List[str]]:
-        """Busca produção na tabela M[NT, T]"""
-        # A tabela usa terminais COM ASPAS SIMPLES: 'IDENTIFIER', 'if', '+', etc.
-        # Mas os tokens vêm sem aspas
-        
-        # Tentar buscar diretamente (sem modificar)
-        if (nonterminal, terminal) in self.parsing_table.table:
-            return self.parsing_table.table[(nonterminal, terminal)]
-            
-        # Tentar COM aspas simples (formato da gramática BNF)
-        quoted_terminal = f"'{terminal}'"
-        if (nonterminal, quoted_terminal) in self.parsing_table.table:
-            return self.parsing_table.table[(nonterminal, quoted_terminal)]
-            
-        # Tentar SEM aspas (caso contrário)
-        clean_terminal = terminal.strip("'")
-        if (nonterminal, clean_terminal) in self.parsing_table.table:
-            return self.parsing_table.table[(nonterminal, clean_terminal)]
-            
-        # Não encontrado
-        return None
-        
-    def _get_expected_tokens(self, nonterminal: str) -> List[str]:
-        """Retorna lista de tokens esperados para um não-terminal"""
-        expected = []
-        for (nt, term), prod in self.parsing_table.table.items():
-            if nt == nonterminal:
-                expected.append(term)
-        return expected
-        
-    def _build_ast(self) -> ASTNode:
-        """
-        Constrói AST a partir da pilha de nós
-        
-        SIMPLIFICADO: Retorna árvore de derivação
-        Para um projeto mais completo, implementar construção bottom-up
-        """
-        if not self.ast_stack:
-            return ASTNode('<empty>')
-            
-        # Por simplicidade, retornar estrutura linear
-        # Em um projeto completo, construir árvore adequadamente
-        root = ASTNode(self.grammar.start_symbol)
-        
-        # TODO: Implementar construção adequada da AST
-        # Por ora, retorna raiz vazia
-        
-        return root
-        
-    def parse_with_derivation(self, tokens: List[Tuple[str, str]]) -> Tuple[ASTNode, List[str]]:
-        """
-        Parse com registro de derivações
-        
-        Returns:
-            Tupla (AST, lista de derivações)
-        """
-        derivations = []
-        
-        # Modificar parse para registrar derivações
-        self.input_tokens = tokens + [('$', '$')]
-        self.current_position = 0
-        self.stack = ['$', self.grammar.start_symbol]
-        
-        derivations.append(f"Inicial: {self.grammar.start_symbol}")
-        
-        step = 1
-        while len(self.stack) > 0:
-            X = self.stack[-1]
-            a_type, a_value = self._current_token()
-            a = a_type
-            
-            if self._is_terminal(X):
-                if self._match_terminal(X, a_type, a_value):
-                    self.stack.pop()
-                    self.current_position += 1
-                    derivations.append(f"Passo {step}: Match '{X}' com '{a_value}'")
-                    step += 1
-                else:
-                    raise ParseError(
-                        f"Terminal '{X}' não corresponde",
-                        token=f"{a_type}:'{a_value}'"
-                    )
-            else:
-                production = self._get_production(X, a)
-                
-                if production is None:
-                    raise ParseError(
-                        f"Sem produção para M[{X}, {a}]",
-                        token=f"{a_type}:'{a_value}'"
-                    )
-                    
-                self.stack.pop()
-                
-                prod_str = ' '.join(production)
-                derivations.append(f"Passo {step}: {X} → {prod_str}")
-                step += 1
-                
-                if not self.grammar.is_epsilon(production[0]):
-                    for symbol in reversed(production):
-                        self.stack.append(symbol)
-                        
-        root = ASTNode(self.grammar.start_symbol)
-        return root, derivations
-
-
-def format_derivations(derivations: List[str]) -> str:
-    """Formata lista de derivações para impressão"""
-    result = []
-    result.append("=" * 60)
-    result.append("DERIVAÇÕES DO PARSING LL(1)")
-    result.append("=" * 60)
     
-    for deriv in derivations:
-        result.append(deriv)
+    def _get_production(self, nonterminal, terminal):
+        """
+        Busca produção na tabela M[A, a].
         
-    result.append("=" * 60)
-    return '\n'.join(result)
+        Args:
+            nonterminal: Não-terminal
+            terminal: Terminal (lookahead)
+            
+        Returns:
+            list: Produção ou None
+        """
+        # Tentar formatos diferentes
+        attempts = [
+            (nonterminal, terminal),
+            (nonterminal, f"'{terminal}'"),
+            (nonterminal, terminal.strip("'")),
+        ]
+        
+        for key in attempts:
+            if key in self.table:
+                return self.table[key]
+        
+        return None
+    
+    def _format_stack(self):
+        """Formata pilha para exibição (últimos 5 elementos)."""
+        if len(self.stack) <= 5:
+            return ' '.join(reversed(list(self.stack)))
+        else:
+            top5 = list(self.stack)[-5:]
+            return '... ' + ' '.join(reversed(top5))
+    
+    def get_derivations(self):
+        """Retorna lista de derivações aplicadas."""
+        return self.derivations
+    
+    def print_derivations(self, max_show=20):
+        """Imprime derivações (primeiras e últimas)."""
+        print("\n=== DERIVAÇÕES ===")
+        
+        if len(self.derivations) <= max_show:
+            for i, deriv in enumerate(self.derivations, 1):
+                print(f"  {i}. {deriv}")
+        else:
+            # Primeiras 10
+            half = max_show // 2
+            for i in range(half):
+                print(f"  {i+1}. {self.derivations[i]}")
+            
+            print(f"  ... ({len(self.derivations) - max_show} derivações omitidas)")
+            
+            # Últimas 10
+            for i in range(len(self.derivations) - half, len(self.derivations)):
+                print(f"  {i+1}. {self.derivations[i]}")

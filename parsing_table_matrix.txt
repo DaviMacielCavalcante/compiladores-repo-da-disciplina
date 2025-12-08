@@ -1,0 +1,35 @@
+======================================================================================================================================================
+TABELA DE PARSING LL(1) - FORMATO MATRICIAL
+======================================================================================================================================================
+
+NT \ T              $              '('            ')'            '-'            ':'            ';'            'EOF'          'False'        'IDENTIFIER'   'NUMBER'       
+------------------------------------------------------------------------------------------------------------------------------------------------------
+<additiveExpr>      ---            <multiplicati  ---            <multiplicati  ---            ---            ---            <multiplicati  <multiplicati  <multiplicati  
+<bitwiseAndExpr>    ---            <comparisonEx  ---            <comparisonEx  ---            ---            ---            <comparisonEx  <comparisonEx  <comparisonEx  
+<bitwiseOrExpr>     ---            <bitwiseAndEx  ---            <bitwiseAndEx  ---            ---            ---            <bitwiseAndEx  <bitwiseAndEx  <bitwiseAndEx  
+<block>             ---            <statement>    ---            <statement>    ---            ---            ---            <statement>    <statement>    <statement>    
+<breakStatement>    ---            ---            ---            ---            ---            ---            ---            ---            ---            ---            
+<comparisonExpr>    ---            <additiveExpr  ---            <additiveExpr  ---            ---            ---            <additiveExpr  <additiveExpr  <additiveExpr  
+<continueStatement> ---            ---            ---            ---            ---            ---            ---            ---            ---            ---            
+<defStatement>      ---            ---            ---            ---            ---            ---            ---            ---            ---            ---            
+<doWhileStatement>  ---            ---            ---            ---            ---            ---            ---            ---            ---            ---            
+<expression>        ---            <logicalOrExp  ---            <logicalOrExp  ---            ---            ---            <logicalOrExp  <logicalOrExp  <logicalOrExp  
+<expressionStatement>---            <expression>   ---            <expression>   ---            ---            ---            <expression>   <expression>   <expression>   
+<forStatement>      ---            ---            ---            ---            ---            ---            ---            ---            ---            ---            
+<ifStatement>       ---            ---            ---            ---            ---            ---            ---            ---            ---            ---            
+<logicalAndExpr>    ---            <logicalNotEx  ---            <logicalNotEx  ---            ---            ---            <logicalNotEx  <logicalNotEx  <logicalNotEx  
+<logicalNotExpr>    ---            <bitwiseOrExp  ---            <bitwiseOrExp  ---            ---            ---            <bitwiseOrExp  <bitwiseOrExp  <bitwiseOrExp  
+<logicalOrExpr>     ---            <logicalAndEx  ---            <logicalAndEx  ---            ---            ---            <logicalAndEx  <logicalAndEx  <logicalAndEx  
+<multiplicativeExpr>---            <powerExpr> (  ---            <powerExpr> (  ---            ---            ---            <powerExpr> (  <powerExpr> (  <powerExpr> (  
+<postfixExpr>       ---            <primary> ('[  ---            ---            ---            ---            ---            <primary> ('[  <primary> ('[  <primary> ('[  
+<powerExpr>         ---            <unaryExpr> (  ---            <unaryExpr> (  ---            ---            ---            <unaryExpr> (  <unaryExpr> (  <unaryExpr> (  
+<primary>           ---            '(' <expressi  ---            ---            ---            ---            ---            'False'        'IDENTIFIER'   'NUMBER'       
+<program>           ---            <statement> *  ---            <statement> *  ---            ---            <statement> *  <statement> *  <statement> *  <statement> *  
+<statement>         ---            <expressionSt  ---            <expressionSt  ---            ---            ---            <expressionSt  <expressionSt  <expressionSt  
+<unaryExpr>         ---            <postfixExpr>  ---            '-' <unaryExp  ---            ---            ---            <postfixExpr>  <postfixExpr>  <postfixExpr>  
+<whileStatement>    ---            ---            ---            ---            ---            ---            ---            ---            ---            ---            
+
+======================================================================================================================================================
+[INFO] Matriz completa muito grande para exibir
+[INFO] Use o arquivo CSV para visualizar completo
+======================================================================================================================================================

@@ -1,14 +1,10 @@
 # ============================================================
-# GRAMÁTICA VYTHON 
-# Versão: LL(1) Completa
+# GRAMÁTICA EBNF - VYTHON (PURA)
+# Versão 3.0 - EBNF COM GRUPOS
 # ============================================================
 
 # -------------------- PROGRAMA --------------------
-<program> ::= <statement_list>
-
-<statement_list> ::= <statement> <statement_list>
-                   | ε
-
+<program> ::= <statement>* 'EOF'
 
 # -------------------- STATEMENTS --------------------
 <statement> ::= <ifStatement>
@@ -20,205 +16,89 @@
               | <defStatement>
               | <expressionStatement>
 
-<expressionStatement> ::= <expression> <optional_semicolon>
-
-<optional_semicolon> ::= ';'
-                       | ε
-
+<expressionStatement> ::= <expression> ';'?
 
 # -------------------- CONTROLE DE FLUXO --------------------
-<ifStatement> ::= 'if' <expression> ':' <block> <optional_else>
-
-<optional_else> ::= 'else' ':' <block>
-                  | ε
+<ifStatement> ::= 'if' <expression> ':' <block> ('else' ':' <block>)?
 
 <whileStatement> ::= 'while' <expression> ':' <block>
 
-<forStatement> ::= 'for' IDENTIFIER 'in' 'range' '(' <expression> <range_params> ')' ':' <block>
+<forStatement> ::= 'for' 'IDENTIFIER' 'in' 'range' '(' <expression> (',' <expression> (',' <expression>)?)? ')' ':' <block>
 
-<range_params> ::= ',' <expression> <optional_third>
-                 | ε
+<doWhileStatement> ::= 'do' ':' <block> 'while' <expression> ';'?
 
-<optional_third> ::= ',' <expression>
-                   | ε
+<breakStatement> ::= 'break' ';'?
 
-<doWhileStatement> ::= 'do' ':' <block> 'while' <expression> <optional_semicolon>
+<continueStatement> ::= 'continue' ';'?
 
-<breakStatement> ::= 'break' <optional_semicolon>
-
-<continueStatement> ::= 'continue' <optional_semicolon>
-
-
-# -------------------- FUNÇÕES --------------------
-<defStatement> ::= 'def' IDENTIFIER '(' <param_list> ')' ':' '{' <statement_list> '}' <optional_semicolon>
-
-<param_list> ::= IDENTIFIER <param_rest>
-               | ε
-
-<param_rest> ::= ',' IDENTIFIER <param_rest>
-               | ε
-
+<defStatement> ::= 'def' 'IDENTIFIER' '(' ('IDENTIFIER' (',' 'IDENTIFIER')*)? ')' ':' '{' <statement>* '}' ';'?
 
 # -------------------- BLOCOS --------------------
-<block> ::= '{' <statement_list> '}'
+<block> ::= '{' <statement>* '}'
           | <statement>
 
+# -------------------- EXPRESSÕES --------------------
+# Precedência: 12 níveis
 
-# ============================================================
-# EXPRESSÕES - HIERARQUIA REFATORADA 
-# ============================================================
+# Nível 0: Assignment (direita)
+<expression> ::= <logicalOrExpr> ('=' <expression>)?
 
-<expression> ::= <assignmentExpr>
+# Nível 1: OR lógico
+<logicalOrExpr> ::= <logicalAndExpr> ('or' <logicalAndExpr>)*
 
+# Nível 2: AND lógico
+<logicalAndExpr> ::= <logicalNotExpr> ('and' <logicalNotExpr>)*
 
-# -------------------- Nível 0: Assignment --------------------
-<assignmentExpr> ::= <logicalOrExpr> <assign_rest>
-
-<assign_rest> ::= '=' <assignmentExpr>
-                | ε
-
-
-# -------------------- Nível 1: OR Lógico --------------------
-<logicalOrExpr> ::= <logicalAndExpr> <or_tail>
-
-<or_tail> ::= 'or' <logicalAndExpr> <or_tail>
-            | ε
-
-
-# -------------------- Nível 2: AND Lógico --------------------
-<logicalAndExpr> ::= <logicalNotExpr> <and_tail>
-
-<and_tail> ::= 'and' <logicalNotExpr> <and_tail>
-             | ε
-
-
-# -------------------- Nível 3: NOT Lógico (unário) --------------------
+# Nível 3: NOT lógico
 <logicalNotExpr> ::= 'not' <logicalNotExpr>
                    | <bitwiseOrExpr>
 
+# Nível 4: OR bitwise
+<bitwiseOrExpr> ::= <bitwiseAndExpr> ('|' <bitwiseAndExpr>)*
 
-# -------------------- Nível 4: OR Bitwise --------------------
-<bitwiseOrExpr> ::= <bitwiseAndExpr> <bitor_tail>
+# Nível 5: AND bitwise
+<bitwiseAndExpr> ::= <comparisonExpr> ('&' <comparisonExpr>)*
 
-<bitor_tail> ::= '|' <bitwiseAndExpr> <bitor_tail>
-               | ε
+# Nível 6: Comparação
+<comparisonExpr> ::= <additiveExpr> (('==' | '!=' | '<' | '>' | '<=' | '>=') <additiveExpr>)*
 
+# Nível 7: Adição/Subtração
+<additiveExpr> ::= <multiplicativeExpr> (('+' | '-') <multiplicativeExpr>)*
 
-# -------------------- Nível 5: AND Bitwise --------------------
-<bitwiseAndExpr> ::= <comparisonExpr> <bitand_tail>
+# Nível 8: Multiplicação/Divisão/Módulo
+<multiplicativeExpr> ::= <powerExpr> (('*' | '/' | '%') <powerExpr>)*
 
-<bitand_tail> ::= '&' <bitwiseAndExpr> <bitand_tail>
-                | ε
+# Nível 9: Potência (direita)
+<powerExpr> ::= <unaryExpr> ('**' <powerExpr>)?
 
-
-# -------------------- Nível 6: Comparação --------------------
-<comparisonExpr> ::= <additiveExpr> <comparison_rest>
-
-<comparison_rest> ::= <comparison_op> <additiveExpr>
-                    | ε
-
-<comparison_op> ::= '=='
-                  | '!='
-                  | '<='
-                  | '>='
-                  | '<'
-                  | '>'
-
-
-# ============================================================
-# MUDANÇA CRÍTICA: - UNÁRIO SEPARADO
-# ============================================================
-
-# -------------------- Nível 7: Adição/Subtração --------------------
-# AGORA: - binário está AQUI (trabalha com <multiplicativeExpr>)
-<additiveExpr> ::= <multiplicativeExpr> <additive_tail>
-
-<additive_tail> ::= '+' <multiplicativeExpr> <additive_tail>
-                  | '-' <multiplicativeExpr> <additive_tail>
-                  | ε
-
-
-# -------------------- Nível 8: Multiplicação --------------------
-# MUDANÇA: Agora trabalha com <powerExpr>, não com <unaryExpr>
-<multiplicativeExpr> ::= <powerExpr> <multiplicative_tail>
-
-<multiplicative_tail> ::= '*' <powerExpr> <multiplicative_tail>
-                        | '/' <powerExpr> <multiplicative_tail>
-                        | '%' <powerExpr> <multiplicative_tail>
-                        | ε
-
-
-# -------------------- Nível 9: Potência --------------------
-# MUDANÇA: Agora trabalha com <unaryExpr>
-<powerExpr> ::= <unaryExpr> <power_tail>
-
-<power_tail> ::= '**' <powerExpr>
-               | ε
-
-
-# -------------------- Nível 10: Menos Unário --------------------
-# SOLUÇÃO: - unário está AQUI (em nível próprio, ABAIXO de aditivos)
-# Agora - unário NÃO conflita com - binário!
+# Nível 10: Unário
 <unaryExpr> ::= '-' <unaryExpr>
               | <postfixExpr>
 
+# Nível 11: Postfix
+<postfixExpr> ::= <primary> ('[' <expression> ']' | '(' (<expression> (',' <expression>)*)? ')')*
 
-# -------------------- Nível 11: Postfix --------------------
-<postfixExpr> ::= <primary> <postfix_list>
-
-<postfix_list> ::= '[' <expression> ']' <postfix_list>
-                 | '(' <arg_list> ')' <postfix_list>
-                 | ε
-
-
-# -------------------- Nível 12: Primários --------------------
-<primary> ::= IDENTIFIER
-            | NUMBER
-            | STRING
+# Nível 12: Primários
+<primary> ::= 'IDENTIFIER'
+            | 'NUMBER'
+            | 'STRING'
             | 'True'
             | 'False'
             | '(' <expression> ')'
-            | '[' <expression_list> ']'
-
-
-# -------------------- Listas --------------------
-<arg_list> ::= <expression> <arg_rest>
-             | ε
-
-<arg_rest> ::= ',' <expression> <arg_rest>
-             | ε
-
-<expression_list> ::= <expression> <expr_rest>
-                    | ε
-
-<expr_rest> ::= ',' <expression> <expr_rest>
-              | ε
-
+            | '[' (<expression> (',' <expression>)*)? ']'
 
 # ============================================================
-# TERMINAIS
-# ============================================================
-# IDENTIFIER: [a-zA-Z_][a-zA-Z0-9_]*
-# NUMBER: [0-9]+ ('.' [0-9]+)?
-# STRING: '"' ... '"' | '\'' ... '\''
-
-
-# ============================================================
-# HIERARQUIA FINAL (do menor para maior precedência):
-# ============================================================
+# CARACTERÍSTICAS EBNF:
 #
-#  0. Assignment        =                    (direita)
-#  1. OR lógico         or                   (esquerda)
-#  2. AND lógico        and                  (esquerda)
-#  3. NOT lógico        not                  (unário, direita)
-#  4. OR bitwise        |                    (esquerda)
-#  5. AND bitwise       &                    (esquerda)
-#  6. Comparação        ==, !=, <, >, <=, >= (não associa)
-#  7. Aditivos          +, - (binário)       (esquerda)
-#  8. Multiplicativos   *, /, %              (esquerda)
-#  9. Potência          **                   (direita)
-# 10. Unário            - (unário)           (direita)
-# 11. Postfix           [], ()               (esquerda)
-# 12. Primários         id, num, str, ()...
+# 1. Usa A* para repetição (zero ou mais)
+# 2. Usa A? para opcional (zero ou um)  
+# 3. Usa (A | B) para alternativas em grupos
+# 4. Usa grupos (...) para agrupar elementos
+# 5. NÃO usa produções epsilon explícitas
 #
+# NOTA: Esta gramática é LL(1) em EBNF puro, mas quando
+# expandida para BNF gera conflitos epsilon.
+# 
+# SOLUÇÃO: Use um parser que suporte EBNF nativamente,
+# ou aceite que em BNF puro não é LL(1).
 # ============================================================
