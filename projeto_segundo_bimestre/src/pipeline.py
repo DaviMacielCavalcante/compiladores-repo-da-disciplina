@@ -104,9 +104,11 @@ def main():
     print("\n[4] Executando Lexer (Exemplo de Código)...")
 
     # Código de exemplo Vython para teste
+    # Código de exemplo Vython para teste (COM CHAVES OBRIGATÓRIAS)
     source_code = """
-    if True:
+    if True: {
         a = 10
+    }
     """
 
     print(f"    Código Fonte:\n{source_code}")

@@ -29,9 +29,9 @@
 <optional_else> ::= 'else' ':' <brace_block>
 <optional_else> ::= ε
 
-<whileStatement> ::= 'while' <expression> ':' <block>
+<whileStatement> ::= 'while' <expression> ':' <brace_block>
+<forStatement> ::= 'for' 'IDENTIFIER' 'in' 'range' '(' <range_args> ')' ':' <brace_block>
 
-<forStatement> ::= 'for' 'IDENTIFIER' 'in' 'range' '(' <range_args> ')' ':' <block>
 <range_args> ::= <expression> <range_args_tail>
 <range_args_tail> ::= ',' <expression> <range_args_tail2>
 <range_args_tail> ::= ε
@@ -44,7 +44,7 @@
 
 <continueStatement> ::= 'continue' <optional_semicolon>
 
-<defStatement> ::= 'def' 'IDENTIFIER' '(' <optional_params> ')' ':' <block>
+<defStatement> ::= 'def' 'IDENTIFIER' '(' <optional_params> ')' ':' <brace_block>
 
 <optional_params> ::= <paramList>
 <optional_params> ::= ε
@@ -56,7 +56,8 @@
 <returnStatement> ::= 'return' <return_tail>
 
 <return_tail> ::= <expression> <optional_semicolon>
-<return_tail> ::= <optional_semicolon>
+<return_tail> ::= ';'
+<return_tail> ::= ε
 
 # -------------------- BLOCOS --------------------
 <block> ::= '{' <statement_list> '}'
