@@ -1,4 +1,5 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import os
 from grammar import Grammar
 
@@ -12,6 +13,8 @@ g = Grammar()
 g.load_from_file(grammar_path)
 
 =======
+=======
+>>>>>>> Stashed changes
 import os
 from grammar import Grammar
 
@@ -24,5 +27,8 @@ grammar_path = os.path.join(script_dir, "gramatica_sem_ambiguidade.bnf")
 g = Grammar()
 g.load_from_file(grammar_path)
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 g.debug_print()
