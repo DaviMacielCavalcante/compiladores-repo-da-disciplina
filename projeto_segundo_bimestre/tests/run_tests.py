@@ -65,10 +65,10 @@ def run_file_test(filepath, grammar, table):
     """Roda o teste para um único arquivo (Corrigido para Windows)"""
     filename = os.path.basename(filepath)
     print(f"\n📄 Testando: {filename}")
-    
-    with open(filepath, 'r', encoding='utf-8') as f:
+
+    with open(filepath, "r", encoding="utf-8") as f:
         source_code = f.read()
-    
+
     # 1. Lexer
     try:
         lexer = Lexer(source_code)
@@ -79,18 +79,18 @@ def run_file_test(filepath, grammar, table):
 
     # 2. Parser
     parser = LL1Parser(grammar, table)
-    
+
     # CORREÇÃO AQUI: Forçar encoding utf-8 no devnull para suportar a seta '→'
     try:
         # Tenta usar devnull com encoding (Python 3)
-        devnull = open(os.devnull, 'w', encoding='utf-8')
+        devnull = open(os.devnull, "w", encoding="utf-8")
     except:
         # Fallback para sistemas muito antigos
-        devnull = open(os.devnull, 'w')
+        devnull = open(os.devnull, "w")
 
     old_stdout = sys.stdout
     sys.stdout = devnull
-    
+
     try:
         success = parser.parse(tokens)
     except Exception as e:
@@ -99,18 +99,18 @@ def run_file_test(filepath, grammar, table):
         print(f"   ❌ ERRO DE EXECUÇÃO: {e}")
         return False
     finally:
-        sys.stdout = old_stdout # Restaura o print normal
+        sys.stdout = old_stdout  # Restaura o print normal
         devnull.close()
 
     if success:
         print(f"   ✅ PASSOU (Sintaxe Aceita)")
     else:
         # Se o nome do arquivo contém 'erro' ou 'fail', falhar é o esperado!
-        if 'erro' in filename or 'fail' in filename:
+        if "erro" in filename or "fail" in filename:
             print(f"   ✅ PASSOU (Rejeitado corretamente como esperado)")
         else:
             print(f"   ❌ FALHOU (Deveria aceitar, mas rejeitou)")
-    
+
     return success
 
 
