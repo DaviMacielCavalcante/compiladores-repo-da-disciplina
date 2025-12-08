@@ -16,6 +16,10 @@
 <statement> ::= <breakStatement>
 <statement> ::= <continueStatement>
 <statement> ::= <defStatement>
+<<<<<<< Updated upstream
+=======
+<statement> ::= <returnStatement>
+>>>>>>> Stashed changes
 <statement> ::= <expressionStatement>
 
 <expressionStatement> ::= <expression> <optional_semicolon>
@@ -42,13 +46,26 @@
 
 <continueStatement> ::= 'continue' <optional_semicolon>
 
+<<<<<<< Updated upstream
 <defStatement> ::= 'def' 'IDENTIFIER' '(' <optional_params> ')' ':' '{' <statement_list> '}' <optional_semicolon>
+=======
+<defStatement> ::= 'def' 'IDENTIFIER' '(' <optional_params> ')' ':' <block>
+
+>>>>>>> Stashed changes
 <optional_params> ::= <paramList>
 <optional_params> ::= ε
 
 <paramList> ::= 'IDENTIFIER' <param_list_tail>
 <param_list_tail> ::= ',' 'IDENTIFIER' <param_list_tail>
 <param_list_tail> ::= ε
+<<<<<<< Updated upstream
+=======
+
+<returnStatement> ::= 'return' <return_tail>
+
+<return_tail> ::= <expression> <optional_semicolon>
+<return_tail> ::= <optional_semicolon>
+>>>>>>> Stashed changes
 
 # -------------------- BLOCOS --------------------
 <block> ::= '{' <statement_list> '}'
