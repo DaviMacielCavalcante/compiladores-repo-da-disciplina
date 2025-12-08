@@ -38,7 +38,10 @@ CONJUNTOS FIRST E FOLLOW - GRAMÁTICA VYTHON
   {ε, '|'}
 
 <block>:
-  {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'while', '{'}
+  {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '{'}
+
+<brace_block>:
+  {'{'}
 
 <breakStatement>:
   {'break'}
@@ -143,7 +146,7 @@ CONJUNTOS FIRST E FOLLOW - GRAMÁTICA VYTHON
   {'(', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '['}
 
 <program>:
-  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'while'}
+  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while'}
 
 <range_args>:
   {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'not'}
@@ -154,11 +157,17 @@ CONJUNTOS FIRST E FOLLOW - GRAMÁTICA VYTHON
 <range_args_tail>:
   {ε, ','}
 
+<returnStatement>:
+  {'return'}
+
+<return_tail>:
+  {ε, '(', '-', ';', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'not'}
+
 <statement>:
-  {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'while'}
+  {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while'}
 
 <statement_list>:
-  {ε, '(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'while'}
+  {ε, '(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while'}
 
 <unaryExpr>:
   {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '['}
@@ -174,10 +183,10 @@ CONJUNTOS FIRST E FOLLOW - GRAMÁTICA VYTHON
   {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '['}
 
 <additiveExpr>:
-  {'!=', '&', '(', ')', ',', '-', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'or', 'while', '|', '}'}
+  {'!=', '&', '(', ')', ',', '-', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'or', 'return', 'while', '|', '}'}
 
 <additive_tail>:
-  {'!=', '&', '(', ')', ',', '-', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'or', 'while', '|', '}'}
+  {'!=', '&', '(', ')', ',', '-', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'or', 'return', 'while', '|', '}'}
 
 <argList>:
   {')'}
@@ -186,94 +195,97 @@ CONJUNTOS FIRST E FOLLOW - GRAMÁTICA VYTHON
   {')'}
 
 <assignmentExpr>:
-  {'(', ')', ',', '-', ':', ';', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'while', '}'}
+  {'(', ')', ',', '-', ':', ';', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
 
 <assignment_tail>:
-  {'(', ')', ',', '-', ':', ';', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'while', '}'}
+  {'(', ')', ',', '-', ':', ';', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
 
 <bitwiseAndExpr>:
-  {'(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'or', 'while', '|', '}'}
+  {'(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'or', 'return', 'while', '|', '}'}
 
 <bitwiseOrExpr>:
-  {'(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'or', 'while', '}'}
+  {'(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'or', 'return', 'while', '}'}
 
 <bitwise_and_tail>:
-  {'(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'or', 'while', '|', '}'}
+  {'(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'or', 'return', 'while', '|', '}'}
 
 <bitwise_or_tail>:
-  {'(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'or', 'while', '}'}
+  {'(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'or', 'return', 'while', '}'}
 
 <block>:
-  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'while', '}'}
+  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
+
+<brace_block>:
+  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'return', 'while', '}'}
 
 <breakStatement>:
-  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'while', '}'}
+  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
 
 <comparisonExpr>:
-  {'&', '(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'or', 'while', '|', '}'}
+  {'&', '(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'or', 'return', 'while', '|', '}'}
 
 <comparison_op>:
   {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '['}
 
 <comparison_tail>:
-  {'&', '(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'or', 'while', '|', '}'}
+  {'&', '(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'or', 'return', 'while', '|', '}'}
 
 <continueStatement>:
-  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'while', '}'}
+  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
 
 <defStatement>:
-  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'while', '}'}
+  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
 
 <doWhileStatement>:
-  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'while', '}'}
+  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
 
 <expr_list_tail>:
   {']'}
 
 <expression>:
-  {'(', ')', ',', '-', ':', ';', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'while', '}'}
+  {'(', ')', ',', '-', ':', ';', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
 
 <expressionList>:
   {']'}
 
 <expressionStatement>:
-  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'while', '}'}
+  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
 
 <forStatement>:
-  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'while', '}'}
+  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
 
 <ifStatement>:
-  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'while', '}'}
+  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
 
 <logicalAndExpr>:
-  {'(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'or', 'while', '}'}
+  {'(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'or', 'return', 'while', '}'}
 
 <logicalNotExpr>:
-  {'(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'or', 'while', '}'}
+  {'(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'or', 'return', 'while', '}'}
 
 <logicalOrExpr>:
-  {'(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'while', '}'}
+  {'(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
 
 <logical_and_tail>:
-  {'(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'or', 'while', '}'}
+  {'(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'or', 'return', 'while', '}'}
 
 <logical_or_tail>:
-  {'(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'while', '}'}
+  {'(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
 
 <mul_op>:
   {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '['}
 
 <multiplicativeExpr>:
-  {'!=', '&', '(', ')', '+', ',', '-', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'or', 'while', '|', '}'}
+  {'!=', '&', '(', ')', '+', ',', '-', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'or', 'return', 'while', '|', '}'}
 
 <multiplicative_tail>:
-  {'!=', '&', '(', ')', '+', ',', '-', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'or', 'while', '|', '}'}
+  {'!=', '&', '(', ')', '+', ',', '-', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'or', 'return', 'while', '|', '}'}
 
 <optional_args>:
   {')'}
 
 <optional_else>:
-  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'while', '}'}
+  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
 
 <optional_expr_list>:
   {']'}
@@ -282,7 +294,7 @@ CONJUNTOS FIRST E FOLLOW - GRAMÁTICA VYTHON
   {')'}
 
 <optional_semicolon>:
-  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'while', '}'}
+  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
 
 <paramList>:
   {')'}
@@ -291,22 +303,22 @@ CONJUNTOS FIRST E FOLLOW - GRAMÁTICA VYTHON
   {')'}
 
 <postfix>:
-  {'!=', '%', '&', '(', ')', '*', '**', '+', ',', '-', '/', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'or', 'while', '|', '}'}
+  {'!=', '%', '&', '(', ')', '*', '**', '+', ',', '-', '/', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'or', 'return', 'while', '|', '}'}
 
 <postfixExpr>:
-  {'!=', '%', '&', '(', ')', '*', '**', '+', ',', '-', '/', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'or', 'while', '|', '}'}
+  {'!=', '%', '&', '(', ')', '*', '**', '+', ',', '-', '/', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'or', 'return', 'while', '|', '}'}
 
 <postfix_list>:
-  {'!=', '%', '&', '(', ')', '*', '**', '+', ',', '-', '/', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'or', 'while', '|', '}'}
+  {'!=', '%', '&', '(', ')', '*', '**', '+', ',', '-', '/', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'or', 'return', 'while', '|', '}'}
 
 <powerExpr>:
-  {'!=', '%', '&', '(', ')', '*', '+', ',', '-', '/', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'or', 'while', '|', '}'}
+  {'!=', '%', '&', '(', ')', '*', '+', ',', '-', '/', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'or', 'return', 'while', '|', '}'}
 
 <power_tail>:
-  {'!=', '%', '&', '(', ')', '*', '+', ',', '-', '/', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'or', 'while', '|', '}'}
+  {'!=', '%', '&', '(', ')', '*', '+', ',', '-', '/', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'or', 'return', 'while', '|', '}'}
 
 <primary>:
-  {'!=', '%', '&', '(', ')', '*', '**', '+', ',', '-', '/', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'or', 'while', '|', '}'}
+  {'!=', '%', '&', '(', ')', '*', '**', '+', ',', '-', '/', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'or', 'return', 'while', '|', '}'}
 
 <program>:
   {$}
@@ -320,15 +332,21 @@ CONJUNTOS FIRST E FOLLOW - GRAMÁTICA VYTHON
 <range_args_tail>:
   {')'}
 
+<returnStatement>:
+  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
+
+<return_tail>:
+  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
+
 <statement>:
-  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'while', '}'}
+  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
 
 <statement_list>:
   {'EOF', '}'}
 
 <unaryExpr>:
-  {'!=', '%', '&', '(', ')', '*', '**', '+', ',', '-', '/', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'or', 'while', '|', '}'}
+  {'!=', '%', '&', '(', ')', '*', '**', '+', ',', '-', '/', ':', ';', '<', '<=', '=', '==', '>', '>=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'or', 'return', 'while', '|', '}'}
 
 <whileStatement>:
-  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'while', '}'}
+  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
 
