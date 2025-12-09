@@ -213,7 +213,7 @@ CONJUNTOS FIRST E FOLLOW - GRAMÁTICA VYTHON
   {'(', ')', ',', '-', ':', ';', '=', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', ']', 'and', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'or', 'return', 'while', '}'}
 
 <block>:
-  {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
+  {'while'}
 
 <brace_block>:
   {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'return', 'while', '}'}

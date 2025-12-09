@@ -63,8 +63,7 @@ class LL1Parser:
             current_token = self._current_token()
             
             # Debug
-            if step <= 5 or step % 50 == 0:
-                print(f"[Passo {step}] Pilha: {self._format_stack()} | Token: {current_token[0]}:'{current_token[1]}'")
+            print(f"[Passo {step}] Pilha: {self._format_stack()} | Token: {current_token[0]}:'{current_token[1]}'")
             
             # Identificar tipo do topo
             if top == '$':
