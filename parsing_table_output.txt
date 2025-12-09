@@ -1,0 +1,185 @@
+====================================================================================================
+TABELA DE PARSING LL(1)
+====================================================================================================
+
+=== ESTATISTICAS ===
+Entradas na tabela: 172
+Conflitos resolvidos: 0
+Conflitos irresolviveis: 0
+E LL(1)? SIM
+
+=== TABELA ===
+NAO-TERMINAL                   TERMINAL             PRODUCAO                                          
+----------------------------------------------------------------------------------------------------
+<additiveExpr>                 '('                  <multiplicativeExpr> (('+' | '-') <multiplicativeExpr>) *
+<additiveExpr>                 '-'                  <multiplicativeExpr> (('+' | '-') <multiplicativeExpr>) *
+<additiveExpr>                 'False'              <multiplicativeExpr> (('+' | '-') <multiplicativeExpr>) *
+<additiveExpr>                 'IDENTIFIER'         <multiplicativeExpr> (('+' | '-') <multiplicativeExpr>) *
+<additiveExpr>                 'NUMBER'             <multiplicativeExpr> (('+' | '-') <multiplicativeExpr>) *
+<additiveExpr>                 'STRING'             <multiplicativeExpr> (('+' | '-') <multiplicativeExpr>) *
+<additiveExpr>                 'True'               <multiplicativeExpr> (('+' | '-') <multiplicativeExpr>) *
+<additiveExpr>                 '['                  <multiplicativeExpr> (('+' | '-') <multiplicativeExpr>) *
+<bitwiseAndExpr>               '('                  <comparisonExpr> ('&' <comparisonExpr>) *         
+<bitwiseAndExpr>               '-'                  <comparisonExpr> ('&' <comparisonExpr>) *         
+<bitwiseAndExpr>               'False'              <comparisonExpr> ('&' <comparisonExpr>) *         
+<bitwiseAndExpr>               'IDENTIFIER'         <comparisonExpr> ('&' <comparisonExpr>) *         
+<bitwiseAndExpr>               'NUMBER'             <comparisonExpr> ('&' <comparisonExpr>) *         
+<bitwiseAndExpr>               'STRING'             <comparisonExpr> ('&' <comparisonExpr>) *         
+<bitwiseAndExpr>               'True'               <comparisonExpr> ('&' <comparisonExpr>) *         
+<bitwiseAndExpr>               '['                  <comparisonExpr> ('&' <comparisonExpr>) *         
+<bitwiseOrExpr>                '('                  <bitwiseAndExpr> ('|' <bitwiseAndExpr>) *         
+<bitwiseOrExpr>                '-'                  <bitwiseAndExpr> ('|' <bitwiseAndExpr>) *         
+<bitwiseOrExpr>                'False'              <bitwiseAndExpr> ('|' <bitwiseAndExpr>) *         
+<bitwiseOrExpr>                'IDENTIFIER'         <bitwiseAndExpr> ('|' <bitwiseAndExpr>) *         
+<bitwiseOrExpr>                'NUMBER'             <bitwiseAndExpr> ('|' <bitwiseAndExpr>) *         
+<bitwiseOrExpr>                'STRING'             <bitwiseAndExpr> ('|' <bitwiseAndExpr>) *         
+<bitwiseOrExpr>                'True'               <bitwiseAndExpr> ('|' <bitwiseAndExpr>) *         
+<bitwiseOrExpr>                '['                  <bitwiseAndExpr> ('|' <bitwiseAndExpr>) *         
+<block>                        '('                  <statement>                                       
+<block>                        '-'                  <statement>                                       
+<block>                        'False'              <statement>                                       
+<block>                        'IDENTIFIER'         <statement>                                       
+<block>                        'NUMBER'             <statement>                                       
+<block>                        'STRING'             <statement>                                       
+<block>                        'True'               <statement>                                       
+<block>                        '['                  <statement>                                       
+<block>                        'break'              <statement>                                       
+<block>                        'continue'           <statement>                                       
+<block>                        'def'                <statement>                                       
+<block>                        'do'                 <statement>                                       
+<block>                        'for'                <statement>                                       
+<block>                        'if'                 <statement>                                       
+<block>                        'not'                <statement>                                       
+<block>                        'while'              <statement>                                       
+<block>                        '{'                  '{' <statement> * '}'                             
+<breakStatement>               'break'              'break' ';' ?                                     
+<comparisonExpr>               '('                  <additiveExpr> (('==' | '!=' | '<' | '>' | '<=' | '>=') <additiveExpr>) *
+<comparisonExpr>               '-'                  <additiveExpr> (('==' | '!=' | '<' | '>' | '<=' | '>=') <additiveExpr>) *
+<comparisonExpr>               'False'              <additiveExpr> (('==' | '!=' | '<' | '>' | '<=' | '>=') <additiveExpr>) *
+<comparisonExpr>               'IDENTIFIER'         <additiveExpr> (('==' | '!=' | '<' | '>' | '<=' | '>=') <additiveExpr>) *
+<comparisonExpr>               'NUMBER'             <additiveExpr> (('==' | '!=' | '<' | '>' | '<=' | '>=') <additiveExpr>) *
+<comparisonExpr>               'STRING'             <additiveExpr> (('==' | '!=' | '<' | '>' | '<=' | '>=') <additiveExpr>) *
+<comparisonExpr>               'True'               <additiveExpr> (('==' | '!=' | '<' | '>' | '<=' | '>=') <additiveExpr>) *
+<comparisonExpr>               '['                  <additiveExpr> (('==' | '!=' | '<' | '>' | '<=' | '>=') <additiveExpr>) *
+<continueStatement>            'continue'           'continue' ';' ?                                  
+<defStatement>                 'def'                'def' 'IDENTIFIER' '(' ('IDENTIFIER' (',' 'IDENTIFIER')*) ? ')' ':' '{' <statement> * '}' ';' ?
+<doWhileStatement>             'do'                 'do' ':' <block> 'while' <expression> ';' ?       
+<expression>                   '('                  <logicalOrExpr> ('=' <expression>) ?              
+<expression>                   '-'                  <logicalOrExpr> ('=' <expression>) ?              
+<expression>                   'False'              <logicalOrExpr> ('=' <expression>) ?              
+<expression>                   'IDENTIFIER'         <logicalOrExpr> ('=' <expression>) ?              
+<expression>                   'NUMBER'             <logicalOrExpr> ('=' <expression>) ?              
+<expression>                   'STRING'             <logicalOrExpr> ('=' <expression>) ?              
+<expression>                   'True'               <logicalOrExpr> ('=' <expression>) ?              
+<expression>                   '['                  <logicalOrExpr> ('=' <expression>) ?              
+<expression>                   'not'                <logicalOrExpr> ('=' <expression>) ?              
+<expressionStatement>          '('                  <expression> ';' ?                                
+<expressionStatement>          '-'                  <expression> ';' ?                                
+<expressionStatement>          'False'              <expression> ';' ?                                
+<expressionStatement>          'IDENTIFIER'         <expression> ';' ?                                
+<expressionStatement>          'NUMBER'             <expression> ';' ?                                
+<expressionStatement>          'STRING'             <expression> ';' ?                                
+<expressionStatement>          'True'               <expression> ';' ?                                
+<expressionStatement>          '['                  <expression> ';' ?                                
+<expressionStatement>          'not'                <expression> ';' ?                                
+<forStatement>                 'for'                'for' 'IDENTIFIER' 'in' 'range' '(' <expression> (',' <expression> (',' <expression>)?) ? ')' ':' <block>
+<ifStatement>                  'if'                 'if' <expression> ':' <block> ('else' ':' <block>) ?
+<logicalAndExpr>               '('                  <logicalNotExpr> ('and' <logicalNotExpr>) *       
+<logicalAndExpr>               '-'                  <logicalNotExpr> ('and' <logicalNotExpr>) *       
+<logicalAndExpr>               'False'              <logicalNotExpr> ('and' <logicalNotExpr>) *       
+<logicalAndExpr>               'IDENTIFIER'         <logicalNotExpr> ('and' <logicalNotExpr>) *       
+<logicalAndExpr>               'NUMBER'             <logicalNotExpr> ('and' <logicalNotExpr>) *       
+<logicalAndExpr>               'STRING'             <logicalNotExpr> ('and' <logicalNotExpr>) *       
+<logicalAndExpr>               'True'               <logicalNotExpr> ('and' <logicalNotExpr>) *       
+<logicalAndExpr>               '['                  <logicalNotExpr> ('and' <logicalNotExpr>) *       
+<logicalAndExpr>               'not'                <logicalNotExpr> ('and' <logicalNotExpr>) *       
+<logicalNotExpr>               '('                  <bitwiseOrExpr>                                   
+<logicalNotExpr>               '-'                  <bitwiseOrExpr>                                   
+<logicalNotExpr>               'False'              <bitwiseOrExpr>                                   
+<logicalNotExpr>               'IDENTIFIER'         <bitwiseOrExpr>                                   
+<logicalNotExpr>               'NUMBER'             <bitwiseOrExpr>                                   
+<logicalNotExpr>               'STRING'             <bitwiseOrExpr>                                   
+<logicalNotExpr>               'True'               <bitwiseOrExpr>                                   
+<logicalNotExpr>               '['                  <bitwiseOrExpr>                                   
+<logicalNotExpr>               'not'                'not' <logicalNotExpr>                            
+<logicalOrExpr>                '('                  <logicalAndExpr> ('or' <logicalAndExpr>) *        
+<logicalOrExpr>                '-'                  <logicalAndExpr> ('or' <logicalAndExpr>) *        
+<logicalOrExpr>                'False'              <logicalAndExpr> ('or' <logicalAndExpr>) *        
+<logicalOrExpr>                'IDENTIFIER'         <logicalAndExpr> ('or' <logicalAndExpr>) *        
+<logicalOrExpr>                'NUMBER'             <logicalAndExpr> ('or' <logicalAndExpr>) *        
+<logicalOrExpr>                'STRING'             <logicalAndExpr> ('or' <logicalAndExpr>) *        
+<logicalOrExpr>                'True'               <logicalAndExpr> ('or' <logicalAndExpr>) *        
+<logicalOrExpr>                '['                  <logicalAndExpr> ('or' <logicalAndExpr>) *        
+<logicalOrExpr>                'not'                <logicalAndExpr> ('or' <logicalAndExpr>) *        
+<multiplicativeExpr>           '('                  <powerExpr> (('*' | '/' | '%') <powerExpr>) *     
+<multiplicativeExpr>           '-'                  <powerExpr> (('*' | '/' | '%') <powerExpr>) *     
+<multiplicativeExpr>           'False'              <powerExpr> (('*' | '/' | '%') <powerExpr>) *     
+<multiplicativeExpr>           'IDENTIFIER'         <powerExpr> (('*' | '/' | '%') <powerExpr>) *     
+<multiplicativeExpr>           'NUMBER'             <powerExpr> (('*' | '/' | '%') <powerExpr>) *     
+<multiplicativeExpr>           'STRING'             <powerExpr> (('*' | '/' | '%') <powerExpr>) *     
+<multiplicativeExpr>           'True'               <powerExpr> (('*' | '/' | '%') <powerExpr>) *     
+<multiplicativeExpr>           '['                  <powerExpr> (('*' | '/' | '%') <powerExpr>) *     
+<postfixExpr>                  '('                  <primary> ('[' <expression> ']' | '(' (<expression> (',' <expression>)*)? ')') *
+<postfixExpr>                  'False'              <primary> ('[' <expression> ']' | '(' (<expression> (',' <expression>)*)? ')') *
+<postfixExpr>                  'IDENTIFIER'         <primary> ('[' <expression> ']' | '(' (<expression> (',' <expression>)*)? ')') *
+<postfixExpr>                  'NUMBER'             <primary> ('[' <expression> ']' | '(' (<expression> (',' <expression>)*)? ')') *
+<postfixExpr>                  'STRING'             <primary> ('[' <expression> ']' | '(' (<expression> (',' <expression>)*)? ')') *
+<postfixExpr>                  'True'               <primary> ('[' <expression> ']' | '(' (<expression> (',' <expression>)*)? ')') *
+<postfixExpr>                  '['                  <primary> ('[' <expression> ']' | '(' (<expression> (',' <expression>)*)? ')') *
+<powerExpr>                    '('                  <unaryExpr> ('**' <powerExpr>) ?                  
+<powerExpr>                    '-'                  <unaryExpr> ('**' <powerExpr>) ?                  
+<powerExpr>                    'False'              <unaryExpr> ('**' <powerExpr>) ?                  
+<powerExpr>                    'IDENTIFIER'         <unaryExpr> ('**' <powerExpr>) ?                  
+<powerExpr>                    'NUMBER'             <unaryExpr> ('**' <powerExpr>) ?                  
+<powerExpr>                    'STRING'             <unaryExpr> ('**' <powerExpr>) ?                  
+<powerExpr>                    'True'               <unaryExpr> ('**' <powerExpr>) ?                  
+<powerExpr>                    '['                  <unaryExpr> ('**' <powerExpr>) ?                  
+<primary>                      '('                  '(' <expression> ')'                              
+<primary>                      'False'              'False'                                           
+<primary>                      'IDENTIFIER'         'IDENTIFIER'                                      
+<primary>                      'NUMBER'             'NUMBER'                                          
+<primary>                      'STRING'             'STRING'                                          
+<primary>                      'True'               'True'                                            
+<primary>                      '['                  '[' (<expression> (',' <expression>)*) ? ']'      
+<program>                      '('                  <statement> * 'EOF'                               
+<program>                      '-'                  <statement> * 'EOF'                               
+<program>                      'EOF'                <statement> * 'EOF'                               
+<program>                      'False'              <statement> * 'EOF'                               
+<program>                      'IDENTIFIER'         <statement> * 'EOF'                               
+<program>                      'NUMBER'             <statement> * 'EOF'                               
+<program>                      'STRING'             <statement> * 'EOF'                               
+<program>                      'True'               <statement> * 'EOF'                               
+<program>                      '['                  <statement> * 'EOF'                               
+<program>                      'break'              <statement> * 'EOF'                               
+<program>                      'continue'           <statement> * 'EOF'                               
+<program>                      'def'                <statement> * 'EOF'                               
+<program>                      'do'                 <statement> * 'EOF'                               
+<program>                      'for'                <statement> * 'EOF'                               
+<program>                      'if'                 <statement> * 'EOF'                               
+<program>                      'not'                <statement> * 'EOF'                               
+<program>                      'while'              <statement> * 'EOF'                               
+<statement>                    '('                  <expressionStatement>                             
+<statement>                    '-'                  <expressionStatement>                             
+<statement>                    'False'              <expressionStatement>                             
+<statement>                    'IDENTIFIER'         <expressionStatement>                             
+<statement>                    'NUMBER'             <expressionStatement>                             
+<statement>                    'STRING'             <expressionStatement>                             
+<statement>                    'True'               <expressionStatement>                             
+<statement>                    '['                  <expressionStatement>                             
+<statement>                    'break'              <breakStatement>                                  
+<statement>                    'continue'           <continueStatement>                               
+<statement>                    'def'                <defStatement>                                    
+<statement>                    'do'                 <doWhileStatement>                                
+<statement>                    'for'                <forStatement>                                    
+<statement>                    'if'                 <ifStatement>                                     
+<statement>                    'not'                <expressionStatement>                             
+<statement>                    'while'              <whileStatement>                                  
+<unaryExpr>                    '('                  <postfixExpr>                                     
+<unaryExpr>                    '-'                  '-' <unaryExpr>                                   
+<unaryExpr>                    'False'              <postfixExpr>                                     
+<unaryExpr>                    'IDENTIFIER'         <postfixExpr>                                     
+<unaryExpr>                    'NUMBER'             <postfixExpr>                                     
+<unaryExpr>                    'STRING'             <postfixExpr>                                     
+<unaryExpr>                    'True'               <postfixExpr>                                     
+<unaryExpr>                    '['                  <postfixExpr>                                     
+<whileStatement>               'while'              'while' <expression> ':' <block>                  

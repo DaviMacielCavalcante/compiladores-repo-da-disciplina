@@ -238,7 +238,7 @@ class LL1Parser:
                 return False
             
             # Proteção contra loop infinito
-            if step > 1000
+            if step > 10000:
                 print(f"[ERRO] Limite de passos excedido")
                 return False
         

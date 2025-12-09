@@ -1,0 +1,271 @@
+======================================================================
+CONJUNTOS FIRST
+======================================================================
+
+=== NÃO-TERMINAIS ===
+
+FIRST(<additiveExpr>)
+  '('
+  '-'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+
+FIRST(<bitwiseAndExpr>)
+  '('
+  '-'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+
+FIRST(<bitwiseOrExpr>)
+  '('
+  '-'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+
+FIRST(<block>)
+  '('
+  '-'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '{'
+
+FIRST(<breakStatement>)
+  'break'
+
+FIRST(<comparisonExpr>)
+  '('
+  '-'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+
+FIRST(<continueStatement>)
+  'continue'
+
+FIRST(<defStatement>)
+  'def'
+
+FIRST(<doWhileStatement>)
+  'do'
+
+FIRST(<expression>)
+  '('
+  '-'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'not'
+
+FIRST(<expressionStatement>)
+  '('
+  '-'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'not'
+
+FIRST(<forStatement>)
+  'for'
+
+FIRST(<ifStatement>)
+  'if'
+
+FIRST(<logicalAndExpr>)
+  '('
+  '-'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'not'
+
+FIRST(<logicalNotExpr>)
+  '('
+  '-'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'not'
+
+FIRST(<logicalOrExpr>)
+  '('
+  '-'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'not'
+
+FIRST(<multiplicativeExpr>)
+  '('
+  '-'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+
+FIRST(<postfixExpr>)
+  '('
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+
+FIRST(<powerExpr>)
+  '('
+  '-'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+
+FIRST(<primary>)
+  '('
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+
+FIRST(<program>)
+  '('
+  '-'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+
+FIRST(<statement>)
+  '('
+  '-'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+
+FIRST(<unaryExpr>)
+  '('
+  '-'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+
+FIRST(<whileStatement>)
+  'while'
+
+=== TERMINAIS ===
+
+FIRST('(') = {'('}
+FIRST(')') = {')'}
+FIRST('-') = {'-'}
+FIRST(':') = {':'}
+FIRST(';') = {';'}
+FIRST('EOF') = {'EOF'}
+FIRST('False') = {'False'}
+FIRST('IDENTIFIER') = {'IDENTIFIER'}
+FIRST('NUMBER') = {'NUMBER'}
+FIRST('STRING') = {'STRING'}
+FIRST('True') = {'True'}
+FIRST('[') = {'['}
+FIRST(']') = {']'}
+FIRST('break') = {'break'}
+FIRST('continue') = {'continue'}
+FIRST('def') = {'def'}
+FIRST('do') = {'do'}
+FIRST('for') = {'for'}
+FIRST('if') = {'if'}
+FIRST('in') = {'in'}
+FIRST('not') = {'not'}
+FIRST('range') = {'range'}
+FIRST('while') = {'while'}
+FIRST('{') = {'{'}
+FIRST('}') = {'}'}
+FIRST(('&' <comparisonExpr>)) = {('&' <comparisonExpr>)}
+FIRST(('**' <powerExpr>)) = {('**' <powerExpr>)}
+FIRST((',' <expression> (',' <expression>)?)) = {(',' <expression> (',' <expression>)?)}
+FIRST(('=' <expression>)) = {('=' <expression>)}
+FIRST(('IDENTIFIER' (',' 'IDENTIFIER')*)) = {('IDENTIFIER' (',' 'IDENTIFIER')*)}
+FIRST(('[' <expression> ']' | '(' (<expression> (',' <expression>)*)? ')')) = {('[' <expression> ']' | '(' (<expression> (',' <expression>)*)? ')')}
+FIRST(('and' <logicalNotExpr>)) = {('and' <logicalNotExpr>)}
+FIRST(('else' ':' <block>)) = {('else' ':' <block>)}
+FIRST(('or' <logicalAndExpr>)) = {('or' <logicalAndExpr>)}
+FIRST(('|' <bitwiseAndExpr>)) = {('|' <bitwiseAndExpr>)}
+FIRST((('*' | '/' | '%') <powerExpr>)) = {(('*' | '/' | '%') <powerExpr>)}
+FIRST((('+' | '-') <multiplicativeExpr>)) = {(('+' | '-') <multiplicativeExpr>)}
+FIRST((('==' | '!=' | '<' | '>' | '<=' | '>=') <additiveExpr>)) = {(('==' | '!=' | '<' | '>' | '<=' | '>=') <additiveExpr>)}
+FIRST((<expression> (',' <expression>)*)) = {(<expression> (',' <expression>)*)}
+
+======================================================================
+Total de símbolos: 63
+======================================================================

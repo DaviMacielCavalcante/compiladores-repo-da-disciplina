@@ -1,0 +1,612 @@
+======================================================================
+CONJUNTOS FOLLOW
+======================================================================
+
+FOLLOW(<additiveExpr>)
+  '('
+  ')'
+  '-'
+  ':'
+  ';'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  ('&' <comparisonExpr>)
+  (',' <expression> (',' <expression>)?)
+  ('=' <expression>)
+  ('and' <logicalNotExpr>)
+  ('else' ':' <block>)
+  ('or' <logicalAndExpr>)
+  ('|' <bitwiseAndExpr>)
+  (('==' | '!=' | '<' | '>' | '<=' | '>=') <additiveExpr>)
+
+FOLLOW(<bitwiseAndExpr>)
+  '('
+  ')'
+  '-'
+  ':'
+  ';'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  (',' <expression> (',' <expression>)?)
+  ('=' <expression>)
+  ('and' <logicalNotExpr>)
+  ('else' ':' <block>)
+  ('or' <logicalAndExpr>)
+  ('|' <bitwiseAndExpr>)
+
+FOLLOW(<bitwiseOrExpr>)
+  '('
+  ')'
+  '-'
+  ':'
+  ';'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  (',' <expression> (',' <expression>)?)
+  ('=' <expression>)
+  ('and' <logicalNotExpr>)
+  ('else' ':' <block>)
+  ('or' <logicalAndExpr>)
+
+FOLLOW(<block>)
+  '('
+  '-'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  ('else' ':' <block>)
+
+FOLLOW(<breakStatement>)
+  '('
+  '-'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  ('else' ':' <block>)
+
+FOLLOW(<comparisonExpr>)
+  '('
+  ')'
+  '-'
+  ':'
+  ';'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  ('&' <comparisonExpr>)
+  (',' <expression> (',' <expression>)?)
+  ('=' <expression>)
+  ('and' <logicalNotExpr>)
+  ('else' ':' <block>)
+  ('or' <logicalAndExpr>)
+  ('|' <bitwiseAndExpr>)
+
+FOLLOW(<continueStatement>)
+  '('
+  '-'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  ('else' ':' <block>)
+
+FOLLOW(<defStatement>)
+  '('
+  '-'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  ('else' ':' <block>)
+
+FOLLOW(<doWhileStatement>)
+  '('
+  '-'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  ('else' ':' <block>)
+
+FOLLOW(<expression>)
+  '('
+  ')'
+  '-'
+  ':'
+  ';'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  (',' <expression> (',' <expression>)?)
+  ('else' ':' <block>)
+
+FOLLOW(<expressionStatement>)
+  '('
+  '-'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  ('else' ':' <block>)
+
+FOLLOW(<forStatement>)
+  '('
+  '-'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  ('else' ':' <block>)
+
+FOLLOW(<ifStatement>)
+  '('
+  '-'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  ('else' ':' <block>)
+
+FOLLOW(<logicalAndExpr>)
+  '('
+  ')'
+  '-'
+  ':'
+  ';'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  (',' <expression> (',' <expression>)?)
+  ('=' <expression>)
+  ('else' ':' <block>)
+  ('or' <logicalAndExpr>)
+
+FOLLOW(<logicalNotExpr>)
+  '('
+  ')'
+  '-'
+  ':'
+  ';'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  (',' <expression> (',' <expression>)?)
+  ('=' <expression>)
+  ('and' <logicalNotExpr>)
+  ('else' ':' <block>)
+  ('or' <logicalAndExpr>)
+
+FOLLOW(<logicalOrExpr>)
+  '('
+  ')'
+  '-'
+  ':'
+  ';'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  (',' <expression> (',' <expression>)?)
+  ('=' <expression>)
+  ('else' ':' <block>)
+
+FOLLOW(<multiplicativeExpr>)
+  '('
+  ')'
+  '-'
+  ':'
+  ';'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  ('&' <comparisonExpr>)
+  (',' <expression> (',' <expression>)?)
+  ('=' <expression>)
+  ('and' <logicalNotExpr>)
+  ('else' ':' <block>)
+  ('or' <logicalAndExpr>)
+  ('|' <bitwiseAndExpr>)
+  (('+' | '-') <multiplicativeExpr>)
+  (('==' | '!=' | '<' | '>' | '<=' | '>=') <additiveExpr>)
+
+FOLLOW(<postfixExpr>)
+  '('
+  ')'
+  '-'
+  ':'
+  ';'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  ('&' <comparisonExpr>)
+  ('**' <powerExpr>)
+  (',' <expression> (',' <expression>)?)
+  ('=' <expression>)
+  ('and' <logicalNotExpr>)
+  ('else' ':' <block>)
+  ('or' <logicalAndExpr>)
+  ('|' <bitwiseAndExpr>)
+  (('*' | '/' | '%') <powerExpr>)
+  (('+' | '-') <multiplicativeExpr>)
+  (('==' | '!=' | '<' | '>' | '<=' | '>=') <additiveExpr>)
+
+FOLLOW(<powerExpr>)
+  '('
+  ')'
+  '-'
+  ':'
+  ';'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  ('&' <comparisonExpr>)
+  (',' <expression> (',' <expression>)?)
+  ('=' <expression>)
+  ('and' <logicalNotExpr>)
+  ('else' ':' <block>)
+  ('or' <logicalAndExpr>)
+  ('|' <bitwiseAndExpr>)
+  (('*' | '/' | '%') <powerExpr>)
+  (('+' | '-') <multiplicativeExpr>)
+  (('==' | '!=' | '<' | '>' | '<=' | '>=') <additiveExpr>)
+
+FOLLOW(<primary>)
+  '('
+  ')'
+  '-'
+  ':'
+  ';'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  ('&' <comparisonExpr>)
+  ('**' <powerExpr>)
+  (',' <expression> (',' <expression>)?)
+  ('=' <expression>)
+  ('[' <expression> ']' | '(' (<expression> (',' <expression>)*)? ')')
+  ('and' <logicalNotExpr>)
+  ('else' ':' <block>)
+  ('or' <logicalAndExpr>)
+  ('|' <bitwiseAndExpr>)
+  (('*' | '/' | '%') <powerExpr>)
+  (('+' | '-') <multiplicativeExpr>)
+  (('==' | '!=' | '<' | '>' | '<=' | '>=') <additiveExpr>)
+
+FOLLOW(<program>)
+  $
+
+FOLLOW(<statement>)
+  '('
+  '-'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  ('else' ':' <block>)
+
+FOLLOW(<unaryExpr>)
+  '('
+  ')'
+  '-'
+  ':'
+  ';'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  ('&' <comparisonExpr>)
+  ('**' <powerExpr>)
+  (',' <expression> (',' <expression>)?)
+  ('=' <expression>)
+  ('and' <logicalNotExpr>)
+  ('else' ':' <block>)
+  ('or' <logicalAndExpr>)
+  ('|' <bitwiseAndExpr>)
+  (('*' | '/' | '%') <powerExpr>)
+  (('+' | '-') <multiplicativeExpr>)
+  (('==' | '!=' | '<' | '>' | '<=' | '>=') <additiveExpr>)
+
+FOLLOW(<whileStatement>)
+  '('
+  '-'
+  'EOF'
+  'False'
+  'IDENTIFIER'
+  'NUMBER'
+  'STRING'
+  'True'
+  '['
+  'break'
+  'continue'
+  'def'
+  'do'
+  'for'
+  'if'
+  'not'
+  'while'
+  '}'
+  ('else' ':' <block>)
+
+======================================================================
+Total de não-terminais: 24
+======================================================================
