@@ -23,12 +23,7 @@
 
 <whileStatement> ::= 'while' <expression> ':' <block>
 
-<forStatement> ::= 'for' 'IDENTIFIER' 'in' 'range' '(' <range_args> ')' ':' <block>
-<range_args> ::= <expression> <range_args_tail>
-<range_args_tail> ::= ',' <expression> <range_args_tail2>
-<range_args_tail> ::= ε
-<range_args_tail2> ::= ',' <expression>
-<range_args_tail2> ::= ε
+<forStatement> ::= 'for' 'IDENTIFIER' 'in' 'range' '(' <expression> (',' <expression> (',' <expression>)?)? ')' ':' <block>
 
 <doWhileStatement> ::= 'do' ':' <block> 'while' <expression> ';'?
 
@@ -36,17 +31,11 @@
 
 <continueStatement> ::= 'continue' ';'?
 
-<defStatement> ::= 'def' 'IDENTIFIER' '(' <optional_params> ')' ':' '{' <statement_list> '}' <optional_semicolon>
-<optional_params> ::= <paramList>
-<optional_params> ::= ε
-
-<paramList> ::= 'IDENTIFIER' <param_list_tail>
-<param_list_tail> ::= ',' 'IDENTIFIER' <param_list_tail>
-<param_list_tail> ::= ε
+<defStatement> ::= 'def' 'IDENTIFIER' '(' ('IDENTIFIER' (',' 'IDENTIFIER')*)? ')' ':' '{' <statement>* '}' ';'?
 
 # -------------------- BLOCOS --------------------
-<block> ::= '{' <statement_list> '}'
-<block> ::= <statement>
+<block> ::= '{' <statement>* '}'
+          | <statement>
 
 # -------------------- EXPRESSÕES --------------------
 # Precedência: 12 níveis
