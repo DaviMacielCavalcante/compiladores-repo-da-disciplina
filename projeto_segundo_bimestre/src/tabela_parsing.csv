@@ -17,13 +17,13 @@ Não-Terminal,'!=','%','&','(',')','*','**','+',"','",'-','/',':',';','<','<=','
 <comparison_op>,'!=',,,,,,,,,,,,,'<','<=',,'==','>','>=',,,,,,,,,,,,,,,,,,,,,,,
 <comparison_tail>,<comparison_op> <additiveExpr> <comparison_tail>,,ε,ε,ε,,,,ε,ε,,ε,ε,<comparison_op> <additiveExpr> <comparison_tail>,<comparison_op> <additiveExpr> <comparison_tail>,ε,<comparison_op> <additiveExpr> <comparison_tail>,<comparison_op> <additiveExpr> <comparison_tail>,<comparison_op> <additiveExpr> <comparison_tail>,ε,ε,ε,ε,ε,ε,ε,ε,ε,ε,ε,ε,ε,,ε,ε,ε,ε,ε,ε,,ε,ε
 <continueStatement>,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,'continue' <optional_semicolon>,,,,,,,,,,,,
-<defStatement>,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,'def' 'IDENTIFIER' '(' <optional_params> ')' ':' <block>,,,,,,,,,,,
+<defStatement>,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,'def' 'IDENTIFIER' '(' <optional_params> ')' ':' <brace_block>,,,,,,,,,,,
 <doWhileStatement>,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,'do' ':' <block> 'while' <expression> <optional_semicolon>,,,,,,,,,,
 <expr_list_tail>,,,,,,,,,"',' <expression> <expr_list_tail>",,,,,,,,,,,,,,,,,,ε,,,,,,,,,,,,,,,
 <expression>,,,,<assignmentExpr>,,,,,,<assignmentExpr>,,,,,,,,,,,<assignmentExpr>,<assignmentExpr>,<assignmentExpr>,<assignmentExpr>,<assignmentExpr>,<assignmentExpr>,,,,,,,,,,<assignmentExpr>,,,,,,
 <expressionList>,,,,<expression> <expr_list_tail>,,,,,,<expression> <expr_list_tail>,,,,,,,,,,,<expression> <expr_list_tail>,<expression> <expr_list_tail>,<expression> <expr_list_tail>,<expression> <expr_list_tail>,<expression> <expr_list_tail>,<expression> <expr_list_tail>,,,,,,,,,,<expression> <expr_list_tail>,,,,,,
 <expressionStatement>,,,,<expression> <optional_semicolon>,,,,,,<expression> <optional_semicolon>,,,,,,,,,,,<expression> <optional_semicolon>,<expression> <optional_semicolon>,<expression> <optional_semicolon>,<expression> <optional_semicolon>,<expression> <optional_semicolon>,<expression> <optional_semicolon>,,,,,,,,,,<expression> <optional_semicolon>,,,,,,
-<forStatement>,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,'for' 'IDENTIFIER' 'in' 'range' '(' <range_args> ')' ':' <block>,,,,,,,,
+<forStatement>,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,'for' 'IDENTIFIER' 'in' 'range' '(' <range_args> ')' ':' <brace_block>,,,,,,,,
 <ifStatement>,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,'if' <expression> ':' <brace_block> <optional_else>,,,,,,,
 <logicalAndExpr>,,,,<logicalNotExpr> <logical_and_tail>,,,,,,<logicalNotExpr> <logical_and_tail>,,,,,,,,,,,<logicalNotExpr> <logical_and_tail>,<logicalNotExpr> <logical_and_tail>,<logicalNotExpr> <logical_and_tail>,<logicalNotExpr> <logical_and_tail>,<logicalNotExpr> <logical_and_tail>,<logicalNotExpr> <logical_and_tail>,,,,,,,,,,<logicalNotExpr> <logical_and_tail>,,,,,,
 <logicalNotExpr>,,,,<bitwiseOrExpr>,,,,,,<bitwiseOrExpr>,,,,,,,,,,,<bitwiseOrExpr>,<bitwiseOrExpr>,<bitwiseOrExpr>,<bitwiseOrExpr>,<bitwiseOrExpr>,<bitwiseOrExpr>,,,,,,,,,,'not' <logicalNotExpr>,,,,,,
@@ -55,4 +55,4 @@ Não-Terminal,'!=','%','&','(',')','*','**','+',"','",'-','/',':',';','<','<=','
 <statement>,,,,<expressionStatement>,,,,,,<expressionStatement>,,,,,,,,,,,<expressionStatement>,<expressionStatement>,<expressionStatement>,<expressionStatement>,<expressionStatement>,<expressionStatement>,,,<breakStatement>,<continueStatement>,<defStatement>,<doWhileStatement>,,<forStatement>,<ifStatement>,<expressionStatement>,,<returnStatement>,<whileStatement>,,,
 <statement_list>,,,,<statement> <statement_list>,,,,,,<statement> <statement_list>,,,,,,,,,,ε,<statement> <statement_list>,<statement> <statement_list>,<statement> <statement_list>,<statement> <statement_list>,<statement> <statement_list>,<statement> <statement_list>,,,<statement> <statement_list>,<statement> <statement_list>,<statement> <statement_list>,<statement> <statement_list>,,<statement> <statement_list>,<statement> <statement_list>,<statement> <statement_list>,,<statement> <statement_list>,<statement> <statement_list>,,,ε
 <unaryExpr>,,,,<postfixExpr>,,,,,,'-' <unaryExpr>,,,,,,,,,,,<postfixExpr>,<postfixExpr>,<postfixExpr>,<postfixExpr>,<postfixExpr>,<postfixExpr>,,,,,,,,,,,,,,,,
-<whileStatement>,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,'while' <expression> ':' <block>,,,
+<whileStatement>,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,'while' <expression> ':' <brace_block>,,,
