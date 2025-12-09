@@ -60,8 +60,8 @@
 <return_tail> ::= ε
 
 # -------------------- BLOCOS --------------------
-<block> ::= '{' <statement_list> '}'
-<block> ::= <statement>
+<block> ::= '{' <statement>* '}'
+          | <statement>
 
 # Novo bloco que OBRIGA o uso de chaves como solicitado pelo professor Daniel
 <brace_block> ::= '{' <statement_list> '}'
