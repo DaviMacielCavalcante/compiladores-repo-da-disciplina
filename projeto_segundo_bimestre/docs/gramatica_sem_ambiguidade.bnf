@@ -21,10 +21,14 @@
 # -------------------- CONTROLE DE FLUXO --------------------
 <ifStatement> ::= 'if' <expression> ':' <block> ('else' ':' <block>)?
 
-<whileStatement> ::= 'while' <expression> ':' <brace_block>
-<forStatement> ::= 'for' 'IDENTIFIER' 'in' 'range' '(' <range_args> ')' ':' <brace_block>
+<whileStatement> ::= 'while' <expression> ':' <block>
 
-<forStatement> ::= 'for' 'IDENTIFIER' 'in' 'range' '(' <expression> (',' <expression> (',' <expression>)?)? ')' ':' <block>
+<forStatement> ::= 'for' 'IDENTIFIER' 'in' 'range' '(' <range_args> ')' ':' <block>
+<range_args> ::= <expression> <range_args_tail>
+<range_args_tail> ::= ',' <expression> <range_args_tail2>
+<range_args_tail> ::= ε
+<range_args_tail2> ::= ',' <expression>
+<range_args_tail2> ::= ε
 
 <doWhileStatement> ::= 'do' ':' <block> 'while' <expression> ';'?
 
@@ -32,20 +36,17 @@
 
 <continueStatement> ::= 'continue' ';'?
 
-<defStatement> ::= 'def' 'IDENTIFIER' '(' ('IDENTIFIER' (',' 'IDENTIFIER')*)? ')' ':' '{' <statement>* '}' ';'?
+<defStatement> ::= 'def' 'IDENTIFIER' '(' <optional_params> ')' ':' '{' <statement_list> '}' <optional_semicolon>
+<optional_params> ::= <paramList>
+<optional_params> ::= ε
 
-<returnStatement> ::= 'return' <return_tail>
-
-<return_tail> ::= <expression> <optional_semicolon>
-<return_tail> ::= ';'
-<return_tail> ::= ε
+<paramList> ::= 'IDENTIFIER' <param_list_tail>
+<param_list_tail> ::= ',' 'IDENTIFIER' <param_list_tail>
+<param_list_tail> ::= ε
 
 # -------------------- BLOCOS --------------------
-<block> ::= '{' <statement>* '}'
-          | <statement>
-
-# Novo bloco que OBRIGA o uso de chaves como solicitado pelo professor Daniel
-<brace_block> ::= '{' <statement_list> '}'
+<block> ::= '{' <statement_list> '}'
+<block> ::= <statement>
 
 # -------------------- EXPRESSÕES --------------------
 # Precedência: 12 níveis
