@@ -1,24 +1,24 @@
 from collections import defaultdict
 
 class ParsingTable:
-    """Constrói tabela de parsing LL(1) processando EBNF diretamente."""
+    """Constrói tabela de parsing LL(1)."""
     
     def __init__(self, grammar, first_follow):
+        """Inicializa com gramática e conjuntos First/Follow calculados."""
         self.grammar = grammar
         self.first_follow = first_follow
         self.table = {}
-        self.conflicts = []
-        self.unresolved_conflicts = []
-        
+        self.conflicts = []  # Conflitos irresolvíveis
+        self.resolved_conflicts = []  # Conflitos resolvidos automaticamente
+    
     def build(self):
         """Constrói a tabela de parsing LL(1)."""
         self.table = {}
         self.conflicts = []
-        self.unresolved_conflicts = []
         
         for nt in self.grammar.nonterminals:
             for prod in self.grammar.productions[nt]:
-                # Calcular FIRST da produção com EBNF
+                # Calcular FIRST da produção
                 first_prod = self._first_of_production(prod)
                 
                 # Regra 1: Para cada terminal em FIRST(α)
@@ -30,214 +30,390 @@ class ParsingTable:
                     for terminal in self.first_follow.follow[nt]:
                         self._add_entry(nt, terminal, prod)
         
-        # Resolver conflitos
-        self._resolve_conflicts()
-        
         return self.table
     
     def _add_entry(self, nonterminal, terminal, production):
-        """Adiciona entrada na tabela."""
+        """
+        Adiciona entrada na tabela, detectando e resolvendo conflitos.
+        
+        ESTRATÉGIA DE DESEMPATE:
+        - Preferir produção NÃO-epsilon sobre produção epsilon
+        - Justificativa: "greedy matching" - sempre consumir tokens quando possível
+        """
         key = (nonterminal, terminal)
         
         if key in self.table:
             existing = self.table[key]
             
-            # Não registrar duplicatas
+            # Ignora se for a mesma produção (não é conflito)
             if existing == production:
                 return
             
-            conflict = {
-                'cell': key,
-                'existing': existing,
-                'new': production,
-                'resolved': False,
-                'strategy': None
-            }
-            self.conflicts.append(conflict)
+            # ESTRATÉGIA DE DESEMPATE
+            is_existing_epsilon = self._is_epsilon_production(existing)
+            is_new_epsilon = self._is_epsilon_production(production)
+            
+            if is_existing_epsilon and not is_new_epsilon:
+                # Produção existente é ε, nova não é → substitui
+                self.table[key] = production
+                self._register_resolved_conflict(key, existing, production, 
+                                                "Produção existente (ε) substituída pela não-ε")
+                return
+            
+            elif not is_existing_epsilon and is_new_epsilon:
+                # Produção existente não é ε, nova é → mantém existente
+                self._register_resolved_conflict(key, existing, production,
+                                                "Produção ε ignorada, mantida a não-ε")
+                return
+            
+            else:
+                # Ambas são ε ou ambas não são ε → conflito real (irresolvível)
+                conflict = {
+                    'cell': key,
+                    'existing': existing,
+                    'new': production
+                }
+                self.conflicts.append(conflict)
+                # Mantém primeira produção (comportamento padrão)
         else:
             self.table[key] = production
-    
-    def _resolve_conflicts(self):
-        """
-        DESABILITADO: Não resolve conflitos automaticamente.
-        Se há conflitos, a gramática NÃO é LL(1).
-        """
-        # Marcar todos como não resolvidos
-        for conflict in self.conflicts:
-            conflict['resolved'] = False
-            self.unresolved_conflicts.append(conflict)
-        
-        if self.unresolved_conflicts:
-            print(f"[ERRO] {len(self.unresolved_conflicts)} conflito(s) detectado(s)")
-            print(f"[ERRO] Gramática NÃO é LL(1)")
-            print(f"[INFO] Corrija a gramática para eliminar conflitos")
     
     def _is_epsilon_production(self, production):
         """Verifica se produção é epsilon."""
         return (len(production) == 1 and 
                 self.grammar.is_epsilon(production[0]))
     
-    def _first_of_production(self, prod):
-        """
-        Calcula FIRST de uma produção processando EBNF diretamente.
-        
-        Regras EBNF:
-        - A*  → FIRST(A) ∪ {ε}
-        - A+  → FIRST(A)
-        - A?  → FIRST(A) ∪ {ε}
-        """
+    def _register_resolved_conflict(self, key, existing, new, reason):
+        """Registra conflito que foi resolvido automaticamente."""
+        resolved = {
+            'cell': key,
+            'existing': existing,
+            'new': new,
+            'chosen': self.table[key],
+            'reason': reason
+        }
+        self.resolved_conflicts.append(resolved)
+    
+    def _first_of_production(self, production):
+        """Calcula FIRST de uma produção."""
         result = set()
         
-        # Epsilon
-        if len(prod) == 1 and self.grammar.is_epsilon(prod[0]):
+        if not production or self.grammar.is_epsilon(production[0]):
             return {self.grammar.epsilon}
         
-        i = 0
-        while i < len(prod):
-            symbol = prod[i]
-            
-            # Verificar operador EBNF
-            if i + 1 < len(prod) and prod[i + 1] in ['*', '+', '?']:
-                operator = prod[i + 1]
-                
-                # Obter FIRST do símbolo
-                if symbol in self.grammar.terminals:
-                    first_sym = {symbol}
-                else:
-                    first_sym = self.first_follow.first.get(symbol, set())
-                
-                # Aplicar operador
-                if operator == '*':
-                    # A*: pode ser vazio, sempre continua
-                    result.update(first_sym - {self.grammar.epsilon})
-                    i += 2
-                    if i >= len(prod):
-                        result.add(self.grammar.epsilon)
-                    continue
-                    
-                elif operator == '+':
-                    # A+: não pode ser vazio
-                    result.update(first_sym - {self.grammar.epsilon})
-                    if self.grammar.epsilon not in first_sym:
-                        break
-                    i += 2
-                    if i >= len(prod):
-                        result.add(self.grammar.epsilon)
-                    continue
-                    
-                elif operator == '?':
-                    # A?: pode ser vazio, sempre continua
-                    result.update(first_sym - {self.grammar.epsilon})
-                    i += 2
-                    if i >= len(prod):
-                        result.add(self.grammar.epsilon)
-                    continue
-            
-            # Símbolo normal (sem operador EBNF)
-            # Terminal
+        for symbol in production:
             if symbol in self.grammar.terminals:
                 result.add(symbol)
                 break
             
-            # Não-terminal
-            first_sym = self.first_follow.first.get(symbol, set())
-            result.update(first_sym - {self.grammar.epsilon})
+            first_symbol = self.first_follow.first[symbol]
+            result.update(first_symbol - {self.grammar.epsilon})
             
-            if self.grammar.epsilon not in first_sym:
+            if self.grammar.epsilon not in first_symbol:
                 break
-            
-            i += 1
-            if i >= len(prod):
-                result.add(self.grammar.epsilon)
+        else:
+            result.add(self.grammar.epsilon)
         
         return result
     
-    def is_ll1(self):
-        """Verifica se gramática é LL(1)."""
-        return len(self.unresolved_conflicts) == 0
+    def get(self, nonterminal, terminal):
+        """Consulta tabela M[A,a]."""
+        return self.table.get((nonterminal, terminal))
     
-    def print_table(self):
-        """Imprime tabela."""
-        print("\n=== TABELA DE PARSING ===")
-        print(f"{'NT':<30} {'T':<20} {'Produção':<50}")
-        print("-" * 100)
-        
-        for (nt, term), prod in sorted(self.table.items()):
-            prod_str = ' '.join(prod)
-            print(f"{nt:<30} {term:<20} {prod_str:<50}")
-    
-    def print_conflicts(self):
-        """Imprime conflitos."""
-        if not self.conflicts:
-            print("\n✅ Nenhum conflito! Gramática é LL(1)!")
-            return
-        
-        print("\n=== CONFLITOS DETECTADOS ===")
-        print(f"[ERRO] {len(self.conflicts)} conflito(s) encontrado(s)")
-        print(f"[ERRO] Gramática NÃO é LL(1)")
-        print()
-        
-        for i, conf in enumerate(self.conflicts, 1):
-            nt, term = conf['cell']
-            existing_str = ' '.join(conf['existing'])
-            new_str = ' '.join(conf['new'])
-            
-            print(f"Conflito {i}: M[{nt}, {term}]")
-            print(f"  Produção 1: {nt} ::= {existing_str}")
-            print(f"  Produção 2: {nt} ::= {new_str}")
-            print()
-    
-    def print_statistics(self):
-        """Imprime estatísticas."""
-        print("\n=== ESTATISTICAS ===")
-        print(f"Entradas: {len(self.table)}")
-        print(f"Conflitos detectados: {len(self.conflicts)}")
-        
-        if len(self.conflicts) == 0:
-            print(f"LL(1)? ✅ SIM (sem conflitos)")
-        else:
-            print(f"LL(1)? ❌ NÃO ({len(self.conflicts)} conflitos)")
-            print(f"\n⚠️  Uma gramática LL(1) NÃO pode ter conflitos.")
-            print(f"    Corrija a gramática para eliminar os conflitos.")
-    
-    def save_to_files(self, table_file="parsing_table_output.txt", 
-                      matrix_file="parsing_table_matrix.txt",
-                      csv_file="parsing_table_matrix.csv"):
+    def save_matrix_to_csv(self, filename):
         """
-        Salva tabela de parsing em múltiplos formatos.
+        Salva tabela em formato CSV (sem truncamento).
+        
+        Formato ideal para abrir em Excel/LibreOffice.
+        Cada célula contém a produção completa, sem cortes.
         
         Args:
-            table_file: Tabela em formato lista
-            matrix_file: Tabela em formato matricial
-            csv_file: Tabela em formato CSV
+            filename: Nome do arquivo CSV
         """
-        # 1. Formato lista
-        with open(table_file, 'w', encoding='utf-8') as f:
+        import csv
+        
+        # Coletar não-terminais e terminais usados na tabela
+        nonterminals_in_table = sorted(set(nt for nt, _ in self.table.keys()))
+        terminals_in_table = sorted(set(term for _, term in self.table.keys()))
+        
+        # Função para formatar produção
+        def format_production(prod):
+            if not prod:
+                return ""
+            
+            # Tratamento especial para epsilon
+            if len(prod) == 1 and self.grammar.is_epsilon(prod[0]):
+                return "ε"
+            
+            # Junta produção (SEM truncamento)
+            return ' '.join(prod)
+        
+        with open(filename, 'w', encoding='utf-8', newline='') as f:
+            writer = csv.writer(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            
+            # Linha 1: Cabeçalho com terminais
+            header = ['Não-Terminal'] + terminals_in_table
+            writer.writerow(header)
+            
+            # Linhas da tabela (cada não-terminal)
+            for nt in nonterminals_in_table:
+                row = [nt]
+                
+                for term in terminals_in_table:
+                    prod = self.get(nt, term)
+                    cell_content = format_production(prod) if prod else ""
+                    row.append(cell_content)
+                
+                writer.writerow(row)
+        
+        print(f"[OK] Tabela CSV salva em: {filename}")
+        print(f"[INFO] Abra em Excel/LibreOffice para visualizar sem truncamento")
+    
+    def save_matrix_to_file(self, filename, max_col_width=15, max_cell_width=30):
+        """
+        Salva tabela em formato MATRICIAL (como professor ensina).
+        
+        Formato:
+                   term1    term2    term3    ...
+        <NT1>      prod1             prod2
+        <NT2>               prod3    
+        ...
+        
+        Args:
+            filename: Nome do arquivo
+            max_col_width: Largura máxima da coluna de terminal
+            max_cell_width: Largura máxima da célula de produção
+        """
+        # Coletar não-terminais e terminais usados na tabela
+        nonterminals_in_table = sorted(set(nt for nt, _ in self.table.keys()))
+        terminals_in_table = sorted(set(term for _, term in self.table.keys()))
+        
+        # Função auxiliar para truncar texto
+        def truncate(text, max_len):
+            if len(text) <= max_len:
+                return text
+            return text[:max_len-3] + "..."
+        
+        # Função para formatar produção
+        def format_production(prod):
+            if not prod:
+                return ""
+            
+            # Tratamento especial para epsilon
+            if len(prod) == 1 and self.grammar.is_epsilon(prod[0]):
+                return "ε"
+            
+            # Junta produção
+            prod_str = ' '.join(prod)
+            return truncate(prod_str, max_cell_width)
+        
+        with open(filename, 'w', encoding='utf-8') as f:
+            # Cabeçalho
             f.write("=" * 100 + "\n")
-            f.write("TABELA DE PARSING LL(1)\n")
+            f.write("TABELA DE PARSING LL(1) - FORMATO MATRICIAL\n")
             f.write("=" * 100 + "\n\n")
             
             # Estatísticas
             f.write("=== ESTATISTICAS ===\n")
-            f.write(f"Entradas na tabela: {len(self.table)}\n")
-            f.write(f"Conflitos resolvidos: {len([c for c in self.conflicts if c['resolved']])}\n")
-            f.write(f"Conflitos irresolviveis: {len(self.unresolved_conflicts)}\n")
-            is_ll1 = "SIM" if len(self.unresolved_conflicts) == 0 else "NAO"
-            f.write(f"E LL(1)? {is_ll1}\n\n")
+            f.write(f"Nao-terminais na tabela: {len(nonterminals_in_table)}\n")
+            f.write(f"Terminais na tabela: {len(terminals_in_table)}\n")
+            f.write(f"Total de entradas: {len(self.table)}\n")
+            f.write(f"Conflitos irresolviveis: {len(self.conflicts)}\n")
+            f.write(f"Conflitos resolvidos: {len(self.resolved_conflicts)}\n")
+            f.write(f"LL(1) puro? {'SIM' if self.is_ll1_pure() else 'NAO'}\n")
+            f.write(f"LL(1) pratico? {'SIM' if self.is_ll1_practical() else 'NAO'}\n\n")
             
-            # Conflitos
-            if self.conflicts:
-                f.write("=== CONFLITOS ===\n")
-                for i, conf in enumerate(self.conflicts, 1):
-                    nt, term = conf['cell']
+            # Conflitos resolvidos (se houver)
+            if self.resolved_conflicts:
+                f.write("=== CONFLITOS RESOLVIDOS ===\n")
+                for i, resolved in enumerate(self.resolved_conflicts, 1):
+                    nt, term = resolved['cell']
                     f.write(f"Conflito {i}: M[{nt}, {term}]\n")
-                    f.write(f"  Existente: {' '.join(conf['existing'])}\n")
-                    f.write(f"  Nova: {' '.join(conf['new'])}\n")
-                    if conf['resolved']:
-                        f.write(f"  Status: RESOLVIDO ({conf['strategy']})\n")
+                    f.write(f"  Opcao 1: {format_production(resolved['existing'])}\n")
+                    f.write(f"  Opcao 2: {format_production(resolved['new'])}\n")
+                    f.write(f"  Escolhida: {format_production(resolved['chosen'])}\n")
+                    f.write(f"  Estrategia: Preferir nao-epsilon\n\n")
+            
+            # Conflitos irresolvíveis (se houver)
+            if self.conflicts:
+                f.write("=== CONFLITOS IRRESOLVIVEIS ===\n")
+                for i, conflict in enumerate(self.conflicts, 1):
+                    nt, term = conflict['cell']
+                    f.write(f"Conflito {i}: M[{nt}, {term}]\n")
+                    f.write(f"  Existente: {format_production(conflict['existing'])}\n")
+                    f.write(f"  Nova: {format_production(conflict['new'])}\n\n")
+            
+            # Tabela matricial
+            f.write("=" * 100 + "\n")
+            f.write("TABELA MATRICIAL\n")
+            f.write("=" * 100 + "\n\n")
+            
+            # Largura da coluna de não-terminais
+            nt_col_width = max(len(nt) for nt in nonterminals_in_table) + 2
+            nt_col_width = max(nt_col_width, 25)  # Mínimo 25
+            
+            # Cabeçalho com terminais
+            header = " " * nt_col_width
+            for term in terminals_in_table:
+                term_display = truncate(term, max_col_width)
+                header += f"{term_display:<{max_col_width}} "
+            f.write(header + "\n")
+            f.write("-" * len(header) + "\n")
+            
+            # Linhas da tabela (cada não-terminal)
+            for nt in nonterminals_in_table:
+                # Coluna do não-terminal
+                row = f"{nt:<{nt_col_width}}"
+                
+                # Colunas dos terminais
+                for term in terminals_in_table:
+                    prod = self.get(nt, term)
+                    
+                    if prod:
+                        cell_content = format_production(prod)
                     else:
-                        f.write(f"  Status: NAO RESOLVIDO\n")
-                    f.write("\n")
+                        cell_content = ""
+                    
+                    row += f"{cell_content:<{max_col_width}} "
+                
+                f.write(row + "\n")
+            
+            f.write("\n" + "=" * 100 + "\n")
+            
+            # Legenda
+            f.write("\nLEGENDA:\n")
+            f.write("  - Celula vazia: entrada nao definida (erro sintatico)\n")
+            f.write("  - ε (epsilon): producao vazia\n")
+            f.write("  - Producoes truncadas com '...' para caber na celula\n")
+        
+        print(f"[OK] Tabela matricial salva em: {filename}")
+    
+    def print_resolved_conflicts(self):
+        """Imprime conflitos resolvidos automaticamente."""
+        print("\n=== CONFLITOS RESOLVIDOS AUTOMATICAMENTE ===")
+        
+        if not self.resolved_conflicts:
+            print("[INFO] Nenhum conflito foi resolvido automaticamente")
+            return
+        
+        print(f"[OK] {len(self.resolved_conflicts)} conflito(s) resolvido(s) pela estrategia 'prefer non-epsilon'\n")
+        
+        for i, resolved in enumerate(self.resolved_conflicts, 1):
+            nt, term = resolved['cell']
+            print(f"Conflito {i}: M[{nt}, {term}]")
+            
+            # Formatar produções
+            existing_str = ' '.join(resolved['existing'])
+            new_str = ' '.join(resolved['new'])
+            chosen_str = ' '.join(resolved['chosen'])
+            
+            # Identificar qual é epsilon
+            existing_label = " (epsilon)" if self._is_epsilon_production(resolved['existing']) else ""
+            new_label = " (epsilon)" if self._is_epsilon_production(resolved['new']) else ""
+            
+            print(f"  Opcao 1: {existing_str}{existing_label}")
+            print(f"  Opcao 2: {new_str}{new_label}")
+            print(f"  Escolhida: {chosen_str}")
+            print(f"  Estrategia: Preferir producao nao-epsilon (greedy matching)")
+            print()
+    
+    def print_table(self):
+        """Imprime tabela formatada."""
+        print("\n=== TABELA DE PARSING LL(1) ===")
+        print(f"{'NAO-TERMINAL':<25} {'TERMINAL':<20} {'PRODUCAO':<30}")
+        print("-" * 75)
+        
+        for (nt, term), prod in sorted(self.table.items()):
+            prod_str = ' '.join(prod)
+            if len(prod_str) > 28:
+                prod_str = prod_str[:25] + "..."
+            print(f"{nt:<25} {term:<20} {prod_str:<30}")
+        
+        print(f"\nTotal: {len(self.table)} entradas")
+    
+    def print_conflicts(self):
+        """Imprime conflitos IRRESOLVÍVEIS detectados."""
+        print("\n=== CONFLITOS IRRESOLVIVEIS ===")
+        
+        if not self.conflicts:
+            print("[OK] Nenhum conflito irresoluvivel detectado")
+            if self.resolved_conflicts:
+                print(f"[INFO] Todos os {len(self.resolved_conflicts)} conflito(s) foram resolvidos automaticamente")
+        else:
+            print(f"[ERRO] {len(self.conflicts)} conflito(s) irresoluvivel(is) detectado(s)")
+            print("[ERRO] Gramatica NAO e LL(1) nem com estrategia de desempate\n")
+            
+            for i, conflict in enumerate(self.conflicts, 1):
+                nt, term = conflict['cell']
+                print(f"Conflito {i}: M[{nt}, {term}]")
+                print(f"  Existente: {' '.join(conflict['existing'])}")
+                print(f"  Nova: {' '.join(conflict['new'])}")
+                print()
+    
+    def is_ll1_pure(self):
+        """Verifica se gramática é LL(1) puro (sem conflitos de qualquer tipo)."""
+        return len(self.conflicts) == 0 and len(self.resolved_conflicts) == 0
+    
+    def is_ll1_practical(self):
+        """Verifica se gramática é LL(1) prático (sem conflitos irresolvíveis)."""
+        return len(self.conflicts) == 0
+    
+    def print_statistics(self):
+        """Imprime estatísticas da tabela."""
+        nts_used = len(set(nt for nt, _ in self.table.keys()))
+        terms_used = len(set(term for _, term in self.table.keys()))
+        
+        print("\n=== ESTATISTICAS ===")
+        print(f"Entradas na tabela: {len(self.table)}")
+        print(f"Nao-terminais com entradas: {nts_used}")
+        print(f"Terminais utilizados: {terms_used}")
+        print(f"Conflitos irresolviveis: {len(self.conflicts)}")
+        print(f"Conflitos resolvidos: {len(self.resolved_conflicts)}")
+        print()
+        print(f"LL(1) puro (teorico)? {('[AVISO] NAO' if not self.is_ll1_pure() else '[OK] SIM')}")
+        print(f"LL(1) pratico (utilizavel)? {('[OK] SIM' if self.is_ll1_practical() else '[ERRO] NAO')}")
+        
+        if self.is_ll1_practical() and not self.is_ll1_pure():
+            print()
+            print("[INFO] Gramatica e LL(1) PRATICO:")
+            print("  - Conflitos epsilon vs nao-epsilon resolvidos por 'greedy matching'")
+            print("  - Estrategia: Sempre preferir producao nao-epsilon")
+            print("  - Comportamento: Correto para todas as construcoes da linguagem")
+    
+    def save_to_file(self, filename):
+        """Salva tabela em arquivo (formato lista)."""
+        with open(filename, 'w', encoding='utf-8') as f:
+            f.write("=" * 80 + "\n")
+            f.write("TABELA DE PARSING LL(1)\n")
+            f.write("=" * 80 + "\n\n")
+            
+            # Estatísticas
+            f.write("=== ESTATISTICAS ===\n")
+            f.write(f"Entradas na tabela: {len(self.table)}\n")
+            f.write(f"Conflitos irresolviveis: {len(self.conflicts)}\n")
+            f.write(f"Conflitos resolvidos: {len(self.resolved_conflicts)}\n")
+            f.write(f"LL(1) puro? {'SIM' if self.is_ll1_pure() else 'NAO'}\n")
+            f.write(f"LL(1) pratico? {'SIM' if self.is_ll1_practical() else 'NAO'}\n\n")
+            
+            # Conflitos resolvidos (se houver)
+            if self.resolved_conflicts:
+                f.write("=== CONFLITOS RESOLVIDOS ===\n")
+                for i, resolved in enumerate(self.resolved_conflicts, 1):
+                    nt, term = resolved['cell']
+                    f.write(f"Conflito {i}: M[{nt}, {term}]\n")
+                    f.write(f"  Opcao 1: {' '.join(resolved['existing'])}\n")
+                    f.write(f"  Opcao 2: {' '.join(resolved['new'])}\n")
+                    f.write(f"  Escolhida: {' '.join(resolved['chosen'])}\n")
+                    f.write(f"  Estrategia: Preferir nao-epsilon\n\n")
+            
+            # Conflitos irresolvíveis (se houver)
+            if self.conflicts:
+                f.write("=== CONFLITOS IRRESOLVIVEIS ===\n")
+                for i, conflict in enumerate(self.conflicts, 1):
+                    nt, term = conflict['cell']
+                    f.write(f"Conflito {i}: M[{nt}, {term}]\n")
+                    f.write(f"  Existente: {' '.join(conflict['existing'])}\n")
+                    f.write(f"  Nova: {' '.join(conflict['new'])}\n\n")
             
             # Tabela
             f.write("=== TABELA ===\n")
@@ -248,64 +424,86 @@ class ParsingTable:
                 prod_str = ' '.join(prod)
                 f.write(f"{nt:<30} {term:<20} {prod_str:<50}\n")
         
-        print(f"[OK] Tabela salva em: {table_file}")
-        
-        # 2. Formato matricial
-        all_nonterminals = sorted(self.grammar.nonterminals)
-        all_terminals = sorted(self.grammar.terminals | {'$'})
-        
-        with open(matrix_file, 'w', encoding='utf-8') as f:
-            f.write("=" * 150 + "\n")
-            f.write("TABELA DE PARSING LL(1) - FORMATO MATRICIAL\n")
-            f.write("=" * 150 + "\n\n")
-            
-            # Cabeçalho
-            f.write(f"{'NT \\ T':<20}")
-            for term in all_terminals[:10]:  # Primeiros 10 terminais
-                f.write(f"{term:<15}")
-            f.write("\n")
-            f.write("-" * 150 + "\n")
-            
-            # Linhas
-            for nt in all_nonterminals:
-                f.write(f"{nt:<20}")
-                for term in all_terminals[:10]:
-                    prod = self.table.get((nt, term))
-                    if prod:
-                        prod_str = ' '.join(prod)[:13]
-                        f.write(f"{prod_str:<15}")
-                    else:
-                        f.write(f"{'---':<15}")
-                f.write("\n")
-            
-            f.write("\n" + "=" * 150 + "\n")
-            f.write("[INFO] Matriz completa muito grande para exibir\n")
-            f.write(f"[INFO] Use o arquivo CSV para visualizar completo\n")
-            f.write("=" * 150 + "\n")
-        
-        print(f"[OK] Tabela matricial salva em: {matrix_file}")
-        
-        # 3. Formato CSV
-        with open(csv_file, 'w', encoding='utf-8') as f:
-            # Cabeçalho
-            f.write("NT\\T")
-            for term in all_terminals:
-                f.write(f",{term}")
-            f.write("\n")
-            
-            # Linhas
-            for nt in all_nonterminals:
-                f.write(nt)
-                for term in all_terminals:
-                    prod = self.table.get((nt, term))
-                    if prod:
-                        prod_str = ' '.join(prod).replace(',', ';')
-                        f.write(f",\"{prod_str}\"")
-                    else:
-                        f.write(",")
-                f.write("\n")
-        
-        print(f"[OK] Tabela CSV salva em: {csv_file}")
-        print(f"[INFO] Abra em Excel/LibreOffice para visualizar sem truncamento")
-        
-        return table_file, matrix_file, csv_file
+        print(f"[OK] Tabela salva em: {filename}")
+
+
+if __name__ == "__main__":
+    import sys
+    from pathlib import Path
+    
+    # Adiciona diretório src ao path
+    project_root = Path(__file__).parent.parent
+    sys.path.insert(0, str(project_root / "src"))
+    
+    from grammar import Grammar
+    from first_follow import FirstFollow
+    
+    # Localizar arquivo de gramática
+    grammar_files = [
+        project_root / "gramatica_bnf_pura.bnf",
+        project_root / "docs" / "gramatica_bnf_pura.bnf",
+        project_root / "docs" / "gramatica_sem_ambiguidade.bnf",
+    ]
+    
+    grammar_file = None
+    for path in grammar_files:
+        if path.exists():
+            grammar_file = path
+            break
+    
+    if not grammar_file:
+        print("[ERRO] Arquivo de gramatica nao encontrado!")
+        print("Procurado em:")
+        for path in grammar_files:
+            print(f"  - {path}")
+        sys.exit(1)
+    
+    print("=" * 60)
+    print("CONSTRUCAO DA TABELA DE PARSING LL(1)")
+    print("=" * 60)
+    print(f"\nGramatica: {grammar_file.name}")
+    
+    # Carregar gramática
+    g = Grammar()
+    g.load_from_file(str(grammar_file))
+    
+    print(f"  Nao-terminais: {len(g.nonterminals)}")
+    print(f"  Terminais: {len(g.terminals)}")
+    print(f"  Producoes: {sum(len(prods) for prods in g.productions.values())}")
+    
+    # Calcular First e Follow
+    print("\nCalculando First e Follow...")
+    ff = FirstFollow(g)
+    ff.compute_first()
+    ff.compute_follow()
+    print("[OK] First e Follow calculados")
+    
+    # Construir tabela
+    print("\nConstruindo tabela LL(1)...")
+    pt = ParsingTable(g, ff)
+    pt.build()
+    print("[OK] Tabela construida")
+    
+    # Mostrar resultados
+    pt.print_resolved_conflicts()  # Mostra conflitos resolvidos
+    pt.print_conflicts()           # Mostra conflitos irresolvíveis
+    pt.print_statistics()
+    
+    # Salvar formato lista
+    output_file = project_root / "parsing_table_output.txt"
+    pt.save_to_file(str(output_file))
+    
+    # Salvar formato MATRICIAL (texto)
+    matrix_file = project_root / "parsing_table_matrix.txt"
+    pt.save_matrix_to_file(str(matrix_file), max_col_width=15, max_cell_width=30)
+    
+    # Salvar formato CSV (sem truncamento!)
+    csv_file = project_root / "parsing_table_matrix.csv"
+    pt.save_matrix_to_csv(str(csv_file))
+    
+    print("\n" + "=" * 60)
+    print("ARQUIVOS GERADOS:")
+    print(f"  1. {output_file.name} (formato lista)")
+    print(f"  2. {matrix_file.name} (formato matricial texto)")
+    print(f"  3. {csv_file.name} (formato CSV - abra no Excel)")
+    print("=" * 60)

@@ -1,224 +1,160 @@
-"""
-Classe Grammar que lê EBNF SEM converter para BNF
-Mantém operadores *, +, ? nas produções
-"""
-
 import re
+import os
 from collections import defaultdict
 
-
 class Grammar:
-    """Gramática que lê EBNF mas não converte."""
-    
     def __init__(self):
         self.nonterminals = set()
         self.terminals = set()
         self.productions = defaultdict(list)
         self.start_symbol = None
-        self.epsilon = 'ε'
-        
+        self.epsilon = 'ε'  # Símbolo epsilon
+
     def load_from_file(self, filepath):
-        """Carrega gramática de arquivo mantendo EBNF."""
+        # Resolve caminho relativo ao script
+        if not os.path.isabs(filepath):
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            filepath = os.path.join(script_dir, filepath)
+        
         with open(filepath, "r", encoding="utf-8") as f:
             lines = f.readlines()
-        
-        # Juntar linhas de continuação (que começam com |)
-        merged_lines = []
-        current_rule = None
-        
+
         for line in lines:
-            stripped = line.strip()
-            
-            # Ignorar vazias e comentários
-            if not stripped or stripped.startswith("#"):
+            line = line.strip()
+            if not line or line.startswith("#"):
                 continue
-            
-            # Linha começa com | → continuação
-            if stripped.startswith("|"):
-                if current_rule is not None:
-                    current_rule += " " + stripped
-                continue
-            
-            # Linha tem ::= → nova regra
-            if "::=" in stripped:
-                if current_rule is not None:
-                    merged_lines.append(current_rule)
-                current_rule = stripped
-                continue
-            
-            # Continuação sem |
-            if current_rule is not None:
-                current_rule += " " + stripped
+            if "::=" in line:
+                self._parse_rule(line)
         
-        # Última regra
-        if current_rule is not None:
-            merged_lines.append(current_rule)
-        
-        # Processar cada regra
-        for rule in merged_lines:
-            self._parse_rule(rule)
-    
+        # Adiciona epsilon aos terminais se usado
+        if self.epsilon in self.terminals:
+            self.terminals.remove(self.epsilon)
+
     def _parse_rule(self, line):
-        """Parse uma regra sem converter EBNF."""
-        left, right = line.split("::=", 1)
+        left, right = line.split("::=")
         left = left.strip()
-        
+
         if self.start_symbol is None:
             self.start_symbol = left
-        
+
         self.nonterminals.add(left)
-        
-        # Processar alternativas (|)
+
+        # Divide por | IGNORANDO | dentro de aspas
         alternatives = self._split_alternatives(right)
         
         for alt in alternatives:
-            symbols = self._tokenize(alt.strip())
+            symbols = self._tokenize(alt)
             
-            if symbols:
+            # Se alternativa vazia ou apenas epsilon
+            if not symbols or (len(symbols) == 1 and symbols[0] == self.epsilon):
+                self.productions[left].append([self.epsilon])
+            else:
                 self.productions[left].append(symbols)
                 
-                # Registrar terminais e não-terminais
                 for sym in symbols:
-                    # Pular operadores EBNF
-                    if sym in ['*', '+', '?']:
+                    if sym == self.epsilon:
                         continue
-                    
-                    if self._is_nonterminal(sym):
+                    elif self._is_nonterminal(sym):
                         self.nonterminals.add(sym)
-                    elif sym != self.epsilon:
+                    else:
                         self.terminals.add(sym)
-    
+
     def _split_alternatives(self, text):
-        """Divide alternativas por | respeitando parênteses."""
+        """Divide por | respeitando strings entre aspas"""
         alternatives = []
         current = []
-        depth = 0
+        in_string = False
+        quote_char = None
         
-        i = 0
-        while i < len(text):
-            char = text[i]
-            
-            if char == '(':
-                depth += 1
+        for char in text:
+            if char in ("'", '"') and not in_string:
+                in_string = True
+                quote_char = char
                 current.append(char)
-            elif char == ')':
-                depth -= 1
+            elif char == quote_char and in_string:
+                in_string = False
+                quote_char = None
                 current.append(char)
-            elif char == '|' and depth == 0:
+            elif char == '|' and not in_string:
                 alternatives.append(''.join(current).strip())
                 current = []
             else:
                 current.append(char)
-            
-            i += 1
         
         if current:
             alternatives.append(''.join(current).strip())
         
         return alternatives
-    
+
     def _tokenize(self, text):
-        """
-        Tokeniza sem processar EBNF.
-        Mantém *, +, ? como símbolos separados.
-        """
-        tokens = []
-        i = 0
+        """Tokeniza uma produção BNF"""
+        # Remove espaços extras
+        text = text.strip()
         
-        while i < len(text):
-            # Pular espaços
-            if text[i].isspace():
-                i += 1
-                continue
-            
-            # Não-terminal <...>
-            if text[i] == '<':
-                end = text.find('>', i)
-                if end != -1:
-                    tokens.append(text[i:end+1])
-                    i = end + 1
-                    continue
-            
-            # Terminal '...'
-            if text[i] == "'":
-                end = text.find("'", i + 1)
-                if end != -1:
-                    tokens.append(text[i:end+1])
-                    i = end + 1
-                    continue
-            
-            # Grupo (...)
-            if text[i] == '(':
-                depth = 1
-                j = i + 1
-                while j < len(text) and depth > 0:
-                    if text[j] == '(':
-                        depth += 1
-                    elif text[j] == ')':
-                        depth -= 1
-                    j += 1
-                tokens.append(text[i:j])
-                i = j
-                continue
-            
-            # Operadores EBNF (manter como tokens)
-            if text[i] in '*+?':
-                tokens.append(text[i])
-                i += 1
-                continue
-            
-            # Operadores multi-char
-            if i + 1 < len(text):
-                two_char = text[i:i+2]
-                if two_char in ['**', '==', '!=', '<=', '>=', '::']:
-                    tokens.append(two_char)
-                    i += 2
-                    continue
-            
-            # Palavra ou símbolo único
-            if text[i].isalnum() or text[i] == '_':
-                j = i
-                while j < len(text) and (text[j].isalnum() or text[j] == '_'):
-                    j += 1
-                word = text[i:j]
-                
-                # Normalizar tokens especiais com aspas
-                if word in ['IDENTIFIER', 'NUMBER', 'STRING', 'True', 'False', 'EOF']:
-                    tokens.append(f"'{word}'")
-                else:
-                    tokens.append(word)
-                
-                i = j
-            else:
-                # Símbolo único
-                tokens.append(text[i])
-                i += 1
+        # Se vazio ou epsilon
+        if not text or text == self.epsilon:
+            return [self.epsilon]
         
-        return tokens
-    
+        # Pattern CORRIGIDO:
+        # - Não-terminais: <...>
+        # - Terminais entre aspas simples: '...' (incluindo escapados)
+        # - Terminais entre aspas duplas: "..."
+        # - Palavras especiais: IDENTIFIER, NUMBER, STRING, EOF, True, False
+        # - Operadores compostos: ==, !=, <=, >=, **
+        # - Epsilon: ε
+        # - Espaços (para remover depois)
+        # IMPORTANTE: SEM . no final para evitar quebrar caracteres dentro de strings
+        pattern = r"<[^>]+>|'(?:[^'\\]|\\.)*'|\"(?:[^\"\\]|\\.)*\"|IDENTIFIER|NUMBER|STRING|EOF|True|False|==|!=|<=|>=|\*\*|ε|\s+"
+        
+        tokens = re.findall(pattern, text)
+        
+        # Remove espaços
+        tokens = [t for t in tokens if t.strip() and not t.isspace()]
+        
+        return tokens if tokens else [self.epsilon]
+
     def _is_nonterminal(self, symbol):
-        """Verifica se símbolo é não-terminal."""
+        """Verifica se símbolo é não-terminal"""
         return symbol.startswith("<") and symbol.endswith(">")
     
     def is_epsilon(self, symbol):
-        """Verifica se símbolo é epsilon."""
-        if isinstance(symbol, list):
-            return len(symbol) == 1 and self.is_epsilon(symbol[0])
-        return symbol in ['ε', 'epsilon', 'EPSILON', self.epsilon]
+        """Verifica se símbolo é epsilon"""
+        return symbol == self.epsilon
     
+    def has_epsilon_production(self, nonterminal):
+        """Verifica se não-terminal deriva epsilon"""
+        if nonterminal not in self.productions:
+            return False
+        
+        for prod in self.productions[nonterminal]:
+            if len(prod) == 1 and self.is_epsilon(prod[0]):
+                return True
+        return False
+
     def debug_print(self):
-        """Imprime gramática para debug."""
         print("=" * 60)
-        print("GRAMÁTICA (EBNF - SEM CONVERSÃO)")
+        print("GRAMÁTICA CARREGADA")
         print("=" * 60)
-        print(f"Símbolo inicial: {self.start_symbol}")
-        print(f"Não-terminais: {len(self.nonterminals)}")
-        print(f"Terminais: {len(self.terminals)}")
-        print(f"Produções: {sum(len(prods) for prods in self.productions.values())}")
-        print()
-        print("PRODUÇÕES:")
+        print(f"\nSTART SYMBOL: {self.start_symbol}")
+        print(f"\nNÚMERO DE NÃO-TERMINAIS: {len(self.nonterminals)}")
+        print(f"NÃO-TERMINAIS: {sorted(self.nonterminals)}")
+        print(f"\nNÚMERO DE TERMINAIS: {len(self.terminals)}")
+        print(f"TERMINAIS: {sorted(self.terminals)}")
+        print(f"\nNÚMERO DE PRODUÇÕES: {sum(len(prods) for prods in self.productions.values())}")
+        print("\nPRODUÇÕES:")
+        print("-" * 60)
+        
         for nt in sorted(self.productions.keys()):
-            for prod in self.productions[nt]:
+            for i, prod in enumerate(self.productions[nt], 1):
                 prod_str = ' '.join(prod)
                 print(f"  {nt} ::= {prod_str}")
+        
+        print("=" * 60)
+        
+        # Estatísticas
+        epsilon_prods = [nt for nt in self.nonterminals if self.has_epsilon_production(nt)]
+        if epsilon_prods:
+            print(f"\nNÃO-TERMINAIS COM PRODUÇÃO EPSILON: {len(epsilon_prods)}")
+            print(f"  {sorted(epsilon_prods)}")
+        
         print("=" * 60)
