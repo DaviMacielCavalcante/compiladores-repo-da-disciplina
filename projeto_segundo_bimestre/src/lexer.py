@@ -6,10 +6,6 @@ ANALISADOR LÉXICO (SCANNER) - LINGUAGEM VYTHON
 Implementação do analisador léxico usando Expressões Regulares para
 identificação de lexemas conforme especificado na lauda do trabalho.
 
-Equipe: Davi Maciel Cavalcante, Pablo Abdon
-Disciplina: Compiladores
-Data: Dezembro/2025
-
 =============================================================================
 CLASSES DE LEXEMAS (TOKEN TYPES)
 =============================================================================
