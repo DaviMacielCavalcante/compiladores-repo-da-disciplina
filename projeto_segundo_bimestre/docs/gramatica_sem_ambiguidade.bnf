@@ -1,6 +1,7 @@
 # ============================================================
-# GRAMÁTICA LL(1) - VYTHON (BNF PURA)
-# Versão 3.0 - SEM EBNF (sem *, ?, +)
+# GRAMÁTICA LL(1) PURA - VYTHON
+# Versão 4.0 - SEM CONFLITOS
+# Ponto-e-vírgula OBRIGATÓRIO em statements
 # ============================================================
 
 # -------------------- PROGRAMA --------------------
@@ -19,9 +20,8 @@
 <statement> ::= <returnStatement>
 <statement> ::= <expressionStatement>
 
-<expressionStatement> ::= <expression> <optional_semicolon>
-<optional_semicolon> ::= ';'
-<optional_semicolon> ::= ε
+# MUDANÇA: Ponto-e-vírgula OBRIGATÓRIO
+<expressionStatement> ::= <expression> ';'
 
 # -------------------- CONTROLE DE FLUXO --------------------
 <ifStatement> ::= 'if' <expression> ':' <brace_block> <optional_else>
@@ -38,11 +38,14 @@
 <range_args_tail2> ::= ',' <expression>
 <range_args_tail2> ::= ε
 
-<doWhileStatement> ::= 'do' ':' <block> 'while' <expression> <optional_semicolon>
+# MUDANÇA: Ponto-e-vírgula OBRIGATÓRIO
+<doWhileStatement> ::= 'do' ':' <block> 'while' <expression> ';'
 
-<breakStatement> ::= 'break' <optional_semicolon>
+# MUDANÇA: Ponto-e-vírgula OBRIGATÓRIO
+<breakStatement> ::= 'break' ';'
 
-<continueStatement> ::= 'continue' <optional_semicolon>
+# MUDANÇA: Ponto-e-vírgula OBRIGATÓRIO
+<continueStatement> ::= 'continue' ';'
 
 <defStatement> ::= 'def' 'IDENTIFIER' '(' <optional_params> ')' ':' <brace_block>
 
@@ -53,17 +56,16 @@
 <param_list_tail> ::= ',' 'IDENTIFIER' <param_list_tail>
 <param_list_tail> ::= ε
 
-<returnStatement> ::= 'return' <return_tail>
-
-<return_tail> ::= <expression> <optional_semicolon>
-<return_tail> ::= ';'
-<return_tail> ::= ε
+# MUDANÇA: Return refatorado - sempre termina com ;
+# return; OU return expr;
+<returnStatement> ::= 'return' <return_body>
+<return_body> ::= ';'
+<return_body> ::= <expression> ';'
 
 # -------------------- BLOCOS --------------------
 <block> ::= '{' <statement_list> '}'
 <block> ::= <statement>
 
-# Novo bloco que OBRIGA o uso de chaves como solicitado pelo professor Daniel
 <brace_block> ::= '{' <statement_list> '}'
 
 # -------------------- EXPRESSÕES --------------------
