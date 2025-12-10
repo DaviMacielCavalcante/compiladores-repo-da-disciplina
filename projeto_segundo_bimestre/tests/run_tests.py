@@ -27,7 +27,7 @@ except ImportError as e:
 
 def setup_compiler():
     """Inicializa a Gramática e a Tabela (pesado, faz só uma vez)"""
-    print("⏳ Inicializando compilador (Grammar + Table)...")
+    print("Inicializando compilador (Grammar + Table)...")
 
     # Tenta achar a gramática em locais comuns
     grammar_names = ["gramatica_sem_ambiguidade.bnf", "gramatica.bnf"]
@@ -64,7 +64,7 @@ def setup_compiler():
 def run_file_test(filepath, grammar, table):
     """Roda o teste para um único arquivo (Corrigido para Windows)"""
     filename = os.path.basename(filepath)
-    print(f"\n📄 Testando: {filename}")
+    print(f"\nTestando: {filename}")
 
     with open(filepath, "r", encoding="utf-8") as f:
         source_code = f.read()

@@ -1,0 +1,351 @@
+======================================================================
+CONJUNTOS FIRST E FOLLOW PARA SLR(1)
+======================================================================
+
+=== FIRST ===
+
+FIRST(<add_op>)
+  = {'+', '-'}
+
+FIRST(<additiveExpr>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '['}
+
+FIRST(<additive_tail>)
+  = {'+', '-', ε}
+
+FIRST(<argList>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'not'}
+
+FIRST(<arg_list_tail>)
+  = {',', ε}
+
+FIRST(<assignmentExpr>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'not'}
+
+FIRST(<assignment_tail>)
+  = {'=', ε}
+
+FIRST(<bitwiseAndExpr>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '['}
+
+FIRST(<bitwiseOrExpr>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '['}
+
+FIRST(<bitwise_and_tail>)
+  = {'&', ε}
+
+FIRST(<bitwise_or_tail>)
+  = {'|', ε}
+
+FIRST(<block>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '{'}
+
+FIRST(<brace_block>)
+  = {'{'}
+
+FIRST(<breakStatement>)
+  = {'break'}
+
+FIRST(<comparisonExpr>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '['}
+
+FIRST(<comparison_op>)
+  = {'!=', '<', '<=', '==', '>', '>='}
+
+FIRST(<comparison_tail>)
+  = {'!=', '<', '<=', '==', '>', '>=', ε}
+
+FIRST(<continueStatement>)
+  = {'continue'}
+
+FIRST(<defStatement>)
+  = {'def'}
+
+FIRST(<doWhileStatement>)
+  = {'do'}
+
+FIRST(<expr_list_tail>)
+  = {',', ε}
+
+FIRST(<expression>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'not'}
+
+FIRST(<expressionList>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'not'}
+
+FIRST(<expressionStatement>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'not'}
+
+FIRST(<forStatement>)
+  = {'for'}
+
+FIRST(<ifStatement>)
+  = {'if'}
+
+FIRST(<logicalAndExpr>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'not'}
+
+FIRST(<logicalNotExpr>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'not'}
+
+FIRST(<logicalOrExpr>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'not'}
+
+FIRST(<logical_and_tail>)
+  = {'and', ε}
+
+FIRST(<logical_or_tail>)
+  = {'or', ε}
+
+FIRST(<mul_op>)
+  = {'%', '*', '/'}
+
+FIRST(<multiplicativeExpr>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '['}
+
+FIRST(<multiplicative_tail>)
+  = {'%', '*', '/', ε}
+
+FIRST(<optional_args>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'not', ε}
+
+FIRST(<optional_else>)
+  = {'else', ε}
+
+FIRST(<optional_expr_list>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'not', ε}
+
+FIRST(<optional_params>)
+  = {'IDENTIFIER', ε}
+
+FIRST(<paramList>)
+  = {'IDENTIFIER'}
+
+FIRST(<param_list_tail>)
+  = {',', ε}
+
+FIRST(<postfix>)
+  = {'(', '['}
+
+FIRST(<postfixExpr>)
+  = {'(', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '['}
+
+FIRST(<postfix_list>)
+  = {'(', '[', ε}
+
+FIRST(<powerExpr>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '['}
+
+FIRST(<power_tail>)
+  = {'**', ε}
+
+FIRST(<primary>)
+  = {'(', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '['}
+
+FIRST(<program'>)
+  = {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while'}
+
+FIRST(<program>)
+  = {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while'}
+
+FIRST(<range_args>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'not'}
+
+FIRST(<range_args_tail2>)
+  = {',', ε}
+
+FIRST(<range_args_tail>)
+  = {',', ε}
+
+FIRST(<returnStatement>)
+  = {'return'}
+
+FIRST(<return_body>)
+  = {'(', '-', ';', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'not'}
+
+FIRST(<statement>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while'}
+
+FIRST(<statement_list>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', ε}
+
+FIRST(<unaryExpr>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '['}
+
+FIRST(<whileStatement>)
+  = {'while'}
+
+
+=== FOLLOW ===
+
+FOLLOW(<add_op>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '['}
+
+FOLLOW(<additiveExpr>)
+  = {'!=', '&', ')', ',', ':', ';', '<', '<=', '=', '==', '>', '>=', ']', 'and', 'or', '|'}
+
+FOLLOW(<additive_tail>)
+  = {'!=', '&', ')', ',', ':', ';', '<', '<=', '=', '==', '>', '>=', ']', 'and', 'or', '|'}
+
+FOLLOW(<argList>)
+  = {')'}
+
+FOLLOW(<arg_list_tail>)
+  = {')'}
+
+FOLLOW(<assignmentExpr>)
+  = {')', ',', ':', ';', ']'}
+
+FOLLOW(<assignment_tail>)
+  = {')', ',', ':', ';', ']'}
+
+FOLLOW(<bitwiseAndExpr>)
+  = {')', ',', ':', ';', '=', ']', 'and', 'or', '|'}
+
+FOLLOW(<bitwiseOrExpr>)
+  = {')', ',', ':', ';', '=', ']', 'and', 'or'}
+
+FOLLOW(<bitwise_and_tail>)
+  = {')', ',', ':', ';', '=', ']', 'and', 'or', '|'}
+
+FOLLOW(<bitwise_or_tail>)
+  = {')', ',', ':', ';', '=', ']', 'and', 'or'}
+
+FOLLOW(<block>)
+  = {'while'}
+
+FOLLOW(<brace_block>)
+  = {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'else', 'for', 'if', 'not', 'return', 'while', '}'}
+
+FOLLOW(<breakStatement>)
+  = {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
+
+FOLLOW(<comparisonExpr>)
+  = {'&', ')', ',', ':', ';', '=', ']', 'and', 'or', '|'}
+
+FOLLOW(<comparison_op>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '['}
+
+FOLLOW(<comparison_tail>)
+  = {'&', ')', ',', ':', ';', '=', ']', 'and', 'or', '|'}
+
+FOLLOW(<continueStatement>)
+  = {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
+
+FOLLOW(<defStatement>)
+  = {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
+
+FOLLOW(<doWhileStatement>)
+  = {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
+
+FOLLOW(<expr_list_tail>)
+  = {']'}
+
+FOLLOW(<expression>)
+  = {')', ',', ':', ';', ']'}
+
+FOLLOW(<expressionList>)
+  = {']'}
+
+FOLLOW(<expressionStatement>)
+  = {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
+
+FOLLOW(<forStatement>)
+  = {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
+
+FOLLOW(<ifStatement>)
+  = {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
+
+FOLLOW(<logicalAndExpr>)
+  = {')', ',', ':', ';', '=', ']', 'or'}
+
+FOLLOW(<logicalNotExpr>)
+  = {')', ',', ':', ';', '=', ']', 'and', 'or'}
+
+FOLLOW(<logicalOrExpr>)
+  = {')', ',', ':', ';', '=', ']'}
+
+FOLLOW(<logical_and_tail>)
+  = {')', ',', ':', ';', '=', ']', 'or'}
+
+FOLLOW(<logical_or_tail>)
+  = {')', ',', ':', ';', '=', ']'}
+
+FOLLOW(<mul_op>)
+  = {'(', '-', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '['}
+
+FOLLOW(<multiplicativeExpr>)
+  = {'!=', '&', ')', '+', ',', '-', ':', ';', '<', '<=', '=', '==', '>', '>=', ']', 'and', 'or', '|'}
+
+FOLLOW(<multiplicative_tail>)
+  = {'!=', '&', ')', '+', ',', '-', ':', ';', '<', '<=', '=', '==', '>', '>=', ']', 'and', 'or', '|'}
+
+FOLLOW(<optional_args>)
+  = {')'}
+
+FOLLOW(<optional_else>)
+  = {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
+
+FOLLOW(<optional_expr_list>)
+  = {']'}
+
+FOLLOW(<optional_params>)
+  = {')'}
+
+FOLLOW(<paramList>)
+  = {')'}
+
+FOLLOW(<param_list_tail>)
+  = {')'}
+
+FOLLOW(<postfix>)
+  = {'!=', '%', '&', '(', ')', '*', '**', '+', ',', '-', '/', ':', ';', '<', '<=', '=', '==', '>', '>=', '[', ']', 'and', 'or', '|'}
+
+FOLLOW(<postfixExpr>)
+  = {'!=', '%', '&', ')', '*', '**', '+', ',', '-', '/', ':', ';', '<', '<=', '=', '==', '>', '>=', ']', 'and', 'or', '|'}
+
+FOLLOW(<postfix_list>)
+  = {'!=', '%', '&', ')', '*', '**', '+', ',', '-', '/', ':', ';', '<', '<=', '=', '==', '>', '>=', ']', 'and', 'or', '|'}
+
+FOLLOW(<powerExpr>)
+  = {'!=', '%', '&', ')', '*', '+', ',', '-', '/', ':', ';', '<', '<=', '=', '==', '>', '>=', ']', 'and', 'or', '|'}
+
+FOLLOW(<power_tail>)
+  = {'!=', '%', '&', ')', '*', '+', ',', '-', '/', ':', ';', '<', '<=', '=', '==', '>', '>=', ']', 'and', 'or', '|'}
+
+FOLLOW(<primary>)
+  = {'!=', '%', '&', '(', ')', '*', '**', '+', ',', '-', '/', ':', ';', '<', '<=', '=', '==', '>', '>=', '[', ']', 'and', 'or', '|'}
+
+FOLLOW(<program'>)
+  = {$}
+
+FOLLOW(<program>)
+  = {$}
+
+FOLLOW(<range_args>)
+  = {')'}
+
+FOLLOW(<range_args_tail2>)
+  = {')'}
+
+FOLLOW(<range_args_tail>)
+  = {')'}
+
+FOLLOW(<returnStatement>)
+  = {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
+
+FOLLOW(<return_body>)
+  = {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
+
+FOLLOW(<statement>)
+  = {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
+
+FOLLOW(<statement_list>)
+  = {'EOF', '}'}
+
+FOLLOW(<unaryExpr>)
+  = {'!=', '%', '&', ')', '*', '**', '+', ',', '-', '/', ':', ';', '<', '<=', '=', '==', '>', '>=', ']', 'and', 'or', '|'}
+
+FOLLOW(<whileStatement>)
+  = {'(', '-', 'EOF', 'False', 'IDENTIFIER', 'NUMBER', 'STRING', 'True', '[', 'break', 'continue', 'def', 'do', 'for', 'if', 'not', 'return', 'while', '}'}
+

@@ -89,16 +89,27 @@ class Grammar:
                         self.terminals.add(sym)
     
     def _split_alternatives(self, text):
-        """Divide alternativas por | respeitando parênteses."""
+        """Divide alternativas por | respeitando parênteses e aspas."""
         alternatives = []
         current = []
         depth = 0
+        in_quotes = False
         
         i = 0
         while i < len(text):
             char = text[i]
             
-            if char == '(':
+            # Controle de aspas simples
+            if char == "'" and not in_quotes:
+                in_quotes = True
+                current.append(char)
+            elif char == "'" and in_quotes:
+                in_quotes = False
+                current.append(char)
+            elif in_quotes:
+                # Dentro de aspas, adicionar tudo sem interpretar
+                current.append(char)
+            elif char == '(':
                 depth += 1
                 current.append(char)
             elif char == ')':

@@ -1,0 +1,113 @@
+======================================================================
+GRAMÁTICA AUMENTADA PARA SLR(1)
+======================================================================
+
+Símbolo inicial: <program'>
+Símbolo original: <program>
+
+PRODUÇÕES NUMERADAS:
+----------------------------------------------------------------------
+(0) <program'> -> <program>
+(1) <program> -> <statement_list> 'EOF'
+(2) <statement_list> -> <statement> <statement_list>
+(3) <statement_list> -> ε
+(4) <statement> -> <ifStatement>
+(5) <statement> -> <whileStatement>
+(6) <statement> -> <forStatement>
+(7) <statement> -> <doWhileStatement>
+(8) <statement> -> <breakStatement>
+(9) <statement> -> <continueStatement>
+(10) <statement> -> <defStatement>
+(11) <statement> -> <returnStatement>
+(12) <statement> -> <expressionStatement>
+(13) <expressionStatement> -> <expression> ';'
+(14) <ifStatement> -> 'if' <expression> ':' <brace_block> <optional_else>
+(15) <optional_else> -> 'else' ':' <brace_block>
+(16) <optional_else> -> ε
+(17) <whileStatement> -> 'while' <expression> ':' <brace_block>
+(18) <forStatement> -> 'for' 'IDENTIFIER' 'in' 'range' '(' <range_args> ')' ':' <brace_block>
+(19) <range_args> -> <expression> <range_args_tail>
+(20) <range_args_tail> -> ',' <expression> <range_args_tail2>
+(21) <range_args_tail> -> ε
+(22) <range_args_tail2> -> ',' <expression>
+(23) <range_args_tail2> -> ε
+(24) <doWhileStatement> -> 'do' ':' <block> 'while' <expression> ';'
+(25) <breakStatement> -> 'break' ';'
+(26) <continueStatement> -> 'continue' ';'
+(27) <defStatement> -> 'def' 'IDENTIFIER' '(' <optional_params> ')' ':' <brace_block>
+(28) <optional_params> -> <paramList>
+(29) <optional_params> -> ε
+(30) <paramList> -> 'IDENTIFIER' <param_list_tail>
+(31) <param_list_tail> -> ',' 'IDENTIFIER' <param_list_tail>
+(32) <param_list_tail> -> ε
+(33) <returnStatement> -> 'return' <return_body>
+(34) <return_body> -> ';'
+(35) <return_body> -> <expression> ';'
+(36) <block> -> '{' <statement_list> '}'
+(37) <block> -> <statement>
+(38) <brace_block> -> '{' <statement_list> '}'
+(39) <expression> -> <assignmentExpr>
+(40) <assignmentExpr> -> <logicalOrExpr> <assignment_tail>
+(41) <assignment_tail> -> '=' <assignmentExpr>
+(42) <assignment_tail> -> ε
+(43) <logicalOrExpr> -> <logicalAndExpr> <logical_or_tail>
+(44) <logical_or_tail> -> 'or' <logicalAndExpr> <logical_or_tail>
+(45) <logical_or_tail> -> ε
+(46) <logicalAndExpr> -> <logicalNotExpr> <logical_and_tail>
+(47) <logical_and_tail> -> 'and' <logicalNotExpr> <logical_and_tail>
+(48) <logical_and_tail> -> ε
+(49) <logicalNotExpr> -> 'not' <logicalNotExpr>
+(50) <logicalNotExpr> -> <bitwiseOrExpr>
+(51) <bitwiseOrExpr> -> <bitwiseAndExpr> <bitwise_or_tail>
+(52) <bitwise_or_tail> -> '|' <bitwiseAndExpr> <bitwise_or_tail>
+(53) <bitwise_or_tail> -> ε
+(54) <bitwiseAndExpr> -> <comparisonExpr> <bitwise_and_tail>
+(55) <bitwise_and_tail> -> '&' <comparisonExpr> <bitwise_and_tail>
+(56) <bitwise_and_tail> -> ε
+(57) <comparisonExpr> -> <additiveExpr> <comparison_tail>
+(58) <comparison_tail> -> <comparison_op> <additiveExpr> <comparison_tail>
+(59) <comparison_tail> -> ε
+(60) <comparison_op> -> '=='
+(61) <comparison_op> -> '!='
+(62) <comparison_op> -> '<'
+(63) <comparison_op> -> '>'
+(64) <comparison_op> -> '<='
+(65) <comparison_op> -> '>='
+(66) <additiveExpr> -> <multiplicativeExpr> <additive_tail>
+(67) <additive_tail> -> <add_op> <multiplicativeExpr> <additive_tail>
+(68) <additive_tail> -> ε
+(69) <add_op> -> '+'
+(70) <add_op> -> '-'
+(71) <multiplicativeExpr> -> <powerExpr> <multiplicative_tail>
+(72) <multiplicative_tail> -> <mul_op> <powerExpr> <multiplicative_tail>
+(73) <multiplicative_tail> -> ε
+(74) <mul_op> -> '*'
+(75) <mul_op> -> '/'
+(76) <mul_op> -> '%'
+(77) <powerExpr> -> <unaryExpr> <power_tail>
+(78) <power_tail> -> '**' <powerExpr>
+(79) <power_tail> -> ε
+(80) <unaryExpr> -> '-' <unaryExpr>
+(81) <unaryExpr> -> <postfixExpr>
+(82) <postfixExpr> -> <primary> <postfix_list>
+(83) <postfix_list> -> <postfix> <postfix_list>
+(84) <postfix_list> -> ε
+(85) <postfix> -> '[' <expression> ']'
+(86) <postfix> -> '(' <optional_args> ')'
+(87) <optional_args> -> <argList>
+(88) <optional_args> -> ε
+(89) <primary> -> 'IDENTIFIER'
+(90) <primary> -> 'NUMBER'
+(91) <primary> -> 'STRING'
+(92) <primary> -> 'True'
+(93) <primary> -> 'False'
+(94) <primary> -> '(' <expression> ')'
+(95) <primary> -> '[' <optional_expr_list> ']'
+(96) <optional_expr_list> -> <expressionList>
+(97) <optional_expr_list> -> ε
+(98) <argList> -> <expression> <arg_list_tail>
+(99) <arg_list_tail> -> ',' <expression> <arg_list_tail>
+(100) <arg_list_tail> -> ε
+(101) <expressionList> -> <expression> <expr_list_tail>
+(102) <expr_list_tail> -> ',' <expression> <expr_list_tail>
+(103) <expr_list_tail> -> ε

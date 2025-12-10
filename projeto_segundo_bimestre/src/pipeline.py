@@ -107,7 +107,7 @@ def main():
     # Código de exemplo Vython para teste (COM CHAVES OBRIGATÓRIAS)
     source_code = """
     if True: {
-        a = 10
+        a = 10;
     }
     """
 

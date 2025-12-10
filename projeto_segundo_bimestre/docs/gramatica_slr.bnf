@@ -1,7 +1,11 @@
 # ============================================================
-# GRAMÁTICA LL(1) PURA - VYTHON
-# Versão 4.0 - SEM CONFLITOS
-# Ponto-e-vírgula OBRIGATÓRIO em statements
+# GRAMÁTICA SLR(1) - VYTHON
+# ============================================================
+# Gramática adaptada para análise sintática SLR(1)
+# 
+# Equipe: Davi Maciel Cavalcante, Pablo Abdon
+# Disciplina: Compiladores
+# Data: Dezembro/2025
 # ============================================================
 
 # -------------------- PROGRAMA --------------------
@@ -20,7 +24,6 @@
 <statement> ::= <returnStatement>
 <statement> ::= <expressionStatement>
 
-# MUDANÇA: Ponto-e-vírgula OBRIGATÓRIO
 <expressionStatement> ::= <expression> ';'
 
 # -------------------- CONTROLE DE FLUXO --------------------
@@ -38,13 +41,10 @@
 <range_args_tail2> ::= ',' <expression>
 <range_args_tail2> ::= ε
 
-# MUDANÇA: Ponto-e-vírgula OBRIGATÓRIO
 <doWhileStatement> ::= 'do' ':' <block> 'while' <expression> ';'
 
-# MUDANÇA: Ponto-e-vírgula OBRIGATÓRIO
 <breakStatement> ::= 'break' ';'
 
-# MUDANÇA: Ponto-e-vírgula OBRIGATÓRIO
 <continueStatement> ::= 'continue' ';'
 
 <defStatement> ::= 'def' 'IDENTIFIER' '(' <optional_params> ')' ':' <brace_block>
@@ -56,8 +56,6 @@
 <param_list_tail> ::= ',' 'IDENTIFIER' <param_list_tail>
 <param_list_tail> ::= ε
 
-# MUDANÇA: Return refatorado - sempre termina com ;
-# return; OU return expr;
 <returnStatement> ::= 'return' <return_body>
 <return_body> ::= ';'
 <return_body> ::= <expression> ';'
