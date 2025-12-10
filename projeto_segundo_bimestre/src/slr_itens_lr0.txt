@@ -1,0 +1,2187 @@
+======================================================================
+COLEÇÃO CANÔNICA DE ITENS LR(0)
+======================================================================
+
+Total de estados: 174
+Total de transições: 812
+
+I0:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<assignmentExpr> -> • <logicalOrExpr> <assignment_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<breakStatement> -> • 'break' ';']
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<continueStatement> -> • 'continue' ';']
+  [<defStatement> -> • 'def' 'IDENTIFIER' '(' <optional_params> ')' ':' <brace_block>]
+  [<doWhileStatement> -> • 'do' ':' <block> 'while' <expression> ';']
+  [<expression> -> • <assignmentExpr>]
+  [<expressionStatement> -> • <expression> ';']
+  [<forStatement> -> • 'for' 'IDENTIFIER' 'in' 'range' '(' <range_args> ')' ':' <brace_block>]
+  [<ifStatement> -> • 'if' <expression> ':' <brace_block> <optional_else>]
+  [<logicalAndExpr> -> • <logicalNotExpr> <logical_and_tail>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<logicalOrExpr> -> • <logicalAndExpr> <logical_or_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<program'> -> • <program>]
+  [<program> -> • <statement_list> 'EOF']
+  [<returnStatement> -> • 'return' <return_body>]
+  [<statement> -> • <breakStatement>]
+  [<statement> -> • <continueStatement>]
+  [<statement> -> • <defStatement>]
+  [<statement> -> • <doWhileStatement>]
+  [<statement> -> • <expressionStatement>]
+  [<statement> -> • <forStatement>]
+  [<statement> -> • <ifStatement>]
+  [<statement> -> • <returnStatement>]
+  [<statement> -> • <whileStatement>]
+  [<statement_list> -> • <statement> <statement_list>]
+  [<statement_list> -> •]
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  [<whileStatement> -> • 'while' <expression> ':' <brace_block>]
+  Transições:
+    GOTO(I0, '(') = I26
+    GOTO(I0, '-') = I3
+    GOTO(I0, 'False') = I5
+    GOTO(I0, 'IDENTIFIER') = I25
+    GOTO(I0, 'NUMBER') = I40
+    GOTO(I0, 'STRING') = I27
+    GOTO(I0, 'True') = I18
+    GOTO(I0, '[') = I11
+    GOTO(I0, 'break') = I33
+    GOTO(I0, 'continue') = I9
+    GOTO(I0, 'def') = I10
+    GOTO(I0, 'do') = I21
+    GOTO(I0, 'for') = I14
+    GOTO(I0, 'if') = I39
+    GOTO(I0, 'not') = I13
+    GOTO(I0, 'return') = I19
+    GOTO(I0, 'while') = I28
+    GOTO(I0, <additiveExpr>) = I42
+    GOTO(I0, <assignmentExpr>) = I6
+    GOTO(I0, <bitwiseAndExpr>) = I36
+    GOTO(I0, <bitwiseOrExpr>) = I22
+    GOTO(I0, <breakStatement>) = I12
+    GOTO(I0, <comparisonExpr>) = I43
+    GOTO(I0, <continueStatement>) = I31
+    GOTO(I0, <defStatement>) = I8
+    GOTO(I0, <doWhileStatement>) = I15
+    GOTO(I0, <expression>) = I30
+    GOTO(I0, <expressionStatement>) = I35
+    GOTO(I0, <forStatement>) = I16
+    GOTO(I0, <ifStatement>) = I32
+    GOTO(I0, <logicalAndExpr>) = I38
+    GOTO(I0, <logicalNotExpr>) = I23
+    GOTO(I0, <logicalOrExpr>) = I24
+    GOTO(I0, <multiplicativeExpr>) = I4
+    GOTO(I0, <postfixExpr>) = I34
+    GOTO(I0, <powerExpr>) = I41
+    GOTO(I0, <primary>) = I2
+    GOTO(I0, <program>) = I37
+    GOTO(I0, <returnStatement>) = I29
+    GOTO(I0, <statement>) = I17
+    GOTO(I0, <statement_list>) = I1
+    GOTO(I0, <unaryExpr>) = I20
+    GOTO(I0, <whileStatement>) = I7
+
+I1:
+  [<program> -> <statement_list> • 'EOF']
+  Transições:
+    GOTO(I1, 'EOF') = I44
+
+I2:
+  [<postfix> -> • '(' <optional_args> ')']
+  [<postfix> -> • '[' <expression> ']']
+  [<postfixExpr> -> <primary> • <postfix_list>]
+  [<postfix_list> -> • <postfix> <postfix_list>]
+  [<postfix_list> -> •]
+  Transições:
+    GOTO(I2, '(') = I45
+    GOTO(I2, '[') = I46
+    GOTO(I2, <postfix>) = I47
+    GOTO(I2, <postfix_list>) = I48
+
+I3:
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<unaryExpr> -> '-' • <unaryExpr>]
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I3, '(') = I26
+    GOTO(I3, '-') = I3
+    GOTO(I3, 'False') = I5
+    GOTO(I3, 'IDENTIFIER') = I25
+    GOTO(I3, 'NUMBER') = I40
+    GOTO(I3, 'STRING') = I27
+    GOTO(I3, 'True') = I18
+    GOTO(I3, '[') = I11
+    GOTO(I3, <postfixExpr>) = I34
+    GOTO(I3, <primary>) = I2
+    GOTO(I3, <unaryExpr>) = I49
+
+I4:
+  [<add_op> -> • '+']
+  [<add_op> -> • '-']
+  [<additiveExpr> -> <multiplicativeExpr> • <additive_tail>]
+  [<additive_tail> -> • <add_op> <multiplicativeExpr> <additive_tail>]
+  [<additive_tail> -> •]
+  Transições:
+    GOTO(I4, '+') = I53
+    GOTO(I4, '-') = I52
+    GOTO(I4, <add_op>) = I50
+    GOTO(I4, <additive_tail>) = I51
+
+I5:
+  [<primary> -> 'False' •]
+
+I6:
+  [<expression> -> <assignmentExpr> •]
+
+I7:
+  [<statement> -> <whileStatement> •]
+
+I8:
+  [<statement> -> <defStatement> •]
+
+I9:
+  [<continueStatement> -> 'continue' • ';']
+  Transições:
+    GOTO(I9, ';') = I54
+
+I10:
+  [<defStatement> -> 'def' • 'IDENTIFIER' '(' <optional_params> ')' ':' <brace_block>]
+  Transições:
+    GOTO(I10, 'IDENTIFIER') = I55
+
+I11:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<assignmentExpr> -> • <logicalOrExpr> <assignment_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<expression> -> • <assignmentExpr>]
+  [<expressionList> -> • <expression> <expr_list_tail>]
+  [<logicalAndExpr> -> • <logicalNotExpr> <logical_and_tail>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<logicalOrExpr> -> • <logicalAndExpr> <logical_or_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<optional_expr_list> -> • <expressionList>]
+  [<optional_expr_list> -> •]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> '[' • <optional_expr_list> ']']
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I11, '(') = I26
+    GOTO(I11, '-') = I3
+    GOTO(I11, 'False') = I5
+    GOTO(I11, 'IDENTIFIER') = I25
+    GOTO(I11, 'NUMBER') = I40
+    GOTO(I11, 'STRING') = I27
+    GOTO(I11, 'True') = I18
+    GOTO(I11, '[') = I11
+    GOTO(I11, 'not') = I13
+    GOTO(I11, <additiveExpr>) = I42
+    GOTO(I11, <assignmentExpr>) = I6
+    GOTO(I11, <bitwiseAndExpr>) = I36
+    GOTO(I11, <bitwiseOrExpr>) = I22
+    GOTO(I11, <comparisonExpr>) = I43
+    GOTO(I11, <expression>) = I57
+    GOTO(I11, <expressionList>) = I58
+    GOTO(I11, <logicalAndExpr>) = I38
+    GOTO(I11, <logicalNotExpr>) = I23
+    GOTO(I11, <logicalOrExpr>) = I24
+    GOTO(I11, <multiplicativeExpr>) = I4
+    GOTO(I11, <optional_expr_list>) = I56
+    GOTO(I11, <postfixExpr>) = I34
+    GOTO(I11, <powerExpr>) = I41
+    GOTO(I11, <primary>) = I2
+    GOTO(I11, <unaryExpr>) = I20
+
+I12:
+  [<statement> -> <breakStatement> •]
+
+I13:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<logicalNotExpr> -> 'not' • <logicalNotExpr>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I13, '(') = I26
+    GOTO(I13, '-') = I3
+    GOTO(I13, 'False') = I5
+    GOTO(I13, 'IDENTIFIER') = I25
+    GOTO(I13, 'NUMBER') = I40
+    GOTO(I13, 'STRING') = I27
+    GOTO(I13, 'True') = I18
+    GOTO(I13, '[') = I11
+    GOTO(I13, 'not') = I13
+    GOTO(I13, <additiveExpr>) = I42
+    GOTO(I13, <bitwiseAndExpr>) = I36
+    GOTO(I13, <bitwiseOrExpr>) = I22
+    GOTO(I13, <comparisonExpr>) = I43
+    GOTO(I13, <logicalNotExpr>) = I59
+    GOTO(I13, <multiplicativeExpr>) = I4
+    GOTO(I13, <postfixExpr>) = I34
+    GOTO(I13, <powerExpr>) = I41
+    GOTO(I13, <primary>) = I2
+    GOTO(I13, <unaryExpr>) = I20
+
+I14:
+  [<forStatement> -> 'for' • 'IDENTIFIER' 'in' 'range' '(' <range_args> ')' ':' <brace_block>]
+  Transições:
+    GOTO(I14, 'IDENTIFIER') = I60
+
+I15:
+  [<statement> -> <doWhileStatement> •]
+
+I16:
+  [<statement> -> <forStatement> •]
+
+I17:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<assignmentExpr> -> • <logicalOrExpr> <assignment_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<breakStatement> -> • 'break' ';']
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<continueStatement> -> • 'continue' ';']
+  [<defStatement> -> • 'def' 'IDENTIFIER' '(' <optional_params> ')' ':' <brace_block>]
+  [<doWhileStatement> -> • 'do' ':' <block> 'while' <expression> ';']
+  [<expression> -> • <assignmentExpr>]
+  [<expressionStatement> -> • <expression> ';']
+  [<forStatement> -> • 'for' 'IDENTIFIER' 'in' 'range' '(' <range_args> ')' ':' <brace_block>]
+  [<ifStatement> -> • 'if' <expression> ':' <brace_block> <optional_else>]
+  [<logicalAndExpr> -> • <logicalNotExpr> <logical_and_tail>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<logicalOrExpr> -> • <logicalAndExpr> <logical_or_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<returnStatement> -> • 'return' <return_body>]
+  [<statement> -> • <breakStatement>]
+  [<statement> -> • <continueStatement>]
+  [<statement> -> • <defStatement>]
+  [<statement> -> • <doWhileStatement>]
+  [<statement> -> • <expressionStatement>]
+  [<statement> -> • <forStatement>]
+  [<statement> -> • <ifStatement>]
+  [<statement> -> • <returnStatement>]
+  [<statement> -> • <whileStatement>]
+  [<statement_list> -> <statement> • <statement_list>]
+  [<statement_list> -> • <statement> <statement_list>]
+  [<statement_list> -> •]
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  [<whileStatement> -> • 'while' <expression> ':' <brace_block>]
+  Transições:
+    GOTO(I17, '(') = I26
+    GOTO(I17, '-') = I3
+    GOTO(I17, 'False') = I5
+    GOTO(I17, 'IDENTIFIER') = I25
+    GOTO(I17, 'NUMBER') = I40
+    GOTO(I17, 'STRING') = I27
+    GOTO(I17, 'True') = I18
+    GOTO(I17, '[') = I11
+    GOTO(I17, 'break') = I33
+    GOTO(I17, 'continue') = I9
+    GOTO(I17, 'def') = I10
+    GOTO(I17, 'do') = I21
+    GOTO(I17, 'for') = I14
+    GOTO(I17, 'if') = I39
+    GOTO(I17, 'not') = I13
+    GOTO(I17, 'return') = I19
+    GOTO(I17, 'while') = I28
+    GOTO(I17, <additiveExpr>) = I42
+    GOTO(I17, <assignmentExpr>) = I6
+    GOTO(I17, <bitwiseAndExpr>) = I36
+    GOTO(I17, <bitwiseOrExpr>) = I22
+    GOTO(I17, <breakStatement>) = I12
+    GOTO(I17, <comparisonExpr>) = I43
+    GOTO(I17, <continueStatement>) = I31
+    GOTO(I17, <defStatement>) = I8
+    GOTO(I17, <doWhileStatement>) = I15
+    GOTO(I17, <expression>) = I30
+    GOTO(I17, <expressionStatement>) = I35
+    GOTO(I17, <forStatement>) = I16
+    GOTO(I17, <ifStatement>) = I32
+    GOTO(I17, <logicalAndExpr>) = I38
+    GOTO(I17, <logicalNotExpr>) = I23
+    GOTO(I17, <logicalOrExpr>) = I24
+    GOTO(I17, <multiplicativeExpr>) = I4
+    GOTO(I17, <postfixExpr>) = I34
+    GOTO(I17, <powerExpr>) = I41
+    GOTO(I17, <primary>) = I2
+    GOTO(I17, <returnStatement>) = I29
+    GOTO(I17, <statement>) = I17
+    GOTO(I17, <statement_list>) = I61
+    GOTO(I17, <unaryExpr>) = I20
+    GOTO(I17, <whileStatement>) = I7
+
+I18:
+  [<primary> -> 'True' •]
+
+I19:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<assignmentExpr> -> • <logicalOrExpr> <assignment_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<expression> -> • <assignmentExpr>]
+  [<logicalAndExpr> -> • <logicalNotExpr> <logical_and_tail>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<logicalOrExpr> -> • <logicalAndExpr> <logical_or_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<returnStatement> -> 'return' • <return_body>]
+  [<return_body> -> • ';']
+  [<return_body> -> • <expression> ';']
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I19, '(') = I26
+    GOTO(I19, '-') = I3
+    GOTO(I19, ';') = I62
+    GOTO(I19, 'False') = I5
+    GOTO(I19, 'IDENTIFIER') = I25
+    GOTO(I19, 'NUMBER') = I40
+    GOTO(I19, 'STRING') = I27
+    GOTO(I19, 'True') = I18
+    GOTO(I19, '[') = I11
+    GOTO(I19, 'not') = I13
+    GOTO(I19, <additiveExpr>) = I42
+    GOTO(I19, <assignmentExpr>) = I6
+    GOTO(I19, <bitwiseAndExpr>) = I36
+    GOTO(I19, <bitwiseOrExpr>) = I22
+    GOTO(I19, <comparisonExpr>) = I43
+    GOTO(I19, <expression>) = I63
+    GOTO(I19, <logicalAndExpr>) = I38
+    GOTO(I19, <logicalNotExpr>) = I23
+    GOTO(I19, <logicalOrExpr>) = I24
+    GOTO(I19, <multiplicativeExpr>) = I4
+    GOTO(I19, <postfixExpr>) = I34
+    GOTO(I19, <powerExpr>) = I41
+    GOTO(I19, <primary>) = I2
+    GOTO(I19, <return_body>) = I64
+    GOTO(I19, <unaryExpr>) = I20
+
+I20:
+  [<powerExpr> -> <unaryExpr> • <power_tail>]
+  [<power_tail> -> • '**' <powerExpr>]
+  [<power_tail> -> •]
+  Transições:
+    GOTO(I20, '**') = I66
+    GOTO(I20, <power_tail>) = I65
+
+I21:
+  [<doWhileStatement> -> 'do' • ':' <block> 'while' <expression> ';']
+  Transições:
+    GOTO(I21, ':') = I67
+
+I22:
+  [<logicalNotExpr> -> <bitwiseOrExpr> •]
+
+I23:
+  [<logicalAndExpr> -> <logicalNotExpr> • <logical_and_tail>]
+  [<logical_and_tail> -> • 'and' <logicalNotExpr> <logical_and_tail>]
+  [<logical_and_tail> -> •]
+  Transições:
+    GOTO(I23, 'and') = I68
+    GOTO(I23, <logical_and_tail>) = I69
+
+I24:
+  [<assignmentExpr> -> <logicalOrExpr> • <assignment_tail>]
+  [<assignment_tail> -> • '=' <assignmentExpr>]
+  [<assignment_tail> -> •]
+  Transições:
+    GOTO(I24, '=') = I70
+    GOTO(I24, <assignment_tail>) = I71
+
+I25:
+  [<primary> -> 'IDENTIFIER' •]
+
+I26:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<assignmentExpr> -> • <logicalOrExpr> <assignment_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<expression> -> • <assignmentExpr>]
+  [<logicalAndExpr> -> • <logicalNotExpr> <logical_and_tail>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<logicalOrExpr> -> • <logicalAndExpr> <logical_or_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> '(' • <expression> ')']
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I26, '(') = I26
+    GOTO(I26, '-') = I3
+    GOTO(I26, 'False') = I5
+    GOTO(I26, 'IDENTIFIER') = I25
+    GOTO(I26, 'NUMBER') = I40
+    GOTO(I26, 'STRING') = I27
+    GOTO(I26, 'True') = I18
+    GOTO(I26, '[') = I11
+    GOTO(I26, 'not') = I13
+    GOTO(I26, <additiveExpr>) = I42
+    GOTO(I26, <assignmentExpr>) = I6
+    GOTO(I26, <bitwiseAndExpr>) = I36
+    GOTO(I26, <bitwiseOrExpr>) = I22
+    GOTO(I26, <comparisonExpr>) = I43
+    GOTO(I26, <expression>) = I72
+    GOTO(I26, <logicalAndExpr>) = I38
+    GOTO(I26, <logicalNotExpr>) = I23
+    GOTO(I26, <logicalOrExpr>) = I24
+    GOTO(I26, <multiplicativeExpr>) = I4
+    GOTO(I26, <postfixExpr>) = I34
+    GOTO(I26, <powerExpr>) = I41
+    GOTO(I26, <primary>) = I2
+    GOTO(I26, <unaryExpr>) = I20
+
+I27:
+  [<primary> -> 'STRING' •]
+
+I28:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<assignmentExpr> -> • <logicalOrExpr> <assignment_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<expression> -> • <assignmentExpr>]
+  [<logicalAndExpr> -> • <logicalNotExpr> <logical_and_tail>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<logicalOrExpr> -> • <logicalAndExpr> <logical_or_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  [<whileStatement> -> 'while' • <expression> ':' <brace_block>]
+  Transições:
+    GOTO(I28, '(') = I26
+    GOTO(I28, '-') = I3
+    GOTO(I28, 'False') = I5
+    GOTO(I28, 'IDENTIFIER') = I25
+    GOTO(I28, 'NUMBER') = I40
+    GOTO(I28, 'STRING') = I27
+    GOTO(I28, 'True') = I18
+    GOTO(I28, '[') = I11
+    GOTO(I28, 'not') = I13
+    GOTO(I28, <additiveExpr>) = I42
+    GOTO(I28, <assignmentExpr>) = I6
+    GOTO(I28, <bitwiseAndExpr>) = I36
+    GOTO(I28, <bitwiseOrExpr>) = I22
+    GOTO(I28, <comparisonExpr>) = I43
+    GOTO(I28, <expression>) = I73
+    GOTO(I28, <logicalAndExpr>) = I38
+    GOTO(I28, <logicalNotExpr>) = I23
+    GOTO(I28, <logicalOrExpr>) = I24
+    GOTO(I28, <multiplicativeExpr>) = I4
+    GOTO(I28, <postfixExpr>) = I34
+    GOTO(I28, <powerExpr>) = I41
+    GOTO(I28, <primary>) = I2
+    GOTO(I28, <unaryExpr>) = I20
+
+I29:
+  [<statement> -> <returnStatement> •]
+
+I30:
+  [<expressionStatement> -> <expression> • ';']
+  Transições:
+    GOTO(I30, ';') = I74
+
+I31:
+  [<statement> -> <continueStatement> •]
+
+I32:
+  [<statement> -> <ifStatement> •]
+
+I33:
+  [<breakStatement> -> 'break' • ';']
+  Transições:
+    GOTO(I33, ';') = I75
+
+I34:
+  [<unaryExpr> -> <postfixExpr> •]
+
+I35:
+  [<statement> -> <expressionStatement> •]
+
+I36:
+  [<bitwiseOrExpr> -> <bitwiseAndExpr> • <bitwise_or_tail>]
+  [<bitwise_or_tail> -> • '|' <bitwiseAndExpr> <bitwise_or_tail>]
+  [<bitwise_or_tail> -> •]
+  Transições:
+    GOTO(I36, '|') = I76
+    GOTO(I36, <bitwise_or_tail>) = I77
+
+I37:
+  [<program'> -> <program> •]
+
+I38:
+  [<logicalOrExpr> -> <logicalAndExpr> • <logical_or_tail>]
+  [<logical_or_tail> -> • 'or' <logicalAndExpr> <logical_or_tail>]
+  [<logical_or_tail> -> •]
+  Transições:
+    GOTO(I38, 'or') = I78
+    GOTO(I38, <logical_or_tail>) = I79
+
+I39:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<assignmentExpr> -> • <logicalOrExpr> <assignment_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<expression> -> • <assignmentExpr>]
+  [<ifStatement> -> 'if' • <expression> ':' <brace_block> <optional_else>]
+  [<logicalAndExpr> -> • <logicalNotExpr> <logical_and_tail>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<logicalOrExpr> -> • <logicalAndExpr> <logical_or_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I39, '(') = I26
+    GOTO(I39, '-') = I3
+    GOTO(I39, 'False') = I5
+    GOTO(I39, 'IDENTIFIER') = I25
+    GOTO(I39, 'NUMBER') = I40
+    GOTO(I39, 'STRING') = I27
+    GOTO(I39, 'True') = I18
+    GOTO(I39, '[') = I11
+    GOTO(I39, 'not') = I13
+    GOTO(I39, <additiveExpr>) = I42
+    GOTO(I39, <assignmentExpr>) = I6
+    GOTO(I39, <bitwiseAndExpr>) = I36
+    GOTO(I39, <bitwiseOrExpr>) = I22
+    GOTO(I39, <comparisonExpr>) = I43
+    GOTO(I39, <expression>) = I80
+    GOTO(I39, <logicalAndExpr>) = I38
+    GOTO(I39, <logicalNotExpr>) = I23
+    GOTO(I39, <logicalOrExpr>) = I24
+    GOTO(I39, <multiplicativeExpr>) = I4
+    GOTO(I39, <postfixExpr>) = I34
+    GOTO(I39, <powerExpr>) = I41
+    GOTO(I39, <primary>) = I2
+    GOTO(I39, <unaryExpr>) = I20
+
+I40:
+  [<primary> -> 'NUMBER' •]
+
+I41:
+  [<mul_op> -> • '%']
+  [<mul_op> -> • '*']
+  [<mul_op> -> • '/']
+  [<multiplicativeExpr> -> <powerExpr> • <multiplicative_tail>]
+  [<multiplicative_tail> -> • <mul_op> <powerExpr> <multiplicative_tail>]
+  [<multiplicative_tail> -> •]
+  Transições:
+    GOTO(I41, '%') = I82
+    GOTO(I41, '*') = I84
+    GOTO(I41, '/') = I85
+    GOTO(I41, <mul_op>) = I83
+    GOTO(I41, <multiplicative_tail>) = I81
+
+I42:
+  [<comparisonExpr> -> <additiveExpr> • <comparison_tail>]
+  [<comparison_op> -> • '!=']
+  [<comparison_op> -> • '<']
+  [<comparison_op> -> • '<=']
+  [<comparison_op> -> • '==']
+  [<comparison_op> -> • '>']
+  [<comparison_op> -> • '>=']
+  [<comparison_tail> -> • <comparison_op> <additiveExpr> <comparison_tail>]
+  [<comparison_tail> -> •]
+  Transições:
+    GOTO(I42, '!=') = I92
+    GOTO(I42, '<') = I93
+    GOTO(I42, '<=') = I90
+    GOTO(I42, '==') = I89
+    GOTO(I42, '>') = I86
+    GOTO(I42, '>=') = I88
+    GOTO(I42, <comparison_op>) = I87
+    GOTO(I42, <comparison_tail>) = I91
+
+I43:
+  [<bitwiseAndExpr> -> <comparisonExpr> • <bitwise_and_tail>]
+  [<bitwise_and_tail> -> • '&' <comparisonExpr> <bitwise_and_tail>]
+  [<bitwise_and_tail> -> •]
+  Transições:
+    GOTO(I43, '&') = I95
+    GOTO(I43, <bitwise_and_tail>) = I94
+
+I44:
+  [<program> -> <statement_list> 'EOF' •]
+
+I45:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<argList> -> • <expression> <arg_list_tail>]
+  [<assignmentExpr> -> • <logicalOrExpr> <assignment_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<expression> -> • <assignmentExpr>]
+  [<logicalAndExpr> -> • <logicalNotExpr> <logical_and_tail>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<logicalOrExpr> -> • <logicalAndExpr> <logical_or_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<optional_args> -> • <argList>]
+  [<optional_args> -> •]
+  [<postfix> -> '(' • <optional_args> ')']
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I45, '(') = I26
+    GOTO(I45, '-') = I3
+    GOTO(I45, 'False') = I5
+    GOTO(I45, 'IDENTIFIER') = I25
+    GOTO(I45, 'NUMBER') = I40
+    GOTO(I45, 'STRING') = I27
+    GOTO(I45, 'True') = I18
+    GOTO(I45, '[') = I11
+    GOTO(I45, 'not') = I13
+    GOTO(I45, <additiveExpr>) = I42
+    GOTO(I45, <argList>) = I96
+    GOTO(I45, <assignmentExpr>) = I6
+    GOTO(I45, <bitwiseAndExpr>) = I36
+    GOTO(I45, <bitwiseOrExpr>) = I22
+    GOTO(I45, <comparisonExpr>) = I43
+    GOTO(I45, <expression>) = I97
+    GOTO(I45, <logicalAndExpr>) = I38
+    GOTO(I45, <logicalNotExpr>) = I23
+    GOTO(I45, <logicalOrExpr>) = I24
+    GOTO(I45, <multiplicativeExpr>) = I4
+    GOTO(I45, <optional_args>) = I98
+    GOTO(I45, <postfixExpr>) = I34
+    GOTO(I45, <powerExpr>) = I41
+    GOTO(I45, <primary>) = I2
+    GOTO(I45, <unaryExpr>) = I20
+
+I46:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<assignmentExpr> -> • <logicalOrExpr> <assignment_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<expression> -> • <assignmentExpr>]
+  [<logicalAndExpr> -> • <logicalNotExpr> <logical_and_tail>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<logicalOrExpr> -> • <logicalAndExpr> <logical_or_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfix> -> '[' • <expression> ']']
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I46, '(') = I26
+    GOTO(I46, '-') = I3
+    GOTO(I46, 'False') = I5
+    GOTO(I46, 'IDENTIFIER') = I25
+    GOTO(I46, 'NUMBER') = I40
+    GOTO(I46, 'STRING') = I27
+    GOTO(I46, 'True') = I18
+    GOTO(I46, '[') = I11
+    GOTO(I46, 'not') = I13
+    GOTO(I46, <additiveExpr>) = I42
+    GOTO(I46, <assignmentExpr>) = I6
+    GOTO(I46, <bitwiseAndExpr>) = I36
+    GOTO(I46, <bitwiseOrExpr>) = I22
+    GOTO(I46, <comparisonExpr>) = I43
+    GOTO(I46, <expression>) = I99
+    GOTO(I46, <logicalAndExpr>) = I38
+    GOTO(I46, <logicalNotExpr>) = I23
+    GOTO(I46, <logicalOrExpr>) = I24
+    GOTO(I46, <multiplicativeExpr>) = I4
+    GOTO(I46, <postfixExpr>) = I34
+    GOTO(I46, <powerExpr>) = I41
+    GOTO(I46, <primary>) = I2
+    GOTO(I46, <unaryExpr>) = I20
+
+I47:
+  [<postfix> -> • '(' <optional_args> ')']
+  [<postfix> -> • '[' <expression> ']']
+  [<postfix_list> -> <postfix> • <postfix_list>]
+  [<postfix_list> -> • <postfix> <postfix_list>]
+  [<postfix_list> -> •]
+  Transições:
+    GOTO(I47, '(') = I45
+    GOTO(I47, '[') = I46
+    GOTO(I47, <postfix>) = I47
+    GOTO(I47, <postfix_list>) = I100
+
+I48:
+  [<postfixExpr> -> <primary> <postfix_list> •]
+
+I49:
+  [<unaryExpr> -> '-' <unaryExpr> •]
+
+I50:
+  [<additive_tail> -> <add_op> • <multiplicativeExpr> <additive_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I50, '(') = I26
+    GOTO(I50, '-') = I3
+    GOTO(I50, 'False') = I5
+    GOTO(I50, 'IDENTIFIER') = I25
+    GOTO(I50, 'NUMBER') = I40
+    GOTO(I50, 'STRING') = I27
+    GOTO(I50, 'True') = I18
+    GOTO(I50, '[') = I11
+    GOTO(I50, <multiplicativeExpr>) = I101
+    GOTO(I50, <postfixExpr>) = I34
+    GOTO(I50, <powerExpr>) = I41
+    GOTO(I50, <primary>) = I2
+    GOTO(I50, <unaryExpr>) = I20
+
+I51:
+  [<additiveExpr> -> <multiplicativeExpr> <additive_tail> •]
+
+I52:
+  [<add_op> -> '-' •]
+
+I53:
+  [<add_op> -> '+' •]
+
+I54:
+  [<continueStatement> -> 'continue' ';' •]
+
+I55:
+  [<defStatement> -> 'def' 'IDENTIFIER' • '(' <optional_params> ')' ':' <brace_block>]
+  Transições:
+    GOTO(I55, '(') = I102
+
+I56:
+  [<primary> -> '[' <optional_expr_list> • ']']
+  Transições:
+    GOTO(I56, ']') = I103
+
+I57:
+  [<expr_list_tail> -> • ',' <expression> <expr_list_tail>]
+  [<expr_list_tail> -> •]
+  [<expressionList> -> <expression> • <expr_list_tail>]
+  Transições:
+    GOTO(I57, ',') = I105
+    GOTO(I57, <expr_list_tail>) = I104
+
+I58:
+  [<optional_expr_list> -> <expressionList> •]
+
+I59:
+  [<logicalNotExpr> -> 'not' <logicalNotExpr> •]
+
+I60:
+  [<forStatement> -> 'for' 'IDENTIFIER' • 'in' 'range' '(' <range_args> ')' ':' <brace_block>]
+  Transições:
+    GOTO(I60, 'in') = I106
+
+I61:
+  [<statement_list> -> <statement> <statement_list> •]
+
+I62:
+  [<return_body> -> ';' •]
+
+I63:
+  [<return_body> -> <expression> • ';']
+  Transições:
+    GOTO(I63, ';') = I107
+
+I64:
+  [<returnStatement> -> 'return' <return_body> •]
+
+I65:
+  [<powerExpr> -> <unaryExpr> <power_tail> •]
+
+I66:
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<power_tail> -> '**' • <powerExpr>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I66, '(') = I26
+    GOTO(I66, '-') = I3
+    GOTO(I66, 'False') = I5
+    GOTO(I66, 'IDENTIFIER') = I25
+    GOTO(I66, 'NUMBER') = I40
+    GOTO(I66, 'STRING') = I27
+    GOTO(I66, 'True') = I18
+    GOTO(I66, '[') = I11
+    GOTO(I66, <postfixExpr>) = I34
+    GOTO(I66, <powerExpr>) = I108
+    GOTO(I66, <primary>) = I2
+    GOTO(I66, <unaryExpr>) = I20
+
+I67:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<assignmentExpr> -> • <logicalOrExpr> <assignment_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<block> -> • '{' <statement_list> '}']
+  [<block> -> • <statement>]
+  [<breakStatement> -> • 'break' ';']
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<continueStatement> -> • 'continue' ';']
+  [<defStatement> -> • 'def' 'IDENTIFIER' '(' <optional_params> ')' ':' <brace_block>]
+  [<doWhileStatement> -> 'do' ':' • <block> 'while' <expression> ';']
+  [<doWhileStatement> -> • 'do' ':' <block> 'while' <expression> ';']
+  [<expression> -> • <assignmentExpr>]
+  [<expressionStatement> -> • <expression> ';']
+  [<forStatement> -> • 'for' 'IDENTIFIER' 'in' 'range' '(' <range_args> ')' ':' <brace_block>]
+  [<ifStatement> -> • 'if' <expression> ':' <brace_block> <optional_else>]
+  [<logicalAndExpr> -> • <logicalNotExpr> <logical_and_tail>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<logicalOrExpr> -> • <logicalAndExpr> <logical_or_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<returnStatement> -> • 'return' <return_body>]
+  [<statement> -> • <breakStatement>]
+  [<statement> -> • <continueStatement>]
+  [<statement> -> • <defStatement>]
+  [<statement> -> • <doWhileStatement>]
+  [<statement> -> • <expressionStatement>]
+  [<statement> -> • <forStatement>]
+  [<statement> -> • <ifStatement>]
+  [<statement> -> • <returnStatement>]
+  [<statement> -> • <whileStatement>]
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  [<whileStatement> -> • 'while' <expression> ':' <brace_block>]
+  Transições:
+    GOTO(I67, '(') = I26
+    GOTO(I67, '-') = I3
+    GOTO(I67, 'False') = I5
+    GOTO(I67, 'IDENTIFIER') = I25
+    GOTO(I67, 'NUMBER') = I40
+    GOTO(I67, 'STRING') = I27
+    GOTO(I67, 'True') = I18
+    GOTO(I67, '[') = I11
+    GOTO(I67, 'break') = I33
+    GOTO(I67, 'continue') = I9
+    GOTO(I67, 'def') = I10
+    GOTO(I67, 'do') = I21
+    GOTO(I67, 'for') = I14
+    GOTO(I67, 'if') = I39
+    GOTO(I67, 'not') = I13
+    GOTO(I67, 'return') = I19
+    GOTO(I67, 'while') = I28
+    GOTO(I67, '{') = I109
+    GOTO(I67, <additiveExpr>) = I42
+    GOTO(I67, <assignmentExpr>) = I6
+    GOTO(I67, <bitwiseAndExpr>) = I36
+    GOTO(I67, <bitwiseOrExpr>) = I22
+    GOTO(I67, <block>) = I110
+    GOTO(I67, <breakStatement>) = I12
+    GOTO(I67, <comparisonExpr>) = I43
+    GOTO(I67, <continueStatement>) = I31
+    GOTO(I67, <defStatement>) = I8
+    GOTO(I67, <doWhileStatement>) = I15
+    GOTO(I67, <expression>) = I30
+    GOTO(I67, <expressionStatement>) = I35
+    GOTO(I67, <forStatement>) = I16
+    GOTO(I67, <ifStatement>) = I32
+    GOTO(I67, <logicalAndExpr>) = I38
+    GOTO(I67, <logicalNotExpr>) = I23
+    GOTO(I67, <logicalOrExpr>) = I24
+    GOTO(I67, <multiplicativeExpr>) = I4
+    GOTO(I67, <postfixExpr>) = I34
+    GOTO(I67, <powerExpr>) = I41
+    GOTO(I67, <primary>) = I2
+    GOTO(I67, <returnStatement>) = I29
+    GOTO(I67, <statement>) = I111
+    GOTO(I67, <unaryExpr>) = I20
+    GOTO(I67, <whileStatement>) = I7
+
+I68:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<logical_and_tail> -> 'and' • <logicalNotExpr> <logical_and_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I68, '(') = I26
+    GOTO(I68, '-') = I3
+    GOTO(I68, 'False') = I5
+    GOTO(I68, 'IDENTIFIER') = I25
+    GOTO(I68, 'NUMBER') = I40
+    GOTO(I68, 'STRING') = I27
+    GOTO(I68, 'True') = I18
+    GOTO(I68, '[') = I11
+    GOTO(I68, 'not') = I13
+    GOTO(I68, <additiveExpr>) = I42
+    GOTO(I68, <bitwiseAndExpr>) = I36
+    GOTO(I68, <bitwiseOrExpr>) = I22
+    GOTO(I68, <comparisonExpr>) = I43
+    GOTO(I68, <logicalNotExpr>) = I112
+    GOTO(I68, <multiplicativeExpr>) = I4
+    GOTO(I68, <postfixExpr>) = I34
+    GOTO(I68, <powerExpr>) = I41
+    GOTO(I68, <primary>) = I2
+    GOTO(I68, <unaryExpr>) = I20
+
+I69:
+  [<logicalAndExpr> -> <logicalNotExpr> <logical_and_tail> •]
+
+I70:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<assignmentExpr> -> • <logicalOrExpr> <assignment_tail>]
+  [<assignment_tail> -> '=' • <assignmentExpr>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<logicalAndExpr> -> • <logicalNotExpr> <logical_and_tail>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<logicalOrExpr> -> • <logicalAndExpr> <logical_or_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I70, '(') = I26
+    GOTO(I70, '-') = I3
+    GOTO(I70, 'False') = I5
+    GOTO(I70, 'IDENTIFIER') = I25
+    GOTO(I70, 'NUMBER') = I40
+    GOTO(I70, 'STRING') = I27
+    GOTO(I70, 'True') = I18
+    GOTO(I70, '[') = I11
+    GOTO(I70, 'not') = I13
+    GOTO(I70, <additiveExpr>) = I42
+    GOTO(I70, <assignmentExpr>) = I113
+    GOTO(I70, <bitwiseAndExpr>) = I36
+    GOTO(I70, <bitwiseOrExpr>) = I22
+    GOTO(I70, <comparisonExpr>) = I43
+    GOTO(I70, <logicalAndExpr>) = I38
+    GOTO(I70, <logicalNotExpr>) = I23
+    GOTO(I70, <logicalOrExpr>) = I24
+    GOTO(I70, <multiplicativeExpr>) = I4
+    GOTO(I70, <postfixExpr>) = I34
+    GOTO(I70, <powerExpr>) = I41
+    GOTO(I70, <primary>) = I2
+    GOTO(I70, <unaryExpr>) = I20
+
+I71:
+  [<assignmentExpr> -> <logicalOrExpr> <assignment_tail> •]
+
+I72:
+  [<primary> -> '(' <expression> • ')']
+  Transições:
+    GOTO(I72, ')') = I114
+
+I73:
+  [<whileStatement> -> 'while' <expression> • ':' <brace_block>]
+  Transições:
+    GOTO(I73, ':') = I115
+
+I74:
+  [<expressionStatement> -> <expression> ';' •]
+
+I75:
+  [<breakStatement> -> 'break' ';' •]
+
+I76:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwise_or_tail> -> '|' • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I76, '(') = I26
+    GOTO(I76, '-') = I3
+    GOTO(I76, 'False') = I5
+    GOTO(I76, 'IDENTIFIER') = I25
+    GOTO(I76, 'NUMBER') = I40
+    GOTO(I76, 'STRING') = I27
+    GOTO(I76, 'True') = I18
+    GOTO(I76, '[') = I11
+    GOTO(I76, <additiveExpr>) = I42
+    GOTO(I76, <bitwiseAndExpr>) = I116
+    GOTO(I76, <comparisonExpr>) = I43
+    GOTO(I76, <multiplicativeExpr>) = I4
+    GOTO(I76, <postfixExpr>) = I34
+    GOTO(I76, <powerExpr>) = I41
+    GOTO(I76, <primary>) = I2
+    GOTO(I76, <unaryExpr>) = I20
+
+I77:
+  [<bitwiseOrExpr> -> <bitwiseAndExpr> <bitwise_or_tail> •]
+
+I78:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<logicalAndExpr> -> • <logicalNotExpr> <logical_and_tail>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<logical_or_tail> -> 'or' • <logicalAndExpr> <logical_or_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I78, '(') = I26
+    GOTO(I78, '-') = I3
+    GOTO(I78, 'False') = I5
+    GOTO(I78, 'IDENTIFIER') = I25
+    GOTO(I78, 'NUMBER') = I40
+    GOTO(I78, 'STRING') = I27
+    GOTO(I78, 'True') = I18
+    GOTO(I78, '[') = I11
+    GOTO(I78, 'not') = I13
+    GOTO(I78, <additiveExpr>) = I42
+    GOTO(I78, <bitwiseAndExpr>) = I36
+    GOTO(I78, <bitwiseOrExpr>) = I22
+    GOTO(I78, <comparisonExpr>) = I43
+    GOTO(I78, <logicalAndExpr>) = I117
+    GOTO(I78, <logicalNotExpr>) = I23
+    GOTO(I78, <multiplicativeExpr>) = I4
+    GOTO(I78, <postfixExpr>) = I34
+    GOTO(I78, <powerExpr>) = I41
+    GOTO(I78, <primary>) = I2
+    GOTO(I78, <unaryExpr>) = I20
+
+I79:
+  [<logicalOrExpr> -> <logicalAndExpr> <logical_or_tail> •]
+
+I80:
+  [<ifStatement> -> 'if' <expression> • ':' <brace_block> <optional_else>]
+  Transições:
+    GOTO(I80, ':') = I118
+
+I81:
+  [<multiplicativeExpr> -> <powerExpr> <multiplicative_tail> •]
+
+I82:
+  [<mul_op> -> '%' •]
+
+I83:
+  [<multiplicative_tail> -> <mul_op> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I83, '(') = I26
+    GOTO(I83, '-') = I3
+    GOTO(I83, 'False') = I5
+    GOTO(I83, 'IDENTIFIER') = I25
+    GOTO(I83, 'NUMBER') = I40
+    GOTO(I83, 'STRING') = I27
+    GOTO(I83, 'True') = I18
+    GOTO(I83, '[') = I11
+    GOTO(I83, <postfixExpr>) = I34
+    GOTO(I83, <powerExpr>) = I119
+    GOTO(I83, <primary>) = I2
+    GOTO(I83, <unaryExpr>) = I20
+
+I84:
+  [<mul_op> -> '*' •]
+
+I85:
+  [<mul_op> -> '/' •]
+
+I86:
+  [<comparison_op> -> '>' •]
+
+I87:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<comparison_tail> -> <comparison_op> • <additiveExpr> <comparison_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I87, '(') = I26
+    GOTO(I87, '-') = I3
+    GOTO(I87, 'False') = I5
+    GOTO(I87, 'IDENTIFIER') = I25
+    GOTO(I87, 'NUMBER') = I40
+    GOTO(I87, 'STRING') = I27
+    GOTO(I87, 'True') = I18
+    GOTO(I87, '[') = I11
+    GOTO(I87, <additiveExpr>) = I120
+    GOTO(I87, <multiplicativeExpr>) = I4
+    GOTO(I87, <postfixExpr>) = I34
+    GOTO(I87, <powerExpr>) = I41
+    GOTO(I87, <primary>) = I2
+    GOTO(I87, <unaryExpr>) = I20
+
+I88:
+  [<comparison_op> -> '>=' •]
+
+I89:
+  [<comparison_op> -> '==' •]
+
+I90:
+  [<comparison_op> -> '<=' •]
+
+I91:
+  [<comparisonExpr> -> <additiveExpr> <comparison_tail> •]
+
+I92:
+  [<comparison_op> -> '!=' •]
+
+I93:
+  [<comparison_op> -> '<' •]
+
+I94:
+  [<bitwiseAndExpr> -> <comparisonExpr> <bitwise_and_tail> •]
+
+I95:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<bitwise_and_tail> -> '&' • <comparisonExpr> <bitwise_and_tail>]
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I95, '(') = I26
+    GOTO(I95, '-') = I3
+    GOTO(I95, 'False') = I5
+    GOTO(I95, 'IDENTIFIER') = I25
+    GOTO(I95, 'NUMBER') = I40
+    GOTO(I95, 'STRING') = I27
+    GOTO(I95, 'True') = I18
+    GOTO(I95, '[') = I11
+    GOTO(I95, <additiveExpr>) = I42
+    GOTO(I95, <comparisonExpr>) = I121
+    GOTO(I95, <multiplicativeExpr>) = I4
+    GOTO(I95, <postfixExpr>) = I34
+    GOTO(I95, <powerExpr>) = I41
+    GOTO(I95, <primary>) = I2
+    GOTO(I95, <unaryExpr>) = I20
+
+I96:
+  [<optional_args> -> <argList> •]
+
+I97:
+  [<argList> -> <expression> • <arg_list_tail>]
+  [<arg_list_tail> -> • ',' <expression> <arg_list_tail>]
+  [<arg_list_tail> -> •]
+  Transições:
+    GOTO(I97, ',') = I123
+    GOTO(I97, <arg_list_tail>) = I122
+
+I98:
+  [<postfix> -> '(' <optional_args> • ')']
+  Transições:
+    GOTO(I98, ')') = I124
+
+I99:
+  [<postfix> -> '[' <expression> • ']']
+  Transições:
+    GOTO(I99, ']') = I125
+
+I100:
+  [<postfix_list> -> <postfix> <postfix_list> •]
+
+I101:
+  [<add_op> -> • '+']
+  [<add_op> -> • '-']
+  [<additive_tail> -> <add_op> <multiplicativeExpr> • <additive_tail>]
+  [<additive_tail> -> • <add_op> <multiplicativeExpr> <additive_tail>]
+  [<additive_tail> -> •]
+  Transições:
+    GOTO(I101, '+') = I53
+    GOTO(I101, '-') = I52
+    GOTO(I101, <add_op>) = I50
+    GOTO(I101, <additive_tail>) = I126
+
+I102:
+  [<defStatement> -> 'def' 'IDENTIFIER' '(' • <optional_params> ')' ':' <brace_block>]
+  [<optional_params> -> • <paramList>]
+  [<optional_params> -> •]
+  [<paramList> -> • 'IDENTIFIER' <param_list_tail>]
+  Transições:
+    GOTO(I102, 'IDENTIFIER') = I128
+    GOTO(I102, <optional_params>) = I129
+    GOTO(I102, <paramList>) = I127
+
+I103:
+  [<primary> -> '[' <optional_expr_list> ']' •]
+
+I104:
+  [<expressionList> -> <expression> <expr_list_tail> •]
+
+I105:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<assignmentExpr> -> • <logicalOrExpr> <assignment_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<expr_list_tail> -> ',' • <expression> <expr_list_tail>]
+  [<expression> -> • <assignmentExpr>]
+  [<logicalAndExpr> -> • <logicalNotExpr> <logical_and_tail>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<logicalOrExpr> -> • <logicalAndExpr> <logical_or_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I105, '(') = I26
+    GOTO(I105, '-') = I3
+    GOTO(I105, 'False') = I5
+    GOTO(I105, 'IDENTIFIER') = I25
+    GOTO(I105, 'NUMBER') = I40
+    GOTO(I105, 'STRING') = I27
+    GOTO(I105, 'True') = I18
+    GOTO(I105, '[') = I11
+    GOTO(I105, 'not') = I13
+    GOTO(I105, <additiveExpr>) = I42
+    GOTO(I105, <assignmentExpr>) = I6
+    GOTO(I105, <bitwiseAndExpr>) = I36
+    GOTO(I105, <bitwiseOrExpr>) = I22
+    GOTO(I105, <comparisonExpr>) = I43
+    GOTO(I105, <expression>) = I130
+    GOTO(I105, <logicalAndExpr>) = I38
+    GOTO(I105, <logicalNotExpr>) = I23
+    GOTO(I105, <logicalOrExpr>) = I24
+    GOTO(I105, <multiplicativeExpr>) = I4
+    GOTO(I105, <postfixExpr>) = I34
+    GOTO(I105, <powerExpr>) = I41
+    GOTO(I105, <primary>) = I2
+    GOTO(I105, <unaryExpr>) = I20
+
+I106:
+  [<forStatement> -> 'for' 'IDENTIFIER' 'in' • 'range' '(' <range_args> ')' ':' <brace_block>]
+  Transições:
+    GOTO(I106, 'range') = I131
+
+I107:
+  [<return_body> -> <expression> ';' •]
+
+I108:
+  [<power_tail> -> '**' <powerExpr> •]
+
+I109:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<assignmentExpr> -> • <logicalOrExpr> <assignment_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<block> -> '{' • <statement_list> '}']
+  [<breakStatement> -> • 'break' ';']
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<continueStatement> -> • 'continue' ';']
+  [<defStatement> -> • 'def' 'IDENTIFIER' '(' <optional_params> ')' ':' <brace_block>]
+  [<doWhileStatement> -> • 'do' ':' <block> 'while' <expression> ';']
+  [<expression> -> • <assignmentExpr>]
+  [<expressionStatement> -> • <expression> ';']
+  [<forStatement> -> • 'for' 'IDENTIFIER' 'in' 'range' '(' <range_args> ')' ':' <brace_block>]
+  [<ifStatement> -> • 'if' <expression> ':' <brace_block> <optional_else>]
+  [<logicalAndExpr> -> • <logicalNotExpr> <logical_and_tail>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<logicalOrExpr> -> • <logicalAndExpr> <logical_or_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<returnStatement> -> • 'return' <return_body>]
+  [<statement> -> • <breakStatement>]
+  [<statement> -> • <continueStatement>]
+  [<statement> -> • <defStatement>]
+  [<statement> -> • <doWhileStatement>]
+  [<statement> -> • <expressionStatement>]
+  [<statement> -> • <forStatement>]
+  [<statement> -> • <ifStatement>]
+  [<statement> -> • <returnStatement>]
+  [<statement> -> • <whileStatement>]
+  [<statement_list> -> • <statement> <statement_list>]
+  [<statement_list> -> •]
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  [<whileStatement> -> • 'while' <expression> ':' <brace_block>]
+  Transições:
+    GOTO(I109, '(') = I26
+    GOTO(I109, '-') = I3
+    GOTO(I109, 'False') = I5
+    GOTO(I109, 'IDENTIFIER') = I25
+    GOTO(I109, 'NUMBER') = I40
+    GOTO(I109, 'STRING') = I27
+    GOTO(I109, 'True') = I18
+    GOTO(I109, '[') = I11
+    GOTO(I109, 'break') = I33
+    GOTO(I109, 'continue') = I9
+    GOTO(I109, 'def') = I10
+    GOTO(I109, 'do') = I21
+    GOTO(I109, 'for') = I14
+    GOTO(I109, 'if') = I39
+    GOTO(I109, 'not') = I13
+    GOTO(I109, 'return') = I19
+    GOTO(I109, 'while') = I28
+    GOTO(I109, <additiveExpr>) = I42
+    GOTO(I109, <assignmentExpr>) = I6
+    GOTO(I109, <bitwiseAndExpr>) = I36
+    GOTO(I109, <bitwiseOrExpr>) = I22
+    GOTO(I109, <breakStatement>) = I12
+    GOTO(I109, <comparisonExpr>) = I43
+    GOTO(I109, <continueStatement>) = I31
+    GOTO(I109, <defStatement>) = I8
+    GOTO(I109, <doWhileStatement>) = I15
+    GOTO(I109, <expression>) = I30
+    GOTO(I109, <expressionStatement>) = I35
+    GOTO(I109, <forStatement>) = I16
+    GOTO(I109, <ifStatement>) = I32
+    GOTO(I109, <logicalAndExpr>) = I38
+    GOTO(I109, <logicalNotExpr>) = I23
+    GOTO(I109, <logicalOrExpr>) = I24
+    GOTO(I109, <multiplicativeExpr>) = I4
+    GOTO(I109, <postfixExpr>) = I34
+    GOTO(I109, <powerExpr>) = I41
+    GOTO(I109, <primary>) = I2
+    GOTO(I109, <returnStatement>) = I29
+    GOTO(I109, <statement>) = I17
+    GOTO(I109, <statement_list>) = I132
+    GOTO(I109, <unaryExpr>) = I20
+    GOTO(I109, <whileStatement>) = I7
+
+I110:
+  [<doWhileStatement> -> 'do' ':' <block> • 'while' <expression> ';']
+  Transições:
+    GOTO(I110, 'while') = I133
+
+I111:
+  [<block> -> <statement> •]
+
+I112:
+  [<logical_and_tail> -> 'and' <logicalNotExpr> • <logical_and_tail>]
+  [<logical_and_tail> -> • 'and' <logicalNotExpr> <logical_and_tail>]
+  [<logical_and_tail> -> •]
+  Transições:
+    GOTO(I112, 'and') = I68
+    GOTO(I112, <logical_and_tail>) = I134
+
+I113:
+  [<assignment_tail> -> '=' <assignmentExpr> •]
+
+I114:
+  [<primary> -> '(' <expression> ')' •]
+
+I115:
+  [<brace_block> -> • '{' <statement_list> '}']
+  [<whileStatement> -> 'while' <expression> ':' • <brace_block>]
+  Transições:
+    GOTO(I115, '{') = I135
+    GOTO(I115, <brace_block>) = I136
+
+I116:
+  [<bitwise_or_tail> -> '|' <bitwiseAndExpr> • <bitwise_or_tail>]
+  [<bitwise_or_tail> -> • '|' <bitwiseAndExpr> <bitwise_or_tail>]
+  [<bitwise_or_tail> -> •]
+  Transições:
+    GOTO(I116, '|') = I76
+    GOTO(I116, <bitwise_or_tail>) = I137
+
+I117:
+  [<logical_or_tail> -> 'or' <logicalAndExpr> • <logical_or_tail>]
+  [<logical_or_tail> -> • 'or' <logicalAndExpr> <logical_or_tail>]
+  [<logical_or_tail> -> •]
+  Transições:
+    GOTO(I117, 'or') = I78
+    GOTO(I117, <logical_or_tail>) = I138
+
+I118:
+  [<brace_block> -> • '{' <statement_list> '}']
+  [<ifStatement> -> 'if' <expression> ':' • <brace_block> <optional_else>]
+  Transições:
+    GOTO(I118, '{') = I135
+    GOTO(I118, <brace_block>) = I139
+
+I119:
+  [<mul_op> -> • '%']
+  [<mul_op> -> • '*']
+  [<mul_op> -> • '/']
+  [<multiplicative_tail> -> <mul_op> <powerExpr> • <multiplicative_tail>]
+  [<multiplicative_tail> -> • <mul_op> <powerExpr> <multiplicative_tail>]
+  [<multiplicative_tail> -> •]
+  Transições:
+    GOTO(I119, '%') = I82
+    GOTO(I119, '*') = I84
+    GOTO(I119, '/') = I85
+    GOTO(I119, <mul_op>) = I83
+    GOTO(I119, <multiplicative_tail>) = I140
+
+I120:
+  [<comparison_op> -> • '!=']
+  [<comparison_op> -> • '<']
+  [<comparison_op> -> • '<=']
+  [<comparison_op> -> • '==']
+  [<comparison_op> -> • '>']
+  [<comparison_op> -> • '>=']
+  [<comparison_tail> -> <comparison_op> <additiveExpr> • <comparison_tail>]
+  [<comparison_tail> -> • <comparison_op> <additiveExpr> <comparison_tail>]
+  [<comparison_tail> -> •]
+  Transições:
+    GOTO(I120, '!=') = I92
+    GOTO(I120, '<') = I93
+    GOTO(I120, '<=') = I90
+    GOTO(I120, '==') = I89
+    GOTO(I120, '>') = I86
+    GOTO(I120, '>=') = I88
+    GOTO(I120, <comparison_op>) = I87
+    GOTO(I120, <comparison_tail>) = I141
+
+I121:
+  [<bitwise_and_tail> -> '&' <comparisonExpr> • <bitwise_and_tail>]
+  [<bitwise_and_tail> -> • '&' <comparisonExpr> <bitwise_and_tail>]
+  [<bitwise_and_tail> -> •]
+  Transições:
+    GOTO(I121, '&') = I95
+    GOTO(I121, <bitwise_and_tail>) = I142
+
+I122:
+  [<argList> -> <expression> <arg_list_tail> •]
+
+I123:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<arg_list_tail> -> ',' • <expression> <arg_list_tail>]
+  [<assignmentExpr> -> • <logicalOrExpr> <assignment_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<expression> -> • <assignmentExpr>]
+  [<logicalAndExpr> -> • <logicalNotExpr> <logical_and_tail>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<logicalOrExpr> -> • <logicalAndExpr> <logical_or_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I123, '(') = I26
+    GOTO(I123, '-') = I3
+    GOTO(I123, 'False') = I5
+    GOTO(I123, 'IDENTIFIER') = I25
+    GOTO(I123, 'NUMBER') = I40
+    GOTO(I123, 'STRING') = I27
+    GOTO(I123, 'True') = I18
+    GOTO(I123, '[') = I11
+    GOTO(I123, 'not') = I13
+    GOTO(I123, <additiveExpr>) = I42
+    GOTO(I123, <assignmentExpr>) = I6
+    GOTO(I123, <bitwiseAndExpr>) = I36
+    GOTO(I123, <bitwiseOrExpr>) = I22
+    GOTO(I123, <comparisonExpr>) = I43
+    GOTO(I123, <expression>) = I143
+    GOTO(I123, <logicalAndExpr>) = I38
+    GOTO(I123, <logicalNotExpr>) = I23
+    GOTO(I123, <logicalOrExpr>) = I24
+    GOTO(I123, <multiplicativeExpr>) = I4
+    GOTO(I123, <postfixExpr>) = I34
+    GOTO(I123, <powerExpr>) = I41
+    GOTO(I123, <primary>) = I2
+    GOTO(I123, <unaryExpr>) = I20
+
+I124:
+  [<postfix> -> '(' <optional_args> ')' •]
+
+I125:
+  [<postfix> -> '[' <expression> ']' •]
+
+I126:
+  [<additive_tail> -> <add_op> <multiplicativeExpr> <additive_tail> •]
+
+I127:
+  [<optional_params> -> <paramList> •]
+
+I128:
+  [<paramList> -> 'IDENTIFIER' • <param_list_tail>]
+  [<param_list_tail> -> • ',' 'IDENTIFIER' <param_list_tail>]
+  [<param_list_tail> -> •]
+  Transições:
+    GOTO(I128, ',') = I145
+    GOTO(I128, <param_list_tail>) = I144
+
+I129:
+  [<defStatement> -> 'def' 'IDENTIFIER' '(' <optional_params> • ')' ':' <brace_block>]
+  Transições:
+    GOTO(I129, ')') = I146
+
+I130:
+  [<expr_list_tail> -> ',' <expression> • <expr_list_tail>]
+  [<expr_list_tail> -> • ',' <expression> <expr_list_tail>]
+  [<expr_list_tail> -> •]
+  Transições:
+    GOTO(I130, ',') = I105
+    GOTO(I130, <expr_list_tail>) = I147
+
+I131:
+  [<forStatement> -> 'for' 'IDENTIFIER' 'in' 'range' • '(' <range_args> ')' ':' <brace_block>]
+  Transições:
+    GOTO(I131, '(') = I148
+
+I132:
+  [<block> -> '{' <statement_list> • '}']
+  Transições:
+    GOTO(I132, '}') = I149
+
+I133:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<assignmentExpr> -> • <logicalOrExpr> <assignment_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<doWhileStatement> -> 'do' ':' <block> 'while' • <expression> ';']
+  [<expression> -> • <assignmentExpr>]
+  [<logicalAndExpr> -> • <logicalNotExpr> <logical_and_tail>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<logicalOrExpr> -> • <logicalAndExpr> <logical_or_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I133, '(') = I26
+    GOTO(I133, '-') = I3
+    GOTO(I133, 'False') = I5
+    GOTO(I133, 'IDENTIFIER') = I25
+    GOTO(I133, 'NUMBER') = I40
+    GOTO(I133, 'STRING') = I27
+    GOTO(I133, 'True') = I18
+    GOTO(I133, '[') = I11
+    GOTO(I133, 'not') = I13
+    GOTO(I133, <additiveExpr>) = I42
+    GOTO(I133, <assignmentExpr>) = I6
+    GOTO(I133, <bitwiseAndExpr>) = I36
+    GOTO(I133, <bitwiseOrExpr>) = I22
+    GOTO(I133, <comparisonExpr>) = I43
+    GOTO(I133, <expression>) = I150
+    GOTO(I133, <logicalAndExpr>) = I38
+    GOTO(I133, <logicalNotExpr>) = I23
+    GOTO(I133, <logicalOrExpr>) = I24
+    GOTO(I133, <multiplicativeExpr>) = I4
+    GOTO(I133, <postfixExpr>) = I34
+    GOTO(I133, <powerExpr>) = I41
+    GOTO(I133, <primary>) = I2
+    GOTO(I133, <unaryExpr>) = I20
+
+I134:
+  [<logical_and_tail> -> 'and' <logicalNotExpr> <logical_and_tail> •]
+
+I135:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<assignmentExpr> -> • <logicalOrExpr> <assignment_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<brace_block> -> '{' • <statement_list> '}']
+  [<breakStatement> -> • 'break' ';']
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<continueStatement> -> • 'continue' ';']
+  [<defStatement> -> • 'def' 'IDENTIFIER' '(' <optional_params> ')' ':' <brace_block>]
+  [<doWhileStatement> -> • 'do' ':' <block> 'while' <expression> ';']
+  [<expression> -> • <assignmentExpr>]
+  [<expressionStatement> -> • <expression> ';']
+  [<forStatement> -> • 'for' 'IDENTIFIER' 'in' 'range' '(' <range_args> ')' ':' <brace_block>]
+  [<ifStatement> -> • 'if' <expression> ':' <brace_block> <optional_else>]
+  [<logicalAndExpr> -> • <logicalNotExpr> <logical_and_tail>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<logicalOrExpr> -> • <logicalAndExpr> <logical_or_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<returnStatement> -> • 'return' <return_body>]
+  [<statement> -> • <breakStatement>]
+  [<statement> -> • <continueStatement>]
+  [<statement> -> • <defStatement>]
+  [<statement> -> • <doWhileStatement>]
+  [<statement> -> • <expressionStatement>]
+  [<statement> -> • <forStatement>]
+  [<statement> -> • <ifStatement>]
+  [<statement> -> • <returnStatement>]
+  [<statement> -> • <whileStatement>]
+  [<statement_list> -> • <statement> <statement_list>]
+  [<statement_list> -> •]
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  [<whileStatement> -> • 'while' <expression> ':' <brace_block>]
+  Transições:
+    GOTO(I135, '(') = I26
+    GOTO(I135, '-') = I3
+    GOTO(I135, 'False') = I5
+    GOTO(I135, 'IDENTIFIER') = I25
+    GOTO(I135, 'NUMBER') = I40
+    GOTO(I135, 'STRING') = I27
+    GOTO(I135, 'True') = I18
+    GOTO(I135, '[') = I11
+    GOTO(I135, 'break') = I33
+    GOTO(I135, 'continue') = I9
+    GOTO(I135, 'def') = I10
+    GOTO(I135, 'do') = I21
+    GOTO(I135, 'for') = I14
+    GOTO(I135, 'if') = I39
+    GOTO(I135, 'not') = I13
+    GOTO(I135, 'return') = I19
+    GOTO(I135, 'while') = I28
+    GOTO(I135, <additiveExpr>) = I42
+    GOTO(I135, <assignmentExpr>) = I6
+    GOTO(I135, <bitwiseAndExpr>) = I36
+    GOTO(I135, <bitwiseOrExpr>) = I22
+    GOTO(I135, <breakStatement>) = I12
+    GOTO(I135, <comparisonExpr>) = I43
+    GOTO(I135, <continueStatement>) = I31
+    GOTO(I135, <defStatement>) = I8
+    GOTO(I135, <doWhileStatement>) = I15
+    GOTO(I135, <expression>) = I30
+    GOTO(I135, <expressionStatement>) = I35
+    GOTO(I135, <forStatement>) = I16
+    GOTO(I135, <ifStatement>) = I32
+    GOTO(I135, <logicalAndExpr>) = I38
+    GOTO(I135, <logicalNotExpr>) = I23
+    GOTO(I135, <logicalOrExpr>) = I24
+    GOTO(I135, <multiplicativeExpr>) = I4
+    GOTO(I135, <postfixExpr>) = I34
+    GOTO(I135, <powerExpr>) = I41
+    GOTO(I135, <primary>) = I2
+    GOTO(I135, <returnStatement>) = I29
+    GOTO(I135, <statement>) = I17
+    GOTO(I135, <statement_list>) = I151
+    GOTO(I135, <unaryExpr>) = I20
+    GOTO(I135, <whileStatement>) = I7
+
+I136:
+  [<whileStatement> -> 'while' <expression> ':' <brace_block> •]
+
+I137:
+  [<bitwise_or_tail> -> '|' <bitwiseAndExpr> <bitwise_or_tail> •]
+
+I138:
+  [<logical_or_tail> -> 'or' <logicalAndExpr> <logical_or_tail> •]
+
+I139:
+  [<ifStatement> -> 'if' <expression> ':' <brace_block> • <optional_else>]
+  [<optional_else> -> • 'else' ':' <brace_block>]
+  [<optional_else> -> •]
+  Transições:
+    GOTO(I139, 'else') = I152
+    GOTO(I139, <optional_else>) = I153
+
+I140:
+  [<multiplicative_tail> -> <mul_op> <powerExpr> <multiplicative_tail> •]
+
+I141:
+  [<comparison_tail> -> <comparison_op> <additiveExpr> <comparison_tail> •]
+
+I142:
+  [<bitwise_and_tail> -> '&' <comparisonExpr> <bitwise_and_tail> •]
+
+I143:
+  [<arg_list_tail> -> ',' <expression> • <arg_list_tail>]
+  [<arg_list_tail> -> • ',' <expression> <arg_list_tail>]
+  [<arg_list_tail> -> •]
+  Transições:
+    GOTO(I143, ',') = I123
+    GOTO(I143, <arg_list_tail>) = I154
+
+I144:
+  [<paramList> -> 'IDENTIFIER' <param_list_tail> •]
+
+I145:
+  [<param_list_tail> -> ',' • 'IDENTIFIER' <param_list_tail>]
+  Transições:
+    GOTO(I145, 'IDENTIFIER') = I155
+
+I146:
+  [<defStatement> -> 'def' 'IDENTIFIER' '(' <optional_params> ')' • ':' <brace_block>]
+  Transições:
+    GOTO(I146, ':') = I156
+
+I147:
+  [<expr_list_tail> -> ',' <expression> <expr_list_tail> •]
+
+I148:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<assignmentExpr> -> • <logicalOrExpr> <assignment_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<expression> -> • <assignmentExpr>]
+  [<forStatement> -> 'for' 'IDENTIFIER' 'in' 'range' '(' • <range_args> ')' ':' <brace_block>]
+  [<logicalAndExpr> -> • <logicalNotExpr> <logical_and_tail>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<logicalOrExpr> -> • <logicalAndExpr> <logical_or_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<range_args> -> • <expression> <range_args_tail>]
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I148, '(') = I26
+    GOTO(I148, '-') = I3
+    GOTO(I148, 'False') = I5
+    GOTO(I148, 'IDENTIFIER') = I25
+    GOTO(I148, 'NUMBER') = I40
+    GOTO(I148, 'STRING') = I27
+    GOTO(I148, 'True') = I18
+    GOTO(I148, '[') = I11
+    GOTO(I148, 'not') = I13
+    GOTO(I148, <additiveExpr>) = I42
+    GOTO(I148, <assignmentExpr>) = I6
+    GOTO(I148, <bitwiseAndExpr>) = I36
+    GOTO(I148, <bitwiseOrExpr>) = I22
+    GOTO(I148, <comparisonExpr>) = I43
+    GOTO(I148, <expression>) = I158
+    GOTO(I148, <logicalAndExpr>) = I38
+    GOTO(I148, <logicalNotExpr>) = I23
+    GOTO(I148, <logicalOrExpr>) = I24
+    GOTO(I148, <multiplicativeExpr>) = I4
+    GOTO(I148, <postfixExpr>) = I34
+    GOTO(I148, <powerExpr>) = I41
+    GOTO(I148, <primary>) = I2
+    GOTO(I148, <range_args>) = I157
+    GOTO(I148, <unaryExpr>) = I20
+
+I149:
+  [<block> -> '{' <statement_list> '}' •]
+
+I150:
+  [<doWhileStatement> -> 'do' ':' <block> 'while' <expression> • ';']
+  Transições:
+    GOTO(I150, ';') = I159
+
+I151:
+  [<brace_block> -> '{' <statement_list> • '}']
+  Transições:
+    GOTO(I151, '}') = I160
+
+I152:
+  [<optional_else> -> 'else' • ':' <brace_block>]
+  Transições:
+    GOTO(I152, ':') = I161
+
+I153:
+  [<ifStatement> -> 'if' <expression> ':' <brace_block> <optional_else> •]
+
+I154:
+  [<arg_list_tail> -> ',' <expression> <arg_list_tail> •]
+
+I155:
+  [<param_list_tail> -> ',' 'IDENTIFIER' • <param_list_tail>]
+  [<param_list_tail> -> • ',' 'IDENTIFIER' <param_list_tail>]
+  [<param_list_tail> -> •]
+  Transições:
+    GOTO(I155, ',') = I145
+    GOTO(I155, <param_list_tail>) = I162
+
+I156:
+  [<brace_block> -> • '{' <statement_list> '}']
+  [<defStatement> -> 'def' 'IDENTIFIER' '(' <optional_params> ')' ':' • <brace_block>]
+  Transições:
+    GOTO(I156, '{') = I135
+    GOTO(I156, <brace_block>) = I163
+
+I157:
+  [<forStatement> -> 'for' 'IDENTIFIER' 'in' 'range' '(' <range_args> • ')' ':' <brace_block>]
+  Transições:
+    GOTO(I157, ')') = I164
+
+I158:
+  [<range_args> -> <expression> • <range_args_tail>]
+  [<range_args_tail> -> • ',' <expression> <range_args_tail2>]
+  [<range_args_tail> -> •]
+  Transições:
+    GOTO(I158, ',') = I166
+    GOTO(I158, <range_args_tail>) = I165
+
+I159:
+  [<doWhileStatement> -> 'do' ':' <block> 'while' <expression> ';' •]
+
+I160:
+  [<brace_block> -> '{' <statement_list> '}' •]
+
+I161:
+  [<brace_block> -> • '{' <statement_list> '}']
+  [<optional_else> -> 'else' ':' • <brace_block>]
+  Transições:
+    GOTO(I161, '{') = I135
+    GOTO(I161, <brace_block>) = I167
+
+I162:
+  [<param_list_tail> -> ',' 'IDENTIFIER' <param_list_tail> •]
+
+I163:
+  [<defStatement> -> 'def' 'IDENTIFIER' '(' <optional_params> ')' ':' <brace_block> •]
+
+I164:
+  [<forStatement> -> 'for' 'IDENTIFIER' 'in' 'range' '(' <range_args> ')' • ':' <brace_block>]
+  Transições:
+    GOTO(I164, ':') = I168
+
+I165:
+  [<range_args> -> <expression> <range_args_tail> •]
+
+I166:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<assignmentExpr> -> • <logicalOrExpr> <assignment_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<expression> -> • <assignmentExpr>]
+  [<logicalAndExpr> -> • <logicalNotExpr> <logical_and_tail>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<logicalOrExpr> -> • <logicalAndExpr> <logical_or_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<range_args_tail> -> ',' • <expression> <range_args_tail2>]
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I166, '(') = I26
+    GOTO(I166, '-') = I3
+    GOTO(I166, 'False') = I5
+    GOTO(I166, 'IDENTIFIER') = I25
+    GOTO(I166, 'NUMBER') = I40
+    GOTO(I166, 'STRING') = I27
+    GOTO(I166, 'True') = I18
+    GOTO(I166, '[') = I11
+    GOTO(I166, 'not') = I13
+    GOTO(I166, <additiveExpr>) = I42
+    GOTO(I166, <assignmentExpr>) = I6
+    GOTO(I166, <bitwiseAndExpr>) = I36
+    GOTO(I166, <bitwiseOrExpr>) = I22
+    GOTO(I166, <comparisonExpr>) = I43
+    GOTO(I166, <expression>) = I169
+    GOTO(I166, <logicalAndExpr>) = I38
+    GOTO(I166, <logicalNotExpr>) = I23
+    GOTO(I166, <logicalOrExpr>) = I24
+    GOTO(I166, <multiplicativeExpr>) = I4
+    GOTO(I166, <postfixExpr>) = I34
+    GOTO(I166, <powerExpr>) = I41
+    GOTO(I166, <primary>) = I2
+    GOTO(I166, <unaryExpr>) = I20
+
+I167:
+  [<optional_else> -> 'else' ':' <brace_block> •]
+
+I168:
+  [<brace_block> -> • '{' <statement_list> '}']
+  [<forStatement> -> 'for' 'IDENTIFIER' 'in' 'range' '(' <range_args> ')' ':' • <brace_block>]
+  Transições:
+    GOTO(I168, '{') = I135
+    GOTO(I168, <brace_block>) = I170
+
+I169:
+  [<range_args_tail2> -> • ',' <expression>]
+  [<range_args_tail2> -> •]
+  [<range_args_tail> -> ',' <expression> • <range_args_tail2>]
+  Transições:
+    GOTO(I169, ',') = I171
+    GOTO(I169, <range_args_tail2>) = I172
+
+I170:
+  [<forStatement> -> 'for' 'IDENTIFIER' 'in' 'range' '(' <range_args> ')' ':' <brace_block> •]
+
+I171:
+  [<additiveExpr> -> • <multiplicativeExpr> <additive_tail>]
+  [<assignmentExpr> -> • <logicalOrExpr> <assignment_tail>]
+  [<bitwiseAndExpr> -> • <comparisonExpr> <bitwise_and_tail>]
+  [<bitwiseOrExpr> -> • <bitwiseAndExpr> <bitwise_or_tail>]
+  [<comparisonExpr> -> • <additiveExpr> <comparison_tail>]
+  [<expression> -> • <assignmentExpr>]
+  [<logicalAndExpr> -> • <logicalNotExpr> <logical_and_tail>]
+  [<logicalNotExpr> -> • 'not' <logicalNotExpr>]
+  [<logicalNotExpr> -> • <bitwiseOrExpr>]
+  [<logicalOrExpr> -> • <logicalAndExpr> <logical_or_tail>]
+  [<multiplicativeExpr> -> • <powerExpr> <multiplicative_tail>]
+  [<postfixExpr> -> • <primary> <postfix_list>]
+  [<powerExpr> -> • <unaryExpr> <power_tail>]
+  [<primary> -> • '(' <expression> ')']
+  [<primary> -> • 'False']
+  [<primary> -> • 'IDENTIFIER']
+  [<primary> -> • 'NUMBER']
+  [<primary> -> • 'STRING']
+  [<primary> -> • 'True']
+  [<primary> -> • '[' <optional_expr_list> ']']
+  [<range_args_tail2> -> ',' • <expression>]
+  [<unaryExpr> -> • '-' <unaryExpr>]
+  [<unaryExpr> -> • <postfixExpr>]
+  Transições:
+    GOTO(I171, '(') = I26
+    GOTO(I171, '-') = I3
+    GOTO(I171, 'False') = I5
+    GOTO(I171, 'IDENTIFIER') = I25
+    GOTO(I171, 'NUMBER') = I40
+    GOTO(I171, 'STRING') = I27
+    GOTO(I171, 'True') = I18
+    GOTO(I171, '[') = I11
+    GOTO(I171, 'not') = I13
+    GOTO(I171, <additiveExpr>) = I42
+    GOTO(I171, <assignmentExpr>) = I6
+    GOTO(I171, <bitwiseAndExpr>) = I36
+    GOTO(I171, <bitwiseOrExpr>) = I22
+    GOTO(I171, <comparisonExpr>) = I43
+    GOTO(I171, <expression>) = I173
+    GOTO(I171, <logicalAndExpr>) = I38
+    GOTO(I171, <logicalNotExpr>) = I23
+    GOTO(I171, <logicalOrExpr>) = I24
+    GOTO(I171, <multiplicativeExpr>) = I4
+    GOTO(I171, <postfixExpr>) = I34
+    GOTO(I171, <powerExpr>) = I41
+    GOTO(I171, <primary>) = I2
+    GOTO(I171, <unaryExpr>) = I20
+
+I172:
+  [<range_args_tail> -> ',' <expression> <range_args_tail2> •]
+
+I173:
+  [<range_args_tail2> -> ',' <expression> •]
+

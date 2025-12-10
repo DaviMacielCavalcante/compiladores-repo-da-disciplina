@@ -1,0 +1,169 @@
+# ============================================================
+# GRAMÁTICA SLR(1) - VYTHON
+# ============================================================
+# Gramática adaptada para análise sintática SLR(1)
+# 
+# Equipe: Davi Maciel Cavalcante, Pablo Abdon
+# Disciplina: Compiladores
+# Data: Dezembro/2025
+# ============================================================
+
+# -------------------- PROGRAMA --------------------
+<program> ::= <statement_list> 'EOF'
+<statement_list> ::= <statement> <statement_list>
+<statement_list> ::= ε
+
+# -------------------- STATEMENTS --------------------
+<statement> ::= <ifStatement>
+<statement> ::= <whileStatement>
+<statement> ::= <forStatement>
+<statement> ::= <doWhileStatement>
+<statement> ::= <breakStatement>
+<statement> ::= <continueStatement>
+<statement> ::= <defStatement>
+<statement> ::= <returnStatement>
+<statement> ::= <expressionStatement>
+
+<expressionStatement> ::= <expression> ';'
+
+# -------------------- CONTROLE DE FLUXO --------------------
+<ifStatement> ::= 'if' <expression> ':' <brace_block> <optional_else>
+
+<optional_else> ::= 'else' ':' <brace_block>
+<optional_else> ::= ε
+
+<whileStatement> ::= 'while' <expression> ':' <brace_block>
+<forStatement> ::= 'for' 'IDENTIFIER' 'in' 'range' '(' <range_args> ')' ':' <brace_block>
+
+<range_args> ::= <expression> <range_args_tail>
+<range_args_tail> ::= ',' <expression> <range_args_tail2>
+<range_args_tail> ::= ε
+<range_args_tail2> ::= ',' <expression>
+<range_args_tail2> ::= ε
+
+<doWhileStatement> ::= 'do' ':' <block> 'while' <expression> ';'
+
+<breakStatement> ::= 'break' ';'
+
+<continueStatement> ::= 'continue' ';'
+
+<defStatement> ::= 'def' 'IDENTIFIER' '(' <optional_params> ')' ':' <brace_block>
+
+<optional_params> ::= <paramList>
+<optional_params> ::= ε
+
+<paramList> ::= 'IDENTIFIER' <param_list_tail>
+<param_list_tail> ::= ',' 'IDENTIFIER' <param_list_tail>
+<param_list_tail> ::= ε
+
+<returnStatement> ::= 'return' <return_body>
+<return_body> ::= ';'
+<return_body> ::= <expression> ';'
+
+# -------------------- BLOCOS --------------------
+<block> ::= '{' <statement_list> '}'
+<block> ::= <statement>
+
+<brace_block> ::= '{' <statement_list> '}'
+
+# -------------------- EXPRESSÕES --------------------
+<expression> ::= <assignmentExpr>
+
+# Nível 0: Assignment (direita)
+<assignmentExpr> ::= <logicalOrExpr> <assignment_tail>
+<assignment_tail> ::= '=' <assignmentExpr>
+<assignment_tail> ::= ε
+
+# Nível 1: OR lógico (esquerda)
+<logicalOrExpr> ::= <logicalAndExpr> <logical_or_tail>
+<logical_or_tail> ::= 'or' <logicalAndExpr> <logical_or_tail>
+<logical_or_tail> ::= ε
+
+# Nível 2: AND lógico (esquerda)
+<logicalAndExpr> ::= <logicalNotExpr> <logical_and_tail>
+<logical_and_tail> ::= 'and' <logicalNotExpr> <logical_and_tail>
+<logical_and_tail> ::= ε
+
+# Nível 3: NOT lógico (direita, unário)
+<logicalNotExpr> ::= 'not' <logicalNotExpr>
+<logicalNotExpr> ::= <bitwiseOrExpr>
+
+# Nível 4: OR bitwise (esquerda)
+<bitwiseOrExpr> ::= <bitwiseAndExpr> <bitwise_or_tail>
+<bitwise_or_tail> ::= '|' <bitwiseAndExpr> <bitwise_or_tail>
+<bitwise_or_tail> ::= ε
+
+# Nível 5: AND bitwise (esquerda)
+<bitwiseAndExpr> ::= <comparisonExpr> <bitwise_and_tail>
+<bitwise_and_tail> ::= '&' <comparisonExpr> <bitwise_and_tail>
+<bitwise_and_tail> ::= ε
+
+# Nível 6: Comparação (esquerda)
+<comparisonExpr> ::= <additiveExpr> <comparison_tail>
+<comparison_tail> ::= <comparison_op> <additiveExpr> <comparison_tail>
+<comparison_tail> ::= ε
+
+<comparison_op> ::= '=='
+<comparison_op> ::= '!='
+<comparison_op> ::= '<'
+<comparison_op> ::= '>'
+<comparison_op> ::= '<='
+<comparison_op> ::= '>='
+
+# Nível 7: Adição/Subtração (esquerda)
+<additiveExpr> ::= <multiplicativeExpr> <additive_tail>
+<additive_tail> ::= <add_op> <multiplicativeExpr> <additive_tail>
+<additive_tail> ::= ε
+
+<add_op> ::= '+'
+<add_op> ::= '-'
+
+# Nível 8: Multiplicação/Divisão/Módulo (esquerda)
+<multiplicativeExpr> ::= <powerExpr> <multiplicative_tail>
+<multiplicative_tail> ::= <mul_op> <powerExpr> <multiplicative_tail>
+<multiplicative_tail> ::= ε
+
+<mul_op> ::= '*'
+<mul_op> ::= '/'
+<mul_op> ::= '%'
+
+# Nível 9: Potência (direita)
+<powerExpr> ::= <unaryExpr> <power_tail>
+<power_tail> ::= '**' <powerExpr>
+<power_tail> ::= ε
+
+# Nível 10: Menos unário (direita)
+<unaryExpr> ::= '-' <unaryExpr>
+<unaryExpr> ::= <postfixExpr>
+
+# Nível 11: Acesso a array e chamada de função (esquerda)
+<postfixExpr> ::= <primary> <postfix_list>
+<postfix_list> ::= <postfix> <postfix_list>
+<postfix_list> ::= ε
+
+<postfix> ::= '[' <expression> ']'
+<postfix> ::= '(' <optional_args> ')'
+
+<optional_args> ::= <argList>
+<optional_args> ::= ε
+
+# Nível 12: Valores primários
+<primary> ::= 'IDENTIFIER'
+<primary> ::= 'NUMBER'
+<primary> ::= 'STRING'
+<primary> ::= 'True'
+<primary> ::= 'False'
+<primary> ::= '(' <expression> ')'
+<primary> ::= '[' <optional_expr_list> ']'
+
+<optional_expr_list> ::= <expressionList>
+<optional_expr_list> ::= ε
+
+# -------------------- LISTAS --------------------
+<argList> ::= <expression> <arg_list_tail>
+<arg_list_tail> ::= ',' <expression> <arg_list_tail>
+<arg_list_tail> ::= ε
+
+<expressionList> ::= <expression> <expr_list_tail>
+<expr_list_tail> ::= ',' <expression> <expr_list_tail>
+<expr_list_tail> ::= ε
